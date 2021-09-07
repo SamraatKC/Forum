@@ -1,0 +1,10 @@
+C:\Users\hp\source\repos\Forum\Forum.Models\bin\Debug\netcoreapp3.1\Forum.Models.deps.json
+C:\Users\hp\source\repos\Forum\Forum.Models\bin\Debug\netcoreapp3.1\Forum.Models.runtimeconfig.json
+C:\Users\hp\source\repos\Forum\Forum.Models\bin\Debug\netcoreapp3.1\Forum.Models.runtimeconfig.dev.json
+C:\Users\hp\source\repos\Forum\Forum.Models\bin\Debug\netcoreapp3.1\Forum.Models.dll
+C:\Users\hp\source\repos\Forum\Forum.Models\bin\Debug\netcoreapp3.1\Forum.Models.pdb
+C:\Users\hp\source\repos\Forum\Forum.Models\obj\Debug\netcoreapp3.1\Forum.Models.csprojAssemblyReference.cache
+C:\Users\hp\source\repos\Forum\Forum.Models\obj\Debug\netcoreapp3.1\Forum.Models.AssemblyInfoInputs.cache
+C:\Users\hp\source\repos\Forum\Forum.Models\obj\Debug\netcoreapp3.1\Forum.Models.AssemblyInfo.cs
+C:\Users\hp\source\repos\Forum\Forum.Models\obj\Debug\netcoreapp3.1\Forum.Models.dll
+C:\Users\hp\source\repos\Forum\Forum.Models\obj\Debug\netcoreapp3.1\Forum.Models.pdb

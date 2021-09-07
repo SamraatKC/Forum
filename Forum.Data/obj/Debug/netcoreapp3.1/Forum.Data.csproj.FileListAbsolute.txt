@@ -1,0 +1,17 @@
+C:\Users\hp\source\repos\Forum\Forum.Data\bin\Debug\netcoreapp3.1\email-templates\account-verification.html
+C:\Users\hp\source\repos\Forum\Forum.Data\bin\Debug\netcoreapp3.1\email-templates\forgot-password.html
+C:\Users\hp\source\repos\Forum\Forum.Data\bin\Debug\netcoreapp3.1\Forum.Data.deps.json
+C:\Users\hp\source\repos\Forum\Forum.Data\bin\Debug\netcoreapp3.1\Forum.Data.runtimeconfig.json
+C:\Users\hp\source\repos\Forum\Forum.Data\bin\Debug\netcoreapp3.1\Forum.Data.runtimeconfig.dev.json
+C:\Users\hp\source\repos\Forum\Forum.Data\bin\Debug\netcoreapp3.1\Forum.Data.dll
+C:\Users\hp\source\repos\Forum\Forum.Data\bin\Debug\netcoreapp3.1\Forum.Data.pdb
+C:\Users\hp\source\repos\Forum\Forum.Data\bin\Debug\netcoreapp3.1\Forum.Common.dll
+C:\Users\hp\source\repos\Forum\Forum.Data\bin\Debug\netcoreapp3.1\Forum.Models.dll
+C:\Users\hp\source\repos\Forum\Forum.Data\bin\Debug\netcoreapp3.1\Forum.Common.pdb
+C:\Users\hp\source\repos\Forum\Forum.Data\bin\Debug\netcoreapp3.1\Forum.Models.pdb
+C:\Users\hp\source\repos\Forum\Forum.Data\obj\Debug\netcoreapp3.1\Forum.Data.csprojAssemblyReference.cache
+C:\Users\hp\source\repos\Forum\Forum.Data\obj\Debug\netcoreapp3.1\Forum.Data.AssemblyInfoInputs.cache
+C:\Users\hp\source\repos\Forum\Forum.Data\obj\Debug\netcoreapp3.1\Forum.Data.AssemblyInfo.cs
+C:\Users\hp\source\repos\Forum\Forum.Data\obj\Debug\netcoreapp3.1\Forum.Data.csproj.CopyComplete
+C:\Users\hp\source\repos\Forum\Forum.Data\obj\Debug\netcoreapp3.1\Forum.Data.dll
+C:\Users\hp\source\repos\Forum\Forum.Data\obj\Debug\netcoreapp3.1\Forum.Data.pdb

@@ -11,6 +11,7 @@ namespace Forum.Models.ViewModels
         public string Description { get; set; }
         public IFormFile ChannelIcon { get; set; }
         public string ChannelIconURL { get; set; }
+        public string Location { get; set; }
         public string DisplayOrder { get; set; }
         public string ParentChannel { get; set; }
     }

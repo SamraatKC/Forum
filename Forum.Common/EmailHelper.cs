@@ -43,7 +43,7 @@ namespace Forum.Common
                 smtp.UseDefaultCredentials = false;
                 smtp.Host = appSettings.SMTPHost;
                 smtp.Port = appSettings.SMTPPort;
-                smtp.EnableSsl = true;
+                smtp.EnableSsl = false;
 
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                 smtp.Credentials = new NetworkCredential(appSettings.NetworkCredentialUserName, appSettings.NetworkCredentialPassword);

@@ -13,16 +13,20 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
+#nullable restore
 #line 1 "C:\Users\hp\source\repos\Forum\Forum\Views\_ViewImports.cshtml"
 using Forum;
 
 #line default
 #line hidden
+#nullable disable
+#nullable restore
 #line 2 "C:\Users\hp\source\repos\Forum\Forum\Views\_ViewImports.cshtml"
 using Forum.Models;
 
 #line default
 #line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"d8ddb6bffa5a9b264bf8f89038bf03c234083fd3", @"/Views/Home/Privacy.cshtml")]
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"2ac609fd15eba99a48942b04c8579a10a24406fb", @"/Views/_ViewImports.cshtml")]
     public class Views_Home_Privacy : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
@@ -30,21 +34,25 @@ using Forum.Models;
         #pragma warning disable 1998
         public async override global::System.Threading.Tasks.Task ExecuteAsync()
         {
+#nullable restore
 #line 1 "C:\Users\hp\source\repos\Forum\Forum\Views\Home\Privacy.cshtml"
   
     ViewData["Title"] = "Privacy Policy";
 
 #line default
 #line hidden
+#nullable disable
             BeginContext(50, 4, true);
             WriteLiteral("<h1>");
             EndContext();
             BeginContext(55, 17, false);
+#nullable restore
 #line 4 "C:\Users\hp\source\repos\Forum\Forum\Views\Home\Privacy.cshtml"
 Write(ViewData["Title"]);
 
 #line default
 #line hidden
+#nullable disable
             EndContext();
             BeginContext(72, 69, true);
             WriteLiteral("</h1>\r\n\r\n<p>Use this page to detail your site\'s privacy policy.</p>\r\n");

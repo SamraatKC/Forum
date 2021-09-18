@@ -60,6 +60,22 @@ namespace Forum.Controllers
 
         }
 
+        [AcceptVerbs("Get", "Post")]
+        public async Task<IActionResult> IsEmailTaken(string email)
+        {
+            var isEmailTaken = await userManager.FindByEmailAsync(email);
+            if (isEmailTaken == null)
+            {
+
+                return Json(true);
+            }
+            else
+            {
+                return Json($"Email already taken");
+            }
+
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Register(UserViewModel userViewModel)
@@ -81,18 +97,18 @@ namespace Forum.Controllers
                 if (result.Succeeded)
                 {
                     #region Send Account Activation Email
-                    //string code = userManager.GenerateEmailConfirmationTokenAsync(user).Result;
-                    //code = System.Web.HttpUtility.UrlEncode(code);
-                    //string url = Url.Action(nameof(ConfirmEmail), "User", new { userid = user.Id, code = code }, Request.Scheme, Request.Host.ToString());
+                    string code = userManager.GenerateEmailConfirmationTokenAsync(user).Result;
+                    code = System.Web.HttpUtility.UrlEncode(code);
+                    string url = Url.Action(nameof(ConfirmEmail), "User", new { userid = user.Id, code = code }, Request.Scheme, Request.Host.ToString());
 
-                    //string verificationLink = string.Format("{0}{1}{2}{3}{4}", appSettings.JwtIssuer, appSettings.VerificationLink, user.Id, "&code=", code);
-                    //string htmlEmailBody = emailHelper.GetEmailBody(appSettings.EmailTemplate_AccountVerification);
-                    //htmlEmailBody = htmlEmailBody.Replace("{FirstName}", userViewModel.FirstName);
-                    //htmlEmailBody = htmlEmailBody.Replace("{Email}", userViewModel.Email);
-                    //htmlEmailBody = htmlEmailBody.Replace("{Password}", userViewModel.Password);
-                    //htmlEmailBody = htmlEmailBody.Replace("{ActivationLink}", url);
-                    //emailHelper.SendEmail("Account Activation - Forum", userViewModel.Email, htmlEmailBody);
-                    hostgatorEmailHelper.SendEmail();
+                    string verificationLink = string.Format("{0}{1}{2}{3}{4}", appSettings.JwtIssuer, appSettings.VerificationLink, user.Id, "&code=", code);
+                    string htmlEmailBody = emailHelper.GetEmailBody(appSettings.EmailTemplate_AccountVerification);
+                    htmlEmailBody = htmlEmailBody.Replace("{FirstName}", userViewModel.FirstName);
+                    htmlEmailBody = htmlEmailBody.Replace("{Email}", userViewModel.Email);
+                    htmlEmailBody = htmlEmailBody.Replace("{Password}", userViewModel.Password);
+                    htmlEmailBody = htmlEmailBody.Replace("{ActivationLink}", url);
+                    emailHelper.SendEmail("Account Activation - Forum", userViewModel.Email, htmlEmailBody);
+                    //hostgatorEmailHelper.SendEmail();
                     #endregion
                     TempData["Success"] = "An account verification link has been sent in your associated mail.";
                     return View("Register");
@@ -107,7 +123,8 @@ namespace Forum.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
+                ModelState.AddModelError(string.Empty, "Please fill up the fields.");
+                return View();
             }
             //return View();
         }
@@ -136,7 +153,7 @@ namespace Forum.Controllers
             if (result.Succeeded)
             {
 
-                return View("Login");
+                return View("AccountConfirmed");
 
             }
             if (!result.Succeeded)
@@ -158,12 +175,12 @@ namespace Forum.Controllers
         {
             try
             {
-                var GoogleReCaptcha = userService.ReCaptchaVerification(loginViewModel.Token);
-                if (!GoogleReCaptcha.Result.success && GoogleReCaptcha.Result.score <= 0.5)
-                {
-                    ModelState.AddModelError(string.Empty, "You are not human.");
-                    return View();
-                }
+                //var GoogleReCaptcha = userService.ReCaptchaVerification(loginViewModel.Token);
+                //if (!GoogleReCaptcha.Result.success && GoogleReCaptcha.Result.score <= 0.5)
+                //{
+                //    ModelState.AddModelError(string.Empty, "You are not human.");
+                //    return View();
+                //}
                 var user = await userManager.FindByEmailAsync(loginViewModel.Email);
                 if (user != null)
                 {
@@ -177,17 +194,20 @@ namespace Forum.Controllers
                     }
                     else
                     {
-                        return View("Register");
+                        ModelState.AddModelError(string.Empty, "Please confirm your account to login.");
+                        return View();
                     }
                 }
                 else
                 {
-                    return View("Register");
+                    ModelState.AddModelError(string.Empty, "User not found");
+                    return View();
                 }
             }
             catch (Exception ex)
             {
-                throw ex;
+                ModelState.AddModelError(string.Empty, "Please enter your credentials.");
+                return View();
             }
         }
 
@@ -235,7 +255,7 @@ namespace Forum.Controllers
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, "Internal Server Error");
+                ModelState.AddModelError(string.Empty, "Please enter your email address.");
                 return View();
             }
 
@@ -325,5 +345,7 @@ namespace Forum.Controllers
 
             return View();
         }
+
+     
     }
 }

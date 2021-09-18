@@ -13,16 +13,20 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
+#nullable restore
 #line 1 "C:\Users\hp\source\repos\Forum\Forum\Views\_ViewImports.cshtml"
 using Forum;
 
 #line default
 #line hidden
+#nullable disable
+#nullable restore
 #line 2 "C:\Users\hp\source\repos\Forum\Forum\Views\_ViewImports.cshtml"
 using Forum.Models;
 
 #line default
 #line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"d6a5625cc8fb4476f348b0fe9041c550465d8bf9", @"/Views/Shared/Error.cshtml")]
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"2ac609fd15eba99a48942b04c8579a10a24406fb", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared_Error : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<ErrorViewModel>
@@ -30,39 +34,47 @@ using Forum.Models;
         #pragma warning disable 1998
         public async override global::System.Threading.Tasks.Task ExecuteAsync()
         {
+#nullable restore
 #line 2 "C:\Users\hp\source\repos\Forum\Forum\Views\Shared\Error.cshtml"
   
     ViewData["Title"] = "Error";
 
 #line default
 #line hidden
+#nullable disable
             BeginContext(64, 120, true);
             WriteLiteral("\r\n<h1 class=\"text-danger\">Error.</h1>\r\n<h2 class=\"text-danger\">An error occurred while processing your request.</h2>\r\n\r\n");
             EndContext();
+#nullable restore
 #line 9 "C:\Users\hp\source\repos\Forum\Forum\Views\Shared\Error.cshtml"
  if (Model.ShowRequestId)
 {
 
 #line default
 #line hidden
+#nullable disable
             BeginContext(214, 52, true);
             WriteLiteral("    <p>\r\n        <strong>Request ID:</strong> <code>");
             EndContext();
             BeginContext(267, 15, false);
+#nullable restore
 #line 12 "C:\Users\hp\source\repos\Forum\Forum\Views\Shared\Error.cshtml"
                                       Write(Model.RequestId);
 
 #line default
 #line hidden
+#nullable disable
             EndContext();
             BeginContext(282, 19, true);
             WriteLiteral("</code>\r\n    </p>\r\n");
             EndContext();
+#nullable restore
 #line 14 "C:\Users\hp\source\repos\Forum\Forum\Views\Shared\Error.cshtml"
 }
 
 #line default
 #line hidden
+#nullable disable
             BeginContext(304, 577, true);
             WriteLiteral(@"
 <h3>Development Mode</h3>

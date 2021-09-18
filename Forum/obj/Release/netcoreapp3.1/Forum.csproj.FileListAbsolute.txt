@@ -176,3 +176,4 @@ C:\Users\hp\source\repos\Forum\Forum\bin\Release\netcoreapp3.1\Forum.Data.pdb
 C:\Users\hp\source\repos\Forum\Forum\obj\Release\netcoreapp3.1\Razor\Views\Channel\AddNewChannel.cshtml.g.cs
 C:\Users\hp\source\repos\Forum\Forum\obj\Release\netcoreapp3.1\Razor\Views\User\ForgotPassword.cshtml.g.cs
 C:\Users\hp\source\repos\Forum\Forum\obj\Release\netcoreapp3.1\Razor\Views\User\ResetPassword.cshtml.g.cs
+C:\Users\hp\source\repos\Forum\Forum\obj\Release\netcoreapp3.1\Razor\Views\User\AccountConfirmed.cshtml.g.cs

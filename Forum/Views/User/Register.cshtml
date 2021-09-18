@@ -4,7 +4,7 @@
     ViewData["Title"] = "Register";
 }
 
-@*<h1>Register</h1>*@
+<h1>Register</h1>
 
 @*<h4>UserViewModel</h4>*@
 @if (TempData["Success"] != null)
@@ -13,47 +13,66 @@
         <p><strong>Success:</strong> @TempData["Success"].ToString()</p>
     </div>
 }
-@*<hr />*@
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+<style>
+    .container i {
+        margin-left: -30px;
+        cursor: pointer;
+    }
+</style>
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Register" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
+                <input type="text" ID="FirstName"
+                       runat="server" name="FirstName" required />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
+                <input type="text" ID="LastName"
+                       runat="server" name="LastName" required />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" class="form-control" />
-                <span asp-validation-for="UserName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
+                <input type="text" ID="Email"
+                       runat="server" name="Email" required />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
+            @*<label> Password</label>*@
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
+                <input type="password" ID="Password" placeholder="Password" TextMode="Password"
+                       runat="server" name="Password" required />
+                <i id="togglePassword" class="fa fa-eye"></i>
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
+            @*<input type="password" ID="txtPassword" placeholder="Password" TextMode="Password" CssClass="form-control"
+                       runat="server" name="txtpassword" required></>
+                <i id="togglePassword" class="fa fa-eye"></i>*@
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Register" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+        var togglePassword = document.querySelector('#togglePassword');
+        var password = document.querySelector('#Password');
+        togglePassword.addEventListener('click', function (e) {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+        });
+    </script>
 }

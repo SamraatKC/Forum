@@ -5,7 +5,6 @@ C:\Users\hp\source\repos\Forum\Forum.Common\bin\Debug\netcoreapp3.1\Forum.Common
 C:\Users\hp\source\repos\Forum\Forum.Common\bin\Debug\netcoreapp3.1\Forum.Common.runtimeconfig.dev.json
 C:\Users\hp\source\repos\Forum\Forum.Common\bin\Debug\netcoreapp3.1\Forum.Common.dll
 C:\Users\hp\source\repos\Forum\Forum.Common\bin\Debug\netcoreapp3.1\Forum.Common.pdb
-C:\Users\hp\source\repos\Forum\Forum.Common\obj\Debug\netcoreapp3.1\Forum.Common.csprojAssemblyReference.cache
 C:\Users\hp\source\repos\Forum\Forum.Common\obj\Debug\netcoreapp3.1\Forum.Common.AssemblyInfoInputs.cache
 C:\Users\hp\source\repos\Forum\Forum.Common\obj\Debug\netcoreapp3.1\Forum.Common.AssemblyInfo.cs
 C:\Users\hp\source\repos\Forum\Forum.Common\obj\Debug\netcoreapp3.1\Forum.Common.dll

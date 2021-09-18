@@ -8,27 +8,38 @@
 
 <h1>Login</h1>
 
-<h4>LoginViewModel</h4>
+
 <hr />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+<style>
+    .container i {
+        margin-left: -30px;
+        cursor: pointer;
+    }
+</style>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Login" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
+                <input type="text" ID="Email"
+                       runat="server" name="Email" required />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
+                <input type="password" ID="Password" placeholder="Password" TextMode="Password"
+                       runat="server" name="Password" required />
+                <i id="togglePassword" class="fa fa-eye"></i>
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
+            @*<div class="form-group">
+                    <input asp-for="Token" class="form-control" type="hidden" />
+                </div>*@
             <div class="form-group">
-                <input asp-for="Token" class="form-control" type="hidden" />
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Login" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -37,16 +48,34 @@
 <div>
     <a asp-action="ForgotPassword">Forgot Password?</a>
 </div>
+<br />
+<br />
+<div>
+    <a asp-action="Register">
+        Click here to register.
+    </a>
+</div>
+
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-<script src="https://www.google.com/recaptcha/api.js?render=@GooglereCaptcha.Value.ReCaptchaSiteKey"></script>
-<script>
-    grecaptcha.ready(function () {
-        grecaptcha.execute('@GooglereCaptcha.Value.ReCaptchaSiteKey', { action: 'homepage' }).then(function (token) {
-            console.log(token);
-            $('#Token').val(token);
-        });
+    @*<script src="https://www.google.com/recaptcha/api.js?render=@GooglereCaptcha.Value.ReCaptchaSiteKey"></script>
+        <script>
+            grecaptcha.ready(function () {
+                grecaptcha.execute('@GooglereCaptcha.Value.ReCaptchaSiteKey', { action: 'homepage' }).then(function (token) {
+                    console.log(token);
+                    $('#Token').val(token);
+                });
+            });
+        </script>*@
+<script type="text/javascript">
+    var togglePassword = document.querySelector('#togglePassword');
+    var password = document.querySelector('#Password');
+    togglePassword.addEventListener('click', function (e) {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.classList.toggle('fa-eye-slash');
     });
 </script>
 }

@@ -162,6 +162,7 @@ C:\Users\hp\source\repos\Forum\Forum\obj\Debug\netcoreapp3.1\Razor\Views\Home\Pr
 C:\Users\hp\source\repos\Forum\Forum\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Users\hp\source\repos\Forum\Forum\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
 C:\Users\hp\source\repos\Forum\Forum\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
+C:\Users\hp\source\repos\Forum\Forum\obj\Debug\netcoreapp3.1\Razor\Views\User\AccountConfirmed.cshtml.g.cs
 C:\Users\hp\source\repos\Forum\Forum\obj\Debug\netcoreapp3.1\Razor\Views\User\ForgotPassword.cshtml.g.cs
 C:\Users\hp\source\repos\Forum\Forum\obj\Debug\netcoreapp3.1\Razor\Views\User\LoggedIn.cshtml.g.cs
 C:\Users\hp\source\repos\Forum\Forum\obj\Debug\netcoreapp3.1\Razor\Views\User\Login.cshtml.g.cs

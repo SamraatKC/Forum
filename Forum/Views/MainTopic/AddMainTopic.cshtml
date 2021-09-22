@@ -1,22 +1,18 @@
-﻿@model Forum.Models.DataModels.MainTopic
+﻿@model Forum.Models.ViewModels.MainTopicViewModel
 
-@{
-    ViewData["Title"] = "AddMainTopic";
-}
-
-<h1>AddMainTopic</h1>
-
-<h4>MainTopic</h4>
+@*<div>
+    <a asp-action="AddMainTopic">AddMainTopic</a>
+</div>*@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AddMainTopic">
+        <form asp-action="AddMainTopic" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @*<div class="form-group" >
-                <label asp-for="MainTopicId" class="control-label"></label>
-                <input asp-for="MainTopicId" class="form-control" type="hidden"/>
-                <span asp-validation-for="MainTopicId" class="text-danger"></span>
-            </div>*@
+            @*<div class="form-group">
+                    <label asp-for="MainTopicId" class="control-label"></label>
+                    <input asp-for="MainTopicId" class="form-control" />
+                    <span asp-validation-for="MainTopicId" class="text-danger"></span>
+                </div>*@
             <div class="form-group">
                 <label asp-for="ThemeIdFK" class="control-label"></label>
                 <input asp-for="ThemeIdFK" class="form-control" />
@@ -44,8 +40,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="TopicIcon" class="control-label"></label>
-                <input asp-for="TopicIcon" class="form-control" type="file"/>
-                <span asp-validation-for="TopicIcon" class="text-danger"></span>
+                <input asp-for="Graphics" class="form-control" type="file" />
+                <span asp-validation-for="Graphics" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DisplayOrder" class="control-label"></label>

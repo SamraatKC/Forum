@@ -101,6 +101,8 @@ namespace Forum
             services.AddScoped<UserService>();
             services.AddScoped<MainTopicService>();
             services.AddScoped<MainTopicPostService>();
+            services.AddScoped<AdminService>();
+            services.AddScoped<RegularUserService>();
             services.AddScoped<EmailHelper>();
             services.AddScoped<HostgatorEmailHelper>();
             services.AddServiceExtension();

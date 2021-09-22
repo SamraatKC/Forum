@@ -14,7 +14,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 @*<label asp-for="MainTopicPostId" class="control-label"></label>*@
-                <input asp-for="MainTopicPostId" class="form-control" type="hidden"/>
+                <input asp-for="MainTopicPostId" class="form-control" type="hidden" />
                 <span asp-validation-for="MainTopicPostId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -70,6 +70,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="GetAllMainTopicPost">GetAllMainTopicPost</a>
 </div>
+
 

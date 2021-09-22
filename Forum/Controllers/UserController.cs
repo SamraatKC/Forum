@@ -219,9 +219,9 @@ namespace Forum.Controllers
                         var resp = new { Token = token };
                         if (await userManager.IsInRoleAsync(appUser, "Admin"))
                         {
-                            return View("AdminView");
+                            return RedirectToAction("AdminDashboard", "Admin");
                         }
-                        return View("UserView");
+                        return RedirectToAction("RegularUserDashboard", "RegularUser");
                     }
                     else
                     {

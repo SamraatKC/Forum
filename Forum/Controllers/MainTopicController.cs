@@ -49,28 +49,30 @@ namespace Forum.Controllers
             try
             {
                 #region saveimage
-                var graphics = HttpContext.Request.Form.Files;
-                foreach (var Graphics in graphics)
-                {
-                    if (Graphics != null && Graphics.Length > 0)
-                    {   
-                        var file = Graphics;
-                        var uploads = webHostEnvironment.WebRootPath + appSettings.Value.UploadTopicIconPath;
-                        //var uploads = Path.Combine(Directory.GetCurrentDirectory(), "~\\Uploads\\");
-                        if (file.Length > 0)
+                //var graphics = HttpContext.Request.Form.Files;
+                //foreach (var Graphics in graphics)
+                //{
+                    if (mainTopicViewModel.Graphics != null && mainTopicViewModel.Graphics.Length > 0)
+                    {
+                    var file = mainTopicViewModel.Graphics;
+                    var uploads = webHostEnvironment.WebRootPath + appSettings.Value.UploadTopicIconPath;
+                    //var uploads = Path.Combine(Directory.GetCurrentDirectory(), "~\\Uploads\\");
+                    if (file.Length > 0)
+                    {
+                        var fileName = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(file.FileName);
+                        using (var fileStream = new FileStream(Path.Combine(uploads, fileName), FileMode.Create))
                         {
-                            var fileName = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(file.FileName);
-                            using (var fileStream = new FileStream(Path.Combine(uploads, fileName), FileMode.Create))
-                            {
-                                await file.CopyToAsync(fileStream);
-                                string filePath = appSettings.Value.UploadTopicIconPath + fileName;
-                                string baseUrl = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}";
-                                mainTopicViewModel.TopicIcon = fileName;
-                            }
+                            await file.CopyToAsync(fileStream);
+                            string filePath = appSettings.Value.UploadTopicIconPath + fileName;
+                            string baseUrl = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}";
+                            mainTopicViewModel.TopicIcon = fileName;
                         }
                     }
                 }
+               // }
                 #endregion
+
+               
                 var result = await mainTopicService.AddMainTopic(mainTopicViewModel);
                 if (result == true)
                 {

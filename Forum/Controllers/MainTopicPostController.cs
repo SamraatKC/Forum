@@ -49,12 +49,12 @@ namespace Forum.Controllers
             try
             {
                 #region saveimage
-                var graphics = HttpContext.Request.Form.Files;
-                foreach (var Graphics in graphics)
-                {
-                    if (Graphics != null && Graphics.Length > 0)
+                //var graphics = HttpContext.Request.Form.Files;
+                //foreach (var Graphics in graphics)
+                //{
+                    if (mainTopicPostViewModel.Graphics != null && mainTopicPostViewModel.Graphics.Length > 0)
                     {
-                        var file = Graphics;
+                        var file = mainTopicPostViewModel.Graphics;
                         var uploads = webHostEnvironment.WebRootPath + appSettings.Value.UploadTopicIconPath;
                         //var uploads = Path.Combine(Directory.GetCurrentDirectory(), "~\\Uploads\\");
                         if (file.Length > 0)
@@ -69,7 +69,7 @@ namespace Forum.Controllers
                             }
                         }
                     }
-                }
+                //}
                 #endregion
                 var result = await mainTopicPostService.AddMainTopicPost(mainTopicPostViewModel);
                 if (result == true)

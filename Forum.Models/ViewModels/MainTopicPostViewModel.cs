@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,6 +11,7 @@ namespace Forum.Models.ViewModels
         public int MainTopicsIdFK { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public IFormFile Graphics { get; set; }
         public string TopicIcon { get; set; }
         public DateTime CreatedDate { get; set; }
         public string CreatedBy { get; set; }

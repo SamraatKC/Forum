@@ -1,0 +1,107 @@
+﻿@model IEnumerable<Forum.Models.ViewModels.MainTopicViewModel>
+
+@{
+    ViewData["Title"] = "AdminDashboard";
+}
+
+<h1>AdminDashboard</h1>
+
+<p>
+    <a asp-controller="MainTopic" asp-action="AddMainTopic">AddMainTopic</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MainTopicId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ThemeIdFK)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParentIdFK)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReferenceLink)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TopicIcon)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DisplayOrder)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastUpdatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastUpdatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MainTopicId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThemeIdFK)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParentIdFK)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReferenceLink)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TopicIcon)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DisplayOrder)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastUpdatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastUpdatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "UpdateMainTopic","MainTopic", new { id = item.MainTopicId }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

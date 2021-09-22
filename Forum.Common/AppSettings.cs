@@ -24,7 +24,8 @@ namespace Forum.Common
         public string VerificationLink { get; set; }
         public string PasswordReset { get; set; }
         public string AllowedOrigin { get; set; }
-        public string UploadChannelIconPath { get; set; }
+        public string UploadTopicIconPath { get; set; }
         public string ConfirmedAccountPostUrl { get; set; }
+        public string NormalUserCode { get; set; }
     }
 }

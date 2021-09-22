@@ -99,7 +99,8 @@ namespace Forum
             #region injection
             services.AddScoped<ForumDbx>();
             services.AddScoped<UserService>();
-            services.AddScoped<ChannelService>();
+            services.AddScoped<MainTopicService>();
+            services.AddScoped<MainTopicPostService>();
             services.AddScoped<EmailHelper>();
             services.AddScoped<HostgatorEmailHelper>();
             services.AddServiceExtension();

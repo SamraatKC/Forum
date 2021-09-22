@@ -27,4 +27,9 @@
     <ProjectReference Include="..\Forum.Service\Forum.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Uploads\" />
+    <Folder Include="wwwroot\Uploads\TopicIcon\" />
+  </ItemGroup>
+
 </Project>

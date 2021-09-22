@@ -45,6 +45,12 @@
                        runat="server" name="Email" required />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
+            @*<div class="form-group">
+                <label asp-for="RoleName" class="control-label"></label>
+                <input type="text" ID="RoleName"
+                       runat="server" name="RoleName" required />
+                <span asp-validation-for="RoleName" class="text-danger"></span>
+            </div>*@
             @*<label> Password</label>*@
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
@@ -54,8 +60,8 @@
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             @*<input type="password" ID="txtPassword" placeholder="Password" TextMode="Password" CssClass="form-control"
-                       runat="server" name="txtpassword" required></>
-                <i id="togglePassword" class="fa fa-eye"></i>*@
+               runat="server" name="txtpassword" required></>
+        <i id="togglePassword" class="fa fa-eye"></i>*@
             <div class="form-group">
                 <input type="submit" value="Register" class="btn btn-primary" />
             </div>

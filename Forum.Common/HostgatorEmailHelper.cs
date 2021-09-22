@@ -50,7 +50,7 @@ namespace WanderLust.Common
                 smtp.EnableSsl = false;
 
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                smtp.Credentials = new NetworkCredential("support@thewanderlustholidays.com", "$%Support@123");
+                smtp.Credentials = new NetworkCredential("support@thewanderlustholidays.com", "******");
                 smtp.SendCompleted += Smtp_SendCompleted;
                 smtp.SendMailAsync(mailMsg);
 

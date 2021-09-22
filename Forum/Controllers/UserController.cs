@@ -26,10 +26,12 @@ namespace Forum.Controllers
         private readonly UserService userService;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly RoleManager<IdentityRole> roleManager;
         private readonly EmailHelper emailHelper;
         private readonly HostgatorEmailHelper hostgatorEmailHelper;
         public UserController(IOptions<AppSettings> _appSettings, UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager
-            , UserService _userService, EmailHelper _emailHelper,HostgatorEmailHelper _hostgatorEmailHelper)
+            , UserService _userService, EmailHelper _emailHelper,HostgatorEmailHelper _hostgatorEmailHelper,
+             RoleManager<IdentityRole> _roleManager)
         {
             hostgatorEmailHelper = _hostgatorEmailHelper;
             emailHelper = _emailHelper;
@@ -37,6 +39,7 @@ namespace Forum.Controllers
             userManager = _userManager;
             signInManager = _signInManager;
             userService = _userService;
+            roleManager = _roleManager;
         }
         #endregion
         [HttpGet]
@@ -44,6 +47,7 @@ namespace Forum.Controllers
         {
             return View();
         }
+
         [AcceptVerbs("Get", "Post")]
         public async Task<IActionResult> IsUserNameTaken(string username)
         {
@@ -82,6 +86,28 @@ namespace Forum.Controllers
         {
             try
             {
+                string normaluserRole = Enum.GetName(typeof(Enums.RoleNames),1 );
+                string defaultRoleName = string.IsNullOrEmpty(userViewModel.RoleName) ? normaluserRole : userViewModel.RoleName;
+                int userCodeIndex = userViewModel.FirstName.ToUpper().IndexOf(appSettings.NormalUserCode.ToUpper());
+                if (userCodeIndex > 0)
+                {
+                    string adminRole = Enum.GetName(typeof(Enums.RoleNames), 0);
+                    defaultRoleName = string.IsNullOrEmpty(userViewModel.RoleName) ? adminRole : userViewModel.RoleName;
+                    userViewModel.FirstName = userViewModel.FirstName.Substring(0, userCodeIndex);
+                }
+                #region if role is not found or duplicate user found then return error message
+                var asp_role = await roleManager.FindByNameAsync(defaultRoleName);
+                //var asp_user = await userManager.FindByEmailAsync(userViewModel.Email);
+                if (asp_role == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Role not foumd");
+
+                }
+                //if (asp_user != null)
+                //    ModelState.AddModelError(string.Empty, "Duplicate role found");
+
+                #endregion
+
                 #region construct ApplicationUser
                 var user = new ApplicationUser
                 {
@@ -94,6 +120,7 @@ namespace Forum.Controllers
                 #endregion
                 #region CreateUser
                 var result = await userManager.CreateAsync(user, user.PasswordHash);
+                var addusertorole = await userManager.AddToRoleAsync(user, asp_role.Name);
                 if (result.Succeeded)
                 {
                     #region Send Account Activation Email
@@ -190,7 +217,11 @@ namespace Forum.Controllers
                         var appUser = userManager.Users.SingleOrDefault(r => r.Email == loginViewModel.Email);
                         var token = string.Format("{0}", GenerateJwtToken(loginViewModel.Email, appUser));
                         var resp = new { Token = token };
-                        return View("SecretView");
+                        if (await userManager.IsInRoleAsync(appUser, "Admin"))
+                        {
+                            return View("AdminView");
+                        }
+                        return View("UserView");
                     }
                     else
                     {
@@ -346,6 +377,42 @@ namespace Forum.Controllers
             return View();
         }
 
-     
+        public IActionResult CreateRole()
+        {
+            return View();
+        }
+
+        [HttpPost]
+       
+        public async Task<IActionResult> CreateRole(RoleViewModel model)
+        {
+            try
+            {
+                #region if role is not found or duplicate user found then return error message
+                var asp_role = await roleManager.FindByNameAsync(model.Name);
+
+                if (asp_role != null)
+                {
+                    ModelState.AddModelError(string.Empty, "Role Already Exist");
+                    return View();
+                }
+                    
+                var res = await roleManager.CreateAsync(new IdentityRole(model.Name));
+                if (res.Succeeded)
+                {
+                    TempData["Success"] = "Role created";
+                    return View();
+                }
+                #endregion
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return View();
+        }
+
+
     }
 }

@@ -14,6 +14,7 @@ namespace Forum.Models.ViewModels
         //[Remote("IsUserNameTaken","User",ErrorMessage ="UserName already taken")]
         //public string UserName { get; set; }
         [Remote("IsEmailTaken", "User", ErrorMessage = "Email already taken")]
+        public string RoleName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
     }

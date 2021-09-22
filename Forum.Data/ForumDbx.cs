@@ -1,4 +1,5 @@
 ﻿using Forum.Common;
+using Forum.Models;
 using Forum.Models.DataModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -23,13 +24,24 @@ namespace Forum.Data
             mb.Entity<AspNetUser>(entity => {
                 entity.HasKey(e => e.Id);
             });
-            mb.Entity<Channel>(entity =>
+            mb.Entity<MainTopic>(entity =>
             {
-                entity.HasKey(e => new { e.ChannelId });
-                entity.Property(x => x.ChannelId).ValueGeneratedOnAdd();
+                entity.HasKey(e => new { e.MainTopicId });
+                entity.Property(x => x.MainTopicId).ValueGeneratedOnAdd();
+            });
+            mb.Entity<MainTopicPost>(entity =>
+            {
+                entity.HasKey(e => new { e.MainTopicPostId });
+                entity.Property(x => x.MainTopicPostId).ValueGeneratedOnAdd();
+                entity.HasOne(p => p.MainTopic)
+               .WithMany(p => p.MainTopicPost)
+               .HasForeignKey(p => p.MainTopicsIdFK)
+               //.IsRequired(true)
+               .OnDelete(DeleteBehavior.Cascade);
             });
         }
         public DbSet<AspNetUser> AspNetUsers { get; set; }
-        public DbSet<Channel> Channels { get; set; }
+        public DbSet<MainTopic> MainTopics { get; set; }
+        public DbSet<MainTopicPost> MainTopicPosts { get; set; }
     }
 }

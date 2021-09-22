@@ -14,5 +14,6 @@
     <WebStackScaffolding_ViewDialogWidth>600</WebStackScaffolding_ViewDialogWidth>
     <ShowAllFiles>true</ShowAllFiles>
     <NameOfLastUsedPublishProfile>FolderProfile</NameOfLastUsedPublishProfile>
+    <WebStackScaffolding_DbContextTypeFullName>Forum.Data.ForumDbx</WebStackScaffolding_DbContextTypeFullName>
   </PropertyGroup>
 </Project>

@@ -1,0 +1,176 @@
+
+
+a {
+	color: $lightblue;
+	text-decoration: none;
+	transition: all 0.3s linear;
+
+	&:hover {
+		box-shadow: inset 0 -0.06em 0 $lightblue;
+	}
+}
+
+.paddingzero {
+	padding: 0 !important;
+}
+
+p {
+	font-size: rem-calc( 22 );
+	line-height: 1.375;//33px;
+	color: $text-color;
+
+	@media all and ( max-width: 767px ) {
+		font-size: 20px;
+	}
+}
+
+p + p {
+	margin-bottom: 20px;
+	margin-top: 20px;
+}
+
+p + button {
+	margin-top: 20px;
+}
+
+button + button {
+	margin-top: 20px;
+}
+
+.text-color-light {
+	color: $white;
+}
+
+::marker {
+	color: $lightblue;
+}
+
+ol {
+	margin-left: 40px;
+	list-style-type: decimal;
+
+	li {
+		padding-left: 15px;
+		padding-bottom: 20px;
+	}
+}
+
+.entry-content {
+	img,
+	iframe,
+	object,
+	embed,
+	video,
+	param {
+		max-width: 100%;
+		height: auto;
+	}
+
+	ul,
+	ol {
+		list-style-position: inside;
+		margin: 0 0 $element-margin $element-margin;
+		padding: 0;
+
+		li {
+			margin: 0 0 $element-margin / 2;
+			padding: 0;
+		}
+	}
+
+	ul {
+		list-style: disc;
+	}
+
+	ol {
+		list-style: decimal;
+	}
+
+	p {
+		margin-bottom: $element-margin;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+}
+
+.wp-caption {
+	width: auto !important;
+	margin-bottom: $element-margin;
+	font-size: .9rem;
+	color: rgba( $black, .7 );
+
+	img {
+		margin-bottom: $element-margin / 2;
+	}
+}
+
+blockquote,
+cite {
+	margin: 0 0 $element-margin;
+	padding: 0 $element-margin * 2;
+	font-size: 1.6rem;
+
+	p {
+		&:before {
+			content: '" ';
+		}
+
+		&:after {
+			content: ' "';
+		}
+	}
+}
+
+.aligncenter {
+	margin: 0;
+	text-align: center;
+}
+
+img.aligncenter {
+	display: block;
+	margin: 0 auto $element-margin;
+}
+
+.alignleft {
+	float: left;
+	// margin: 0 $element-margin $element-margin 0;
+}
+
+.alignright {
+	float: right;
+	// margin: 0 0 $element-margin $element-margin;
+}
+
+.embed-container {
+	position: relative;
+	padding-bottom: 56.25%;
+	// height: 0;
+	overflow: hidden;
+	margin-bottom: $element-margin;
+
+	iframe,
+	object,
+	embed,
+	video {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+blockquote + .blockquote-name {
+	font-size: 12px;
+	font-weight: 700;
+	margin-top: 20px;
+	margin-bottom: 40px;
+	margin-right: 20px;
+	text-align: right;
+}

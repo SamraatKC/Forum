@@ -1,0 +1,17 @@
+@mixin m-mq( $breakpoint ) {
+	@error "Use `@include media-breakpoint-down` instead.";
+	@content;
+}
+
+$base-font-size: 16;
+
+@function rem-calc( $values ) {
+	$rem-values: ();
+
+	// If no base is defined, defer to the global font size
+	$base: ( $values / $base-font-size ) * 1rem;
+
+	$rem-values: $base;
+
+	@return $rem-values;
+}

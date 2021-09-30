@@ -15,9 +15,9 @@ namespace Forum.Models
         public string Description { get; set; }
 
         public string TopicIcon { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
         public string CreatedBy { get; set; }
-        public DateTime LastUpdatedDate { get; set; }
+        public Nullable<System.DateTime> LastUpdatedDate { get; set; }
         public string LastUpdatedBy { get; set; }
         public string Status { get; set; }
         public MainTopic MainTopic { get; set; }

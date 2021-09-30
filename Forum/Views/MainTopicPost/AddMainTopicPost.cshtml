@@ -31,7 +31,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="CreatedDate" class="control-label"></label>
-                <input asp-for="CreatedDate" class="form-control" />
+                @Html.Raw((Model == null ? System.DateTime.Now.ToString("yyyy/MM/dd HH:mm") : Model.CreatedDate == null ? System.DateTime.Now.ToString("yyyy/MM/dd HH:mm") : Model.CreatedDate.Value.ToString("yyyy/MM/dd HH:mm")))
                 <span asp-validation-for="CreatedDate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -41,7 +41,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="LastUpdatedDate" class="control-label"></label>
-                <input asp-for="LastUpdatedDate" class="form-control" />
+                @Html.Raw((Model == null ? System.DateTime.Now.ToString("yyyy/MM/dd HH:mm") : Model.LastUpdatedDate == null ? System.DateTime.Now.ToString("yyyy/MM/dd HH:mm") : Model.LastUpdatedDate.Value.ToString("yyyy/MM/dd HH:mm")))
                 <span asp-validation-for="LastUpdatedDate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -51,7 +51,9 @@
             </div>
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
-                <input asp-for="Status" class="form-control" />
+                <div class="form-control">
+                    @Html.Raw(Model == null ? "New" : Model.Status.ToString())
+                </div>
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
             <div class="form-group">

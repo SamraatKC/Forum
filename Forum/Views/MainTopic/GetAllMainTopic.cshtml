@@ -12,9 +12,9 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.MainTopicId)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.ThemeIdFK)
             </th>
@@ -36,7 +36,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.DisplayOrder)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.CreatedDate)
             </th>
             <th>
@@ -47,7 +47,7 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LastUpdatedBy)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Status)
             </th>
@@ -57,9 +57,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.MainTopicId)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.ThemeIdFK)
             </td>
@@ -81,7 +81,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.DisplayOrder)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.CreatedDate)
             </td>
             <td>
@@ -92,7 +92,7 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LastUpdatedBy)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.Status)
             </td>

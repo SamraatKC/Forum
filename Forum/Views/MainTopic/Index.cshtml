@@ -1,0 +1,28 @@
+﻿@model Forum.Models.ViewModels.MainTopicViewModel
+
+<form class="form-horizontal" action="#" id="submit_form" method="POST">
+    <div class="form-wizard">
+        <div class="form-body">
+
+            <div class="form-group">
+                <label class="control-label col-md-3">Question</label>
+                <div class="col-md-4">
+                    @(Html.DevExtreme().HtmlEditorFor(m => m.Description).Toolbar(toolbar => toolbar.Items(
+items =>
+{
+items.Add().Name(HtmlEditorToolbarItem.Undo);
+items.Add().Name(HtmlEditorToolbarItem.Bold);
+items.Add().Name(HtmlEditorToolbarItem.Italic);
+//items.Add().Html("<button onclick='btnclick();'>test button </button>");
+items.Add().Widget(w => w.DropDownButton());
+}))
+.Placeholder("Ask Question...").Width(500).Height(200))
+
+
+                </div>
+            </div>
+           
+
+        </div>
+    </div>
+</form>  

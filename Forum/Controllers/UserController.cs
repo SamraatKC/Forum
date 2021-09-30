@@ -2,6 +2,7 @@
 using Forum.Models;
 using Forum.Models.ViewModels;
 using Forum.Service;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -42,11 +43,7 @@ namespace Forum.Controllers
             roleManager = _roleManager;
         }
         #endregion
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
+       
 
         [AcceptVerbs("Get", "Post")]
         public async Task<IActionResult> IsUserNameTaken(string username)
@@ -80,6 +77,11 @@ namespace Forum.Controllers
 
         }
 
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
 
         [HttpPost]
         public async Task<IActionResult> Register(UserViewModel userViewModel)
@@ -412,6 +414,9 @@ namespace Forum.Controllers
             }
             return View();
         }
+
+       
+       
 
 
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Forum.Common;
 using Forum.Data;
@@ -10,9 +11,11 @@ using Forum.Models.DataModels;
 using Forum.Models.ViewModels;
 using Forum.Service;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using static Forum.Common.Enums;
 
 namespace Forum.Controllers
 {
@@ -25,13 +28,15 @@ namespace Forum.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly RoleManager<IdentityRole> roleManager;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
-        public MainTopicController(IWebHostEnvironment _webHostEnvironment, IOptions<AppSettings> _appSettings, MainTopicService _mainTopicService, ForumDbx _db)
+        public MainTopicController(IHttpContextAccessor _httpContextAccessor, IWebHostEnvironment _webHostEnvironment, IOptions<AppSettings> _appSettings, MainTopicService _mainTopicService, ForumDbx _db)
         {
             webHostEnvironment = _webHostEnvironment;
             appSettings = _appSettings;
             mainTopicService = _mainTopicService;
             db = _db;
+            httpContextAccessor = _httpContextAccessor;
         }
         public IActionResult Index()
         {
@@ -48,11 +53,17 @@ namespace Forum.Controllers
         {
             try
             {
+                mainTopicViewModel.CreatedDate = System.DateTime.Now;
+                mainTopicViewModel.Status = StatusEnum.New.ToString();
+                mainTopicViewModel.LastUpdatedDate = System.DateTime.Now;
+                mainTopicViewModel.CreatedBy = User.Identity.Name;
+                string userName = httpContextAccessor.HttpContext.User.Identity.Name;
+
                 #region saveimage
                 //var graphics = HttpContext.Request.Form.Files;
                 //foreach (var Graphics in graphics)
                 //{
-                    if (mainTopicViewModel.Graphics != null && mainTopicViewModel.Graphics.Length > 0)
+                if (mainTopicViewModel.Graphics != null && mainTopicViewModel.Graphics.Length > 0)
                     {
                     var file = mainTopicViewModel.Graphics;
                     var uploads = webHostEnvironment.WebRootPath + appSettings.Value.UploadTopicIconPath;

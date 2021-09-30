@@ -6,8 +6,12 @@ namespace Forum.Common
 {
     public static class Enums
     {
-      
-       
+
+        public enum StatusEnum
+        {
+            New = 1
+           
+        }
 
         public enum RoleNames
         {

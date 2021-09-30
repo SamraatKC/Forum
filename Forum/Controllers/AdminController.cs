@@ -9,6 +9,7 @@ using Forum.Service;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
 
 namespace Forum.Controllers
@@ -31,11 +32,26 @@ namespace Forum.Controllers
             db = _db;
         }
 
+        public IActionResult TestView()
+        {
+            return View();
+        }
+
         [HttpGet]
         public async Task<IActionResult> AdminDashboard()
         {
             try
             {
+                List<SelectListItem> moderators = new List<SelectListItem>()
+            {
+                new SelectListItem { Value = "1", Text = "Moderator1" },
+                new SelectListItem { Value = "2", Text = "Moderator2" },
+                new SelectListItem { Value = "3", Text = "Moderator3" },
+               
+            };
+
+                //assigning SelectListItem to view Bag
+                ViewBag.moderators = moderators;
 
                 var getallmaintopic = await adminService.GetAllMainTopic();
                 if (getallmaintopic != null)

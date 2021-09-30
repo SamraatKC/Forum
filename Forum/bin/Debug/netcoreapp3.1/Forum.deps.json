@@ -24,6 +24,8 @@
     ".NETCoreApp,Version=v3.1": {
       "Forum/1.0.0": {
         "dependencies": {
+          "DevExtreme.AspNet.Core": "21.1.5",
+          "DevExtreme.AspNet.Data": "2.8.2",
           "Forum.Common": "1.0.0",
           "Forum.Models": "1.0.0",
           "Forum.Service": "1.0.0",
@@ -305,6 +307,37 @@
         },
         "compile": {
           "Forum.dll": {}
+        }
+      },
+      "DevExtreme.AspNet.Core/21.1.5": {
+        "dependencies": {
+          "DevExtreme.AspNet.Data": "2.8.2",
+          "Microsoft.AspNetCore.Mvc": "2.2.0",
+          "Newtonsoft.Json": "11.0.2"
+        },
+        "runtime": {
+          "lib/netstandard2.0/DevExtreme.AspNet.Core.dll": {
+            "assemblyVersion": "21.1.5.0",
+            "fileVersion": "21.1.5.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/DevExtreme.AspNet.Core.dll": {}
+        }
+      },
+      "DevExtreme.AspNet.Data/2.8.2": {
+        "dependencies": {
+          "Microsoft.CSharp": "4.7.0",
+          "Newtonsoft.Json": "11.0.2"
+        },
+        "runtime": {
+          "lib/netstandard2.0/DevExtreme.AspNet.Data.dll": {
+            "assemblyVersion": "2.8.2.0",
+            "fileVersion": "2.8.2.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/DevExtreme.AspNet.Data.dll": {}
         }
       },
       "Humanizer.Core/2.8.26": {
@@ -2727,6 +2760,7 @@
       },
       "Forum.Models/1.0.0": {
         "dependencies": {
+          "Forum.Common": "1.0.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "3.1.8",
           "Microsoft.AspNetCore.Mvc": "2.2.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "5.0.4",
@@ -4347,6 +4381,20 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "DevExtreme.AspNet.Core/21.1.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-csNMVwTMlAV0U+EX78hMOsZ6any5DO5xrtsTpU2LTGmW792cuEmFsm98RdrLhz8yzRQNIeUAvzYQofgtTmIa6Q==",
+      "path": "devextreme.aspnet.core/21.1.5",
+      "hashPath": "devextreme.aspnet.core.21.1.5.nupkg.sha512"
+    },
+    "DevExtreme.AspNet.Data/2.8.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-y1TXRAcJXhzllwNYAVyMZhiM0J8TghGNhxMjKk0ihxK0agYo1LfPZbDInysH0FrlNKd8QeV2yvvVAaURzWWnBA==",
+      "path": "devextreme.aspnet.data/2.8.2",
+      "hashPath": "devextreme.aspnet.data.2.8.2.nupkg.sha512"
     },
     "Humanizer.Core/2.8.26": {
       "type": "package",

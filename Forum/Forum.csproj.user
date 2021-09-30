@@ -15,5 +15,8 @@
     <ShowAllFiles>true</ShowAllFiles>
     <NameOfLastUsedPublishProfile>FolderProfile</NameOfLastUsedPublishProfile>
     <WebStackScaffolding_DbContextTypeFullName>Forum.Data.ForumDbx</WebStackScaffolding_DbContextTypeFullName>
+    <DevExtremeCreateAsPartial>False</DevExtremeCreateAsPartial>
+    <DevExtremeUseLayout>True</DevExtremeUseLayout>
+    <DevExtremeSelectedDataContextName>ForumDbx %28Forum.Data%29</DevExtremeSelectedDataContextName>
   </PropertyGroup>
 </Project>

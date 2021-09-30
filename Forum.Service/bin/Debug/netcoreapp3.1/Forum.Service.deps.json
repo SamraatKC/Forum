@@ -2579,6 +2579,7 @@
       },
       "Forum.Models/1.0.0": {
         "dependencies": {
+          "Forum.Common": "1.0.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "3.1.8",
           "Microsoft.AspNetCore.Mvc": "2.2.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "5.0.4",

@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
 using System.Text;
+using static Forum.Common.Enums;
 
 namespace Forum.Models.DataModels
 {
@@ -16,15 +19,21 @@ namespace Forum.Models.DataModels
         public int ParentIdFK { get; set; }
         public string ReferenceLink { get; set; }
         public string Title { get; set; }
+        [BindProperty]
         public string Description { get; set; }
+        public void OnPost()
+        {
+            Debug.WriteLine(Description);
+        }
         //public string Location { get; set; }
         public string TopicIcon { get; set; }
-        public string DisplayOrder { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public int DisplayOrder { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
         public string CreatedBy { get; set; }
-        public DateTime LastUpdatedDate { get; set; }
+        public Nullable<System.DateTime> LastUpdatedDate { get; set; }
         public string LastUpdatedBy { get; set; }
         public string Status { get; set; }
+        public string Moderator { get; set; }
         public List<MainTopicPost> MainTopicPost { get; set; }
 
 

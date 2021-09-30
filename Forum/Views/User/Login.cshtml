@@ -46,15 +46,15 @@
     </div>*@
 
 @*<div>
-    <a asp-action="ForgotPassword">Forgot Password?</a>
-</div>
-<br />
-<br />
-<div>
-    <a asp-action="Register">
-        Click here to register.
-    </a>
-</div>*@
+        <a asp-action="ForgotPassword">Forgot Password?</a>
+    </div>
+    <br />
+    <br />
+    <div>
+        <a asp-action="Register">
+            Click here to register.
+        </a>
+    </div>*@
 
 
 
@@ -79,6 +79,8 @@
         });
     </script>
     }*@
+@model Forum.Models.ViewModels.LoginViewModel
+
 
 
 
@@ -90,6 +92,7 @@
     <title>Forum</title>
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" />
+    
     <link rel="stylesheet" href="~/dist/style.min.css" />
 </head>
 <body>
@@ -105,10 +108,12 @@
                             <div class="form-wrapper float-label">
                                 <input type="email" class="input-field" id="Email" name="Email" />
                                 <label for="signin_email">Email</label>
+                                <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
                             <div class="form-wrapper float-label">
                                 <input type="password" class="input-field" id="Password" name="Password" />
                                 <label for="signin_password">Password</label>
+                                <span asp-validation-for="Password" class="text-danger"></span>
                             </div>
                             <a href="#" class="optional-text">Forgot your password?</a>
                             <button class="btn btn-primary btn-large">Sign In</button>
@@ -146,6 +151,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="form-container sign-up-container">
                     <div class="form-container__wrapper">
                         <form action="Register" method="post" class="wrapper wrapper-50">
@@ -153,22 +159,26 @@
                             <div class="form-wrapper float-label">
                                 <input type="text" class="input-field" id="FirstName" name="FirstName" />
                                 <label for="signup_name">First Name</label>
+                                <span for="FirstName" class="text-danger"></span>
                             </div>
 
-                            <div class="form-wrapper float-label">
+                            <div class="form-wrapper float-label ">
                                 <input type="text" class="input-field" id="LastName" name="LastName" />
                                 <label for="signup_name">Last Name</label>
+                                <span for="LastName" class="text-danger"></span>
                             </div>
-                            <div class="form-wrapper float-label">
+                            <div class="form-wrapper float-label ">
                                 <input type="email" class="input-field" id="Email" name="Email" />
                                 <label for="signup_email">Email</label>
+                                <span or="Email" class="text-danger"></span>
                                 @*<span class="validation_error">Invalid email format.</span>*@
                             </div>
                             <div class="form-wrapper float-label">
                                 <input type="password" class="input-field" id="Password" name="Password" />
                                 <label for="signup_password">Password</label>
+                                <span for="Password" class="text-danger"></span>
                             </div>
-                            <button class="btn btn-primary btn-large">Sign Up</button>
+                            <button class="btn btn-primary btn-large" id="SignUp">Sign Up</button>
                             <span class="optional-text">or use your account</span>
                             <div class="social-container">
                                 <a href="#" class="social">
@@ -205,5 +215,7 @@
     <footer></footer>
     <script type="text/javascript" src="~/dist/jquery.min.js"></script>
     <script type="text/javascript" src="~/dist/app.min.js"></script>
+    <script type="text/javascript" src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script type="text/javascript" src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
 </body>
 </html>

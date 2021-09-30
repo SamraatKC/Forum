@@ -3,7 +3,9 @@ using Forum.Models;
 using Forum.Models.ViewModels;
 using Forum.Service;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -24,13 +26,14 @@ namespace Forum.Controllers
     {
         #region Constryctor
         private readonly AppSettings appSettings;
+        private readonly HttpContextAccessor httpContextAccessor;
         private readonly UserService userService;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly EmailHelper emailHelper;
         private readonly HostgatorEmailHelper hostgatorEmailHelper;
-        public UserController(IOptions<AppSettings> _appSettings, UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager
+        public UserController(HttpContextAccessor _httpContextAccessor,IOptions<AppSettings> _appSettings, UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager
             , UserService _userService, EmailHelper _emailHelper,HostgatorEmailHelper _hostgatorEmailHelper,
              RoleManager<IdentityRole> _roleManager)
         {
@@ -41,6 +44,7 @@ namespace Forum.Controllers
             signInManager = _signInManager;
             userService = _userService;
             roleManager = _roleManager;
+            httpContextAccessor = _httpContextAccessor;
         }
         #endregion
        
@@ -216,14 +220,17 @@ namespace Forum.Controllers
                     var result = await signInManager.PasswordSignInAsync(loginViewModel.Email, loginViewModel.Password, false, false);
                     if (result.Succeeded)
                     {
+                       
                         var appUser = userManager.Users.SingleOrDefault(r => r.Email == loginViewModel.Email);
                         var token = string.Format("{0}", GenerateJwtToken(loginViewModel.Email, appUser));
                         var resp = new { Token = token };
+                       
                         if (await userManager.IsInRoleAsync(appUser, "Admin"))
                         {
                             return RedirectToAction("AdminDashboard", "Admin");
                         }
                         return RedirectToAction("RegularUserDashboard", "RegularUser");
+                       
                     }
                     else
                     {
@@ -415,9 +422,22 @@ namespace Forum.Controllers
             return View();
         }
 
-       
-       
 
+        public async Task<IActionResult> LogOut()
+        {
+            var context = httpContextAccessor.HttpContext;
+            var relevantCookies = context.Request.Cookies
+                     .Where(c =>
+                         c.Key.Contains(".AspNetCore.") || c.Key.Contains(".AspNet.") || c.Key.Contains("Microsoft.Authentication"));
 
-    }
+            foreach (var cookie in relevantCookies)
+            {
+                context.Response.Cookies.Delete(cookie.Key);
+            }
+            await HttpContext.SignOutAsync("Cookies");
+           
+            return LocalRedirect("/");
+
+        }
+        }
 }

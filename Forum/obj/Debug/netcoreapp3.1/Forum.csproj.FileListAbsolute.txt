@@ -181,7 +181,6 @@ C:\Users\hp\source\repos\Forum\Forum\obj\Debug\netcoreapp3.1\Razor\Views\User\Cr
 C:\Users\hp\source\repos\Forum\Forum\obj\Debug\netcoreapp3.1\Razor\Views\User\ForgotPassword.cshtml.g.cs
 C:\Users\hp\source\repos\Forum\Forum\obj\Debug\netcoreapp3.1\Razor\Views\User\LoggedIn.cshtml.g.cs
 C:\Users\hp\source\repos\Forum\Forum\obj\Debug\netcoreapp3.1\Razor\Views\User\Login.cshtml.g.cs
-C:\Users\hp\source\repos\Forum\Forum\obj\Debug\netcoreapp3.1\Razor\Views\User\Register.cshtml.g.cs
 C:\Users\hp\source\repos\Forum\Forum\obj\Debug\netcoreapp3.1\Razor\Views\User\ResetPassword.cshtml.g.cs
 C:\Users\hp\source\repos\Forum\Forum\obj\Debug\netcoreapp3.1\Razor\Views\User\SecretView.cshtml.g.cs
 C:\Users\hp\source\repos\Forum\Forum\obj\Debug\netcoreapp3.1\Razor\Views\User\UserView.cshtml.g.cs

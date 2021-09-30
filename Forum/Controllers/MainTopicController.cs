@@ -10,6 +10,7 @@ using Forum.Models;
 using Forum.Models.DataModels;
 using Forum.Models.ViewModels;
 using Forum.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -43,6 +44,7 @@ namespace Forum.Controllers
             return View();
         }
         [HttpGet]
+        
         public IActionResult AddMainTopic()
         {
             return View();
@@ -56,9 +58,8 @@ namespace Forum.Controllers
                 mainTopicViewModel.CreatedDate = System.DateTime.Now;
                 mainTopicViewModel.Status = StatusEnum.New.ToString();
                 mainTopicViewModel.LastUpdatedDate = System.DateTime.Now;
-                mainTopicViewModel.CreatedBy = User.Identity.Name;
-                string userName = httpContextAccessor.HttpContext.User.Identity.Name;
-
+                var currentUser = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                mainTopicViewModel.CreatedBy = currentUser;
                 #region saveimage
                 //var graphics = HttpContext.Request.Form.Files;
                 //foreach (var Graphics in graphics)

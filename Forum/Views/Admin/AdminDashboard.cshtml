@@ -4,10 +4,13 @@
     ViewData["Title"] = "AdminDashboard";
 }
 
-<h1>AdminDashboard</h1>
+<h1>Hello @User.Identity.Name</h1>
 
 <p>
     <a asp-controller="MainTopic" asp-action="AddMainTopic">AddMainTopic</a>
+</p>
+<p>
+    <a asp-controller="User" asp-action="Logout">Logout</a>
 </p>
 
 

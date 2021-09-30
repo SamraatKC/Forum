@@ -97,8 +97,10 @@ namespace Forum
             //#endregion
 
             #region injection
+            services.AddScoped<HttpContextAccessor>();
             services.AddScoped<ForumDbx>();
             services.AddScoped<UserService>();
+            services.AddScoped<HttpContextAccessor>();
             services.AddScoped<MainTopicService>();
             services.AddScoped<MainTopicPostService>();
             services.AddScoped<AdminService>();
@@ -127,6 +129,7 @@ namespace Forum
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseAuthentication();
+            
             app.UseRouting();
 
             app.UseAuthorization();

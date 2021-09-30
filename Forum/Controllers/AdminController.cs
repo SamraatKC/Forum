@@ -6,6 +6,7 @@ using Forum.Common;
 using Forum.Data;
 using Forum.Models;
 using Forum.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -38,6 +39,7 @@ namespace Forum.Controllers
         }
 
         [HttpGet]
+       
         public async Task<IActionResult> AdminDashboard()
         {
             try

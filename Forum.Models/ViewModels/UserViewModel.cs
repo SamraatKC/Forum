@@ -8,6 +8,7 @@ namespace Forum.Models.ViewModels
 {
    public class UserViewModel
     {
+        public string Id { get; set; }
         [Required(ErrorMessage ="Please enter your First Name")]
         public string FirstName { get; set; }
         [Required(ErrorMessage = "Please enter your Last Name")]

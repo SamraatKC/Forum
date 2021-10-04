@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "View1";
+}
+
+<h2>View1</h2>
+
+@(Html.DevExtreme().TreeList<Forum.Models.ViewModels.MainTopicViewModel>()
+        .Columns(columns =>
+        {
+
+            columns.AddFor(m => m.MainTopicId);
+
+            columns.AddFor(m => m.ParentIdFK);
+
+            columns.AddFor(m => m.Title);
+
+            columns.AddFor(m => m.Description);
+
+            columns.AddFor(m => m.DisplayOrder);
+
+            columns.AddFor(m => m.Moderator);
+        })
+        .DataSource(ds =>
+            Model
+            .Key("MainTopicId")
+
+        )
+)

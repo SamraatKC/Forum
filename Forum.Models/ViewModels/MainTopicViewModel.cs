@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Text;
 using static Forum.Common.Enums;
@@ -12,6 +13,7 @@ namespace Forum.Models.ViewModels
 {
     public class MainTopicViewModel
     {
+        [Key]
         public int MainTopicId { get; set; }
         public int ThemeIdFK { get; set; }
         public int ParentIdFK { get; set; }
@@ -30,6 +32,7 @@ namespace Forum.Models.ViewModels
         public string LastUpdatedBy { get; set; }
         public string Status { get; set; }
         public string Moderator { get; set; }
+        public virtual ICollection<MainTopic> ChildTopic { get; set; }
 
         public List<SelectListItem> Moderators { get; } = new List<SelectListItem>
     {

@@ -219,36 +219,29 @@ namespace Forum.Controllers
                 var user = await userManager.FindByEmailAsync(loginViewModel.Email);
                 if (user != null)
                 {
-                    var result = await signInManager.PasswordSignInAsync(loginViewModel.Email, loginViewModel.Password, false, false);
-                    if (result.Succeeded)
+                    await userService.SignIn(user, false);
+                    var userRole = await userManager.GetRolesAsync(user);
+                    if (userRole != null)
                     {
-                        await signInManager.SignInAsync(user, true);
-
-
-
-                        var userRole = await userManager.GetRolesAsync(user);
-                        if (userRole != null)
+                        var role = userRole.FirstOrDefault();
+                        switch (role.ToLower())
                         {
-                            var role = userRole.FirstOrDefault();
-                            switch (role.ToLower())
-                            {
-                                case "admin":
-                                    return RedirectToAction("AdminDashboard", "Admin");
-                                case "normaluser":
-                                    return RedirectToAction("RegularUserDashboard", "RegularUser");
-                            }
-
+                            case "admin":
+                                return RedirectToAction("AdminDashboard", "Admin");
+                            case "normaluser":
+                                return RedirectToAction("RegularUserDashboard", "RegularUser");
                         }
-
-                        TempData["Message"] = "Role has not been assigned to you, please contact system provider about your issue";
-                        return View("Login");
 
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "Please confirm your account to login.");
-                        return View();
+
+                        TempData["Message"] = "Role has not been assigned to you, please contact system provider about your issue";
+                        return View("Login");
                     }
+                    ModelState.AddModelError(string.Empty, "User name or password is invalid");
+                    return View();
+
                 }
                 else
                 {
@@ -258,7 +251,7 @@ namespace Forum.Controllers
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, "Please enter your credentials.");
+                ModelState.AddModelError(string.Empty, "User name or password is invalid");
                 return View();
             }
         }

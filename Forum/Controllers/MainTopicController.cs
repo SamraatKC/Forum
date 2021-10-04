@@ -31,14 +31,16 @@ namespace Forum.Controllers
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IHttpContextAccessor httpContextAccessor;
-
-        public MainTopicController(IHttpContextAccessor _httpContextAccessor, IWebHostEnvironment _webHostEnvironment, IOptions<AppSettings> _appSettings, MainTopicService _mainTopicService, ForumDbx _db)
+        private readonly UserService userService;
+        public MainTopicController(IHttpContextAccessor _httpContextAccessor, IWebHostEnvironment _webHostEnvironment, IOptions<AppSettings> _appSettings, MainTopicService _mainTopicService, ForumDbx _db, UserService _userService)
         {
             webHostEnvironment = _webHostEnvironment;
             appSettings = _appSettings;
             mainTopicService = _mainTopicService;
             db = _db;
             httpContextAccessor = _httpContextAccessor;
+            userService = _userService;
+            
         }
         public IActionResult Index()
         {
@@ -66,10 +68,11 @@ namespace Forum.Controllers
             try
             {
                 mainTopicViewModel.Status = StatusEnum.New.ToString();
-                //mainTopicViewModel.LastUpdatedDate = System.DateTime.Now;
-                var currentUserEmail = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Email).Value;
-                var user = await userManager.FindByEmailAsync(currentUserEmail);
-                mainTopicViewModel.CreatedBy = user.Id;
+                List<Claim> userClaims = userService.GetUserClaims();
+
+                //var user = await userManager.FindByEmailAsync(currentUserEmail);
+
+                mainTopicViewModel.CreatedBy = userClaims.Where( x=> x.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
                 mainTopicViewModel.CreatedDate = System.DateTime.Now;
 
                 #region saveimage
@@ -154,6 +157,18 @@ namespace Forum.Controllers
                 throw ex;
             }
 
+        }
+
+        public async Task<IActionResult> GetDevExpressView()
+        {
+            var data = await (mainTopicService.GetAllMainTopic());
+            return View("../User/View1", data);
+        }
+
+        public async Task<JsonResult> GetMainTopics()
+        {
+            var data = await (mainTopicService.GetAllMainTopic());
+            return new JsonResult(data);
         }
     }
 }

@@ -19,13 +19,7 @@ namespace Forum.Models.DataModels
         public int ParentIdFK { get; set; }
         public string ReferenceLink { get; set; }
         public string Title { get; set; }
-        [BindProperty]
         public string Description { get; set; }
-        public void OnPost()
-        {
-            Debug.WriteLine(Description);
-        }
-        //public string Location { get; set; }
         public string TopicIcon { get; set; }
         public int DisplayOrder { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
@@ -35,6 +29,8 @@ namespace Forum.Models.DataModels
         public string Status { get; set; }
         public string Moderator { get; set; }
         public List<MainTopicPost> MainTopicPost { get; set; }
+        //public virtual ICollection<MainTopic> ChildTopic { get; set; }
+
 
 
     }

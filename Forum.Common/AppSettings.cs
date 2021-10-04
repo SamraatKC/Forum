@@ -26,6 +26,5 @@ namespace Forum.Common
         public string AllowedOrigin { get; set; }
         public string UploadTopicIconPath { get; set; }
         public string ConfirmedAccountPostUrl { get; set; }
-        public string NormalUserCode { get; set; }
     }
 }

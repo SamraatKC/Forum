@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
 using static Forum.Common.Enums;
 
@@ -41,31 +42,42 @@ namespace Forum.Controllers
         }
         public IActionResult Index()
         {
+
+
             return View();
         }
         [HttpGet]
-        
+
         public IActionResult AddMainTopic()
         {
+
+            //fettch all the topics from table MainTopics with Text as title and value as id,
+            var parentTopics = mainTopicService.GetAllMainTopic()
+                .Result
+                .Select(x => new SelectListItem{ Text = x.Title, Value = x.MainTopicId.ToString() }).ToList();
+                //.ToList(x => x.MainTopicId, y => y.Title);
+            ViewBag.ParentTopic = parentTopics;
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddMainTopic([FromForm]MainTopicViewModel mainTopicViewModel)
+        public async Task<IActionResult> AddMainTopic([FromForm] MainTopicViewModel mainTopicViewModel)
         {
             try
             {
-                mainTopicViewModel.CreatedDate = System.DateTime.Now;
                 mainTopicViewModel.Status = StatusEnum.New.ToString();
-                mainTopicViewModel.LastUpdatedDate = System.DateTime.Now;
-                var currentUser = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                mainTopicViewModel.CreatedBy = currentUser;
+                //mainTopicViewModel.LastUpdatedDate = System.DateTime.Now;
+                var currentUserEmail = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Email).Value;
+                var user = await userManager.FindByEmailAsync(currentUserEmail);
+                mainTopicViewModel.CreatedBy = user.Id;
+                mainTopicViewModel.CreatedDate = System.DateTime.Now;
+
                 #region saveimage
                 //var graphics = HttpContext.Request.Form.Files;
                 //foreach (var Graphics in graphics)
                 //{
                 if (mainTopicViewModel.Graphics != null && mainTopicViewModel.Graphics.Length > 0)
-                    {
+                {
                     var file = mainTopicViewModel.Graphics;
                     var uploads = webHostEnvironment.WebRootPath + appSettings.Value.UploadTopicIconPath;
                     //var uploads = Path.Combine(Directory.GetCurrentDirectory(), "~\\Uploads\\");
@@ -81,10 +93,10 @@ namespace Forum.Controllers
                         }
                     }
                 }
-               // }
+                // }
                 #endregion
 
-               
+
                 var result = await mainTopicService.AddMainTopic(mainTopicViewModel);
                 if (result == true)
                 {
@@ -98,11 +110,11 @@ namespace Forum.Controllers
                 }
                 //return View();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
-           
+
         }
 
         [HttpGet]
@@ -124,7 +136,7 @@ namespace Forum.Controllers
         {
             try
             {
-               
+
                 var getallmaintopic = await mainTopicService.GetAllMainTopic();
                 if (getallmaintopic != null)
                 {
@@ -141,7 +153,7 @@ namespace Forum.Controllers
             {
                 throw ex;
             }
-                 
+
         }
     }
 }

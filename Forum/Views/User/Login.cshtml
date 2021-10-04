@@ -101,9 +101,12 @@
     <main id="main">
         <section class="login-wrapper">
             <div class="wrapper wrapper-full" id="container">
+
+                <div> @(TempData["Message"])</div>
+
                 <div class="form-container sign-in-container">
                     <div class="form-container__wrapper">
-                        <form  method="post" class="wrapper wrapper-50">
+                        <form asp-action="Login" asp-controller="User"  method="post" class="wrapper wrapper-50">
                             <h2>Sign in</h2>
                             <div class="form-wrapper float-label">
                                 <input type="email" class="input-field" id="Email" name="Email" />
@@ -131,7 +134,6 @@
                             </div>
                         </form>
                     </div>
-
                     <div class="overlay-container wrapper wrapper-50">
                         <div class="overlay">
                             <div class="overlay-panel overlay-right">
@@ -154,7 +156,7 @@
 
                 <div class="form-container sign-up-container">
                     <div class="form-container__wrapper">
-                        <form  method="post" class="wrapper wrapper-50">
+                        <form asp-action="Register" asp-controller="User" method="post" class="wrapper wrapper-50">
                             <h2>Create Account</h2>
                             <div class="form-wrapper float-label">
                                 <input type="text" class="input-field" id="FirstName" name="FirstName" />

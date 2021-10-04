@@ -24,7 +24,6 @@ namespace Forum.Controllers
 
     public class UserController : Controller
     {
-        #region Constryctor
         private readonly AppSettings appSettings;
         private readonly HttpContextAccessor httpContextAccessor;
         private readonly UserService userService;
@@ -33,8 +32,10 @@ namespace Forum.Controllers
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly EmailHelper emailHelper;
         private readonly HostgatorEmailHelper hostgatorEmailHelper;
-        public UserController(HttpContextAccessor _httpContextAccessor,IOptions<AppSettings> _appSettings, UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager
-            , UserService _userService, EmailHelper _emailHelper,HostgatorEmailHelper _hostgatorEmailHelper,
+
+        #region Constryctor
+        public UserController(HttpContextAccessor _httpContextAccessor, IOptions<AppSettings> _appSettings, UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager
+            , UserService _userService, EmailHelper _emailHelper, HostgatorEmailHelper _hostgatorEmailHelper,
              RoleManager<IdentityRole> _roleManager)
         {
             hostgatorEmailHelper = _hostgatorEmailHelper;
@@ -47,7 +48,7 @@ namespace Forum.Controllers
             httpContextAccessor = _httpContextAccessor;
         }
         #endregion
-       
+
 
         [AcceptVerbs("Get", "Post")]
         public async Task<IActionResult> IsUserNameTaken(string username)
@@ -92,21 +93,21 @@ namespace Forum.Controllers
         {
             try
             {
-                string normaluserRole = Enum.GetName(typeof(Enums.RoleNames),1 );
+                string normaluserRole = Enum.GetName(typeof(Enums.RoleNames), 1);
                 string defaultRoleName = string.IsNullOrEmpty(userViewModel.RoleName) ? normaluserRole : userViewModel.RoleName;
-                int userCodeIndex = userViewModel.FirstName.ToUpper().IndexOf(appSettings.NormalUserCode.ToUpper());
-                if (userCodeIndex > 0)
-                {
-                    string adminRole = Enum.GetName(typeof(Enums.RoleNames), 0);
-                    defaultRoleName = string.IsNullOrEmpty(userViewModel.RoleName) ? adminRole : userViewModel.RoleName;
-                    userViewModel.FirstName = userViewModel.FirstName.Substring(0, userCodeIndex);
-                }
+                string nomalUserRole = Enum.GetName(typeof(Enums.RoleNames), 1);
+
                 #region if role is not found or duplicate user found then return error message
                 var asp_role = await roleManager.FindByNameAsync(defaultRoleName);
                 //var asp_user = await userManager.FindByEmailAsync(userViewModel.Email);
                 if (asp_role == null)
                 {
-                    ModelState.AddModelError(string.Empty, "Role not foumd");
+                    //ModelState.AddModelError(string.Empty, "Role not foumd");
+                    await roleManager.CreateAsync(new IdentityRole()
+                    {
+                        Name = normaluserRole
+                    });
+                    asp_role = await roleManager.FindByNameAsync(defaultRoleName);
 
                 }
                 //if (asp_user != null)
@@ -126,9 +127,9 @@ namespace Forum.Controllers
                 #endregion
                 #region CreateUser
                 var result = await userManager.CreateAsync(user, user.PasswordHash);
-                var addusertorole = await userManager.AddToRoleAsync(user, asp_role.Name);
                 if (result.Succeeded)
                 {
+                    var addusertorole = await userManager.AddToRoleAsync(user, asp_role.Name);
                     #region Send Account Activation Email
                     string code = userManager.GenerateEmailConfirmationTokenAsync(user).Result;
                     code = System.Web.HttpUtility.UrlEncode(code);
@@ -143,12 +144,13 @@ namespace Forum.Controllers
                     emailHelper.SendEmail("Account Activation - Forum", userViewModel.Email, htmlEmailBody);
                     //hostgatorEmailHelper.SendEmail();
                     #endregion
-                    TempData["Success"] = "An account verification link has been sent in your associated mail.";
-                    return View("Register");
+                    TempData["Message"] = "An account verification link has been sent in your associated mail.";
+                    return View("Login");
                 }
                 else
                 {
-                    return View("Register");
+                    TempData["Message"] = "Oops! some error occured while creating your account, please contact system provider.";
+                    return View("Login");
                 }
                 #endregion
 
@@ -220,17 +222,27 @@ namespace Forum.Controllers
                     var result = await signInManager.PasswordSignInAsync(loginViewModel.Email, loginViewModel.Password, false, false);
                     if (result.Succeeded)
                     {
-                       
-                        var appUser = userManager.Users.SingleOrDefault(r => r.Email == loginViewModel.Email);
-                        var token = string.Format("{0}", GenerateJwtToken(loginViewModel.Email, appUser));
-                        var resp = new { Token = token };
-                       
-                        if (await userManager.IsInRoleAsync(appUser, "Admin"))
+                        await signInManager.SignInAsync(user, true);
+
+
+
+                        var userRole = await userManager.GetRolesAsync(user);
+                        if (userRole != null)
                         {
-                            return RedirectToAction("AdminDashboard", "Admin");
+                            var role = userRole.FirstOrDefault();
+                            switch (role.ToLower())
+                            {
+                                case "admin":
+                                    return RedirectToAction("AdminDashboard", "Admin");
+                                case "normaluser":
+                                    return RedirectToAction("RegularUserDashboard", "RegularUser");
+                            }
+
                         }
-                        return RedirectToAction("RegularUserDashboard", "RegularUser");
-                       
+
+                        TempData["Message"] = "Role has not been assigned to you, please contact system provider about your issue";
+                        return View("Login");
+
                     }
                     else
                     {
@@ -263,9 +275,9 @@ namespace Forum.Controllers
             try
             {
                 var user = await userManager.FindByEmailAsync(email);
-                if(user!=null)
+                if (user != null)
                 {
-                    string url = Url.Action(nameof(ResetPassword), "User", new { userid = user.Id},Request.Scheme);
+                    string url = Url.Action(nameof(ResetPassword), "User", new { userid = user.Id }, Request.Scheme);
                     //string url = string.Format("{0}{1}/{2}", appSettings.AllowedOrigin, appSettings.PasswordReset,user.Id );
                     if (url != null)
                     {
@@ -289,7 +301,7 @@ namespace Forum.Controllers
                     ModelState.AddModelError(string.Empty, "User Not Found");
                     return View();
                 }
-               
+
 
 
             }
@@ -325,7 +337,7 @@ namespace Forum.Controllers
                 {
                     string token = await userManager.GeneratePasswordResetTokenAsync(checkUser);
                     var changePassword = await userManager.ResetPasswordAsync(checkUser, token, newpassword);
-                    
+
                     if (changePassword != null)
                     {
                         TempData["Success"] = "Password successfully reset.";
@@ -335,7 +347,7 @@ namespace Forum.Controllers
                     {
                         ModelState.AddModelError(string.Empty, "Something went wrong");
                         return View();
-                    }                  
+                    }
                 }
                 else
                 {
@@ -392,7 +404,7 @@ namespace Forum.Controllers
         }
 
         [HttpPost]
-       
+
         public async Task<IActionResult> CreateRole(RoleViewModel model)
         {
             try
@@ -405,7 +417,7 @@ namespace Forum.Controllers
                     ModelState.AddModelError(string.Empty, "Role Already Exist");
                     return View();
                 }
-                    
+
                 var res = await roleManager.CreateAsync(new IdentityRole(model.Name));
                 if (res.Succeeded)
                 {
@@ -425,19 +437,9 @@ namespace Forum.Controllers
 
         public async Task<IActionResult> LogOut()
         {
-            var context = httpContextAccessor.HttpContext;
-            var relevantCookies = context.Request.Cookies
-                     .Where(c =>
-                         c.Key.Contains(".AspNetCore.") || c.Key.Contains(".AspNet.") || c.Key.Contains("Microsoft.Authentication"));
-
-            foreach (var cookie in relevantCookies)
-            {
-                context.Response.Cookies.Delete(cookie.Key);
-            }
-            await HttpContext.SignOutAsync("Cookies");
-           
+            await signInManager.SignOutAsync();
             return LocalRedirect("/");
 
         }
-        }
+    }
 }

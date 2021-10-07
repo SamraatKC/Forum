@@ -16,7 +16,10 @@ namespace Forum.Models.DataModels
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int MainTopicId { get; set; }
         public int ThemeIdFK { get; set; }
-        public int ParentIdFK { get; set; }
+        [ForeignKey("MainTopicId")]
+
+        public MainTopic Parent { get; set; }
+        public int? ParentIdFK { get; set; }
         public string ReferenceLink { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
@@ -29,7 +32,7 @@ namespace Forum.Models.DataModels
         public string Status { get; set; }
         public string Moderator { get; set; }
         public List<MainTopicPost> MainTopicPost { get; set; }
-        //public virtual ICollection<MainTopic> ChildTopic { get; set; }
+        public ICollection<MainTopic> ChildTopic { get; set; }
 
 
 

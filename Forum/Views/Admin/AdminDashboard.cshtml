@@ -6,6 +6,52 @@
 
 <h1>Hello @User.Identity.Name</h1>
 
+@(Html.DevExtreme().TreeList<Forum.Models.ViewModels.MainTopicViewModel>()
+    .ID("tree-list")
+    .DataSource(ds => ds.WebApi()
+        .Controller("Admin")
+        .LoadAction("GetMainTopics")
+        .InsertAction("InsertTask")
+        .UpdateAction("UpdateTask")
+        .DeleteAction("DeleteTask")
+        .Key("MainTopicId")
+    )
+    .RemoteOperations(r => r.Filtering(true).Sorting(true).Grouping(true))
+    .KeyExpr("MainTopicId")
+    .ParentIdExpr("ParentIdFK")
+    .HasItemsExpr("HasItems")
+    .ExpandedRowKeys(new[] { 1, 2 })
+    .SearchPanel(seachPanel => seachPanel.Visible(true))
+    .HeaderFilter(headerFilter => headerFilter.Visible(true))
+    .Editing(editing => editing
+        .Mode(GridEditMode.Row)
+        .AllowAdding(true)
+        .AllowUpdating(true)
+        .AllowDeleting(true)
+    )
+    .ShowRowLines(true)
+    .ShowBorders(true)
+    .ColumnAutoWidth(true)
+    .WordWrapEnabled(true)
+    .Columns(columns => {
+        columns.AddFor(m => m.Title).MinWidth(250);
+        columns.AddFor(m => m.Description);
+        columns.AddFor(x => x.DisplayOrder);
+    })
+    .OnInitNewRow("treeList_onInitNewRow")
+)
+
+<script>
+    function treeList_onInitNewRow(e) {
+        e.data.Task_Status = "Not Started";
+        e.data.Task_Start_Date = new Date();
+        e.data.Task_Due_Date = new Date();
+    }
+</script>
+
+<hr />
+
+
 <p>
     <a asp-controller="MainTopic" asp-action="AddMainTopic">AddMainTopic</a>
 </p>
@@ -18,17 +64,17 @@
     <thead>
         <tr>
             @*<th>
-            @Html.DisplayNameFor(model => model.MainTopicId)
-        </th>*@
+                    @Html.DisplayNameFor(model => model.MainTopicId)
+                </th>*@
             @*<th>
-            @Html.DisplayNameFor(model => model.ThemeIdFK)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ParentIdFK)
-        </th>*@
+                    @Html.DisplayNameFor(model => model.ThemeIdFK)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ParentIdFK)
+                </th>*@
             @*<th>
-                @Html.DisplayNameFor(model => model.ReferenceLink)
-            </th>*@
+                    @Html.DisplayNameFor(model => model.ReferenceLink)
+                </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
@@ -36,8 +82,8 @@
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             @*<th>
-                @Html.DisplayNameFor(model => model.TopicIcon)
-            </th>*@
+                    @Html.DisplayNameFor(model => model.TopicIcon)
+                </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.DisplayOrder)
             </th>
@@ -45,76 +91,77 @@
                 @Html.DisplayNameFor(model => model.Moderator)
             </th>
             @*<th>
-            @Html.DisplayNameFor(model => model.CreatedDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreatedBy)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LastUpdatedDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LastUpdatedBy)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Status)
-        </th>
-        <th></th>*@
+                    @Html.DisplayNameFor(model => model.CreatedDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedBy)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastUpdatedDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastUpdatedBy)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th></th>*@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.MainTopicId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ThemeIdFK)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ParentIdFK)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReferenceLink)
-            </td>*@
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.TopicIcon)
-            </td>*@
-            <td>
-                @*@(Html.DevExtreme().(modelItem => item.DisplayOrder))*@
-                @Html.TextBoxFor(modelItem => item.DisplayOrder)
-            </td>
-            <td>
-                <select name="Moderator" asp-items="@ViewBag.moderators" width="100px;"></select>
+        @foreach (var item in Model)
+        {
+            <tr>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.MainTopicId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ThemeIdFK)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ParentIdFK)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReferenceLink)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.TopicIcon)
+                    </td>*@
+                <td>
+                    @*@(Html.DevExtreme().(modelItem => item.DisplayOrder))*@
+                    @Html.TextBoxFor(modelItem => item.DisplayOrder)
+                </td>
+                <td>
+                    <select name="Moderator" asp-items="@ViewBag.moderators" width="100px;"></select>
 
-            </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedBy)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastUpdatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastUpdatedBy)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>*@
-            <td>
-                @Html.ActionLink("Edit", "UpdateMainTopic","MainTopic", new { id = item.MainTopicId }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.CreatedDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedBy)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastUpdatedDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastUpdatedBy)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>*@
+                <td>
+                    @Html.ActionLink("Edit", "UpdateMainTopic", "MainTopic", new { id = item.MainTopicId }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

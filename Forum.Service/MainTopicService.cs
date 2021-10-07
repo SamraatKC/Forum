@@ -23,11 +23,11 @@ namespace Forum.Service
         }
         public async Task<bool> AddMainTopic(MainTopicViewModel mainTopicViewModel)
         {
-           MainTopic mainTopic = new MainTopic()
+            MainTopic mainTopic = new MainTopic()
             {
-                ThemeIdFK= mainTopicViewModel.ThemeIdFK,
-                ParentIdFK= mainTopicViewModel.ParentIdFK,
-                ReferenceLink= mainTopicViewModel.ReferenceLink,
+                ThemeIdFK = mainTopicViewModel.ThemeIdFK,
+                ParentIdFK = mainTopicViewModel.ParentIdFK,
+                ReferenceLink = mainTopicViewModel.ReferenceLink,
                 Title = mainTopicViewModel.Title,
                 Description = mainTopicViewModel.Description,
                 TopicIcon = mainTopicViewModel.TopicIcon,
@@ -36,7 +36,7 @@ namespace Forum.Service
                 CreatedBy = mainTopicViewModel.CreatedBy,
                 LastUpdatedDate = mainTopicViewModel.LastUpdatedDate,
                 LastUpdatedBy = mainTopicViewModel.LastUpdatedBy,
-                Status=mainTopicViewModel.Status,
+                Status = mainTopicViewModel.Status,
 
             };
             await db.MainTopics.AddAsync(mainTopic);
@@ -66,9 +66,28 @@ namespace Forum.Service
             return false;
         }
 
-        public async Task<List<MainTopicViewModel>> GetAllMainTopic()
+        public List<MainTopicViewModel> GetAllMainTopic()
         {
-            var result= await db.MainTopics.Select(x => (MainTopicViewModel)x).ToListAsync();
+            var result = db.MainTopics
+                .Select(x => new MainTopicViewModel
+                {
+                    MainTopicId = x.MainTopicId,
+                    ThemeIdFK = x.ThemeIdFK,
+                    ParentIdFK = x.ParentIdFK,
+                    ReferenceLink = x.ReferenceLink,
+                    Title = x.Title,
+                    Description = x.Description,
+                    TopicIcon = x.TopicIcon,
+                    DisplayOrder = x.DisplayOrder,
+                    CreatedDate = x.CreatedDate,
+                    CreatedBy = x.CreatedBy,
+                    LastUpdatedDate = x.LastUpdatedDate,
+                    LastUpdatedBy = x.LastUpdatedBy,
+                    Status = x.Status,
+                    Moderator = x.Moderator,
+                    HasItems = db.MainTopics.Count(y=>y.ParentIdFK == x.MainTopicId) > 0,
+                }).ToList();
+
             return result;
         }
 

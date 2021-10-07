@@ -28,6 +28,11 @@ namespace Forum.Data
             {
                 entity.HasKey(e => new { e.MainTopicId });
                 entity.Property(x => x.MainTopicId).ValueGeneratedOnAdd();
+
+                entity.HasOne(x => x.Parent)
+                .WithMany(x => x.ChildTopic)
+                .HasForeignKey(x => x.ParentIdFK);
+                
             });
             mb.Entity<MainTopicPost>(entity =>
             {

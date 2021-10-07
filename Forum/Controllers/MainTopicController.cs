@@ -55,7 +55,6 @@ namespace Forum.Controllers
 
             //fettch all the topics from table MainTopics with Text as title and value as id,
             var parentTopics = mainTopicService.GetAllMainTopic()
-                .Result
                 .Select(x => new SelectListItem{ Text = x.Title, Value = x.MainTopicId.ToString() }).ToList();
                 //.ToList(x => x.MainTopicId, y => y.Title);
             ViewBag.ParentTopic = parentTopics;
@@ -140,7 +139,7 @@ namespace Forum.Controllers
             try
             {
 
-                var getallmaintopic = await mainTopicService.GetAllMainTopic();
+                var getallmaintopic = mainTopicService.GetAllMainTopic();
                 if (getallmaintopic != null)
                 {
                     return View(getallmaintopic);
@@ -159,16 +158,5 @@ namespace Forum.Controllers
 
         }
 
-        public async Task<IActionResult> GetDevExpressView()
-        {
-            var data = await (mainTopicService.GetAllMainTopic());
-            return View("../User/View1", data);
-        }
-
-        public async Task<JsonResult> GetMainTopics()
-        {
-            var data = await (mainTopicService.GetAllMainTopic());
-            return new JsonResult(data);
-        }
     }
 }

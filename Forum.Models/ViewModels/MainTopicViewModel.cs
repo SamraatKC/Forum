@@ -16,7 +16,7 @@ namespace Forum.Models.ViewModels
         [Key]
         public int MainTopicId { get; set; }
         public int ThemeIdFK { get; set; }
-        public int ParentIdFK { get; set; }
+        public int? ParentIdFK { get; set; }
         public string ReferenceLink { get; set; }
         public string Title { get; set; }
        
@@ -32,7 +32,9 @@ namespace Forum.Models.ViewModels
         public string LastUpdatedBy { get; set; }
         public string Status { get; set; }
         public string Moderator { get; set; }
-        public virtual ICollection<MainTopic> ChildTopic { get; set; }
+        public ICollection<MainTopic> ChildTopic { get; set; }
+
+        public Boolean HasItems { get; set; }
 
         public List<SelectListItem> Moderators { get; } = new List<SelectListItem>
     {
@@ -58,7 +60,8 @@ namespace Forum.Models.ViewModels
             mainTopicVM.LastUpdatedBy = mainTopic.LastUpdatedBy;
             mainTopicVM.Status = mainTopic.Status;
             mainTopicVM.Moderator = mainTopic.Moderator;
-
+            mainTopicVM.HasItems = mainTopic.ChildTopic != null;
+                
             return mainTopicVM;
         }
     }

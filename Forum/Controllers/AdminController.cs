@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DevExtreme.AspNet.Data;
+using DevExtreme.AspNet.Mvc;
 using Forum.Common;
 using Forum.Data;
 using Forum.Models;
@@ -24,13 +26,15 @@ namespace Forum.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly RoleManager<IdentityRole> roleManager;
+        private readonly MainTopicService mainTopicService;
 
-        public AdminController(IWebHostEnvironment _webHostEnvironment, IOptions<AppSettings> _appSettings, AdminService _adminService, ForumDbx _db)
+        public AdminController(IWebHostEnvironment _webHostEnvironment, IOptions<AppSettings> _appSettings, AdminService _adminService, ForumDbx _db, MainTopicService _mainTopicService)
         {
             webHostEnvironment = _webHostEnvironment;
             appSettings = _appSettings;
             adminService = _adminService;
             db = _db;
+            mainTopicService = _mainTopicService;
         }
 
         public IActionResult TestView()
@@ -71,6 +75,12 @@ namespace Forum.Controllers
             {
                 throw ex;
             }
+        }
+
+        public JsonResult GetMainTopics(DataSourceLoadOptions loadOptions)
+        {
+            var data = mainTopicService.GetAllMainTopic();
+            return new JsonResult(DataSourceLoader.Load(data, loadOptions));
         }
     }
 }

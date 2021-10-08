@@ -95,6 +95,21 @@ namespace Forum
             //    })
             //    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options => Configuration.Bind("CookieSettings", options));
             //#endregion
+            #region External Authentication
+            services.AddAuthentication()
+      .AddGoogle(options =>
+      {
+          options.ClientId = Configuration["Authentication:Google:ClientId"];
+          options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+          options.SignInScheme = IdentityConstants.ExternalScheme;
+      })
+      .AddFacebook(options =>
+      {
+          options.AppId = Configuration["Authentication:Facebook:AppId"];
+          options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+            //options.SignInScheme = IdentityConstants.ExternalScheme;
+        });
+            #endregion
 
             #region injection
             services.AddScoped<HttpContextAccessor>();

@@ -3,6 +3,36 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="wwwroot\cache\**" />
+    <Compile Remove="wwwroot\config\**" />
+    <Compile Remove="wwwroot\css\**" />
+    <Compile Remove="wwwroot\dist\**" />
+    <Compile Remove="wwwroot\fonts\**" />
+    <Compile Remove="wwwroot\js\**" />
+    <Compile Remove="wwwroot\lib\**" />
+    <Content Remove="wwwroot\cache\**" />
+    <Content Remove="wwwroot\config\**" />
+    <Content Remove="wwwroot\css\**" />
+    <Content Remove="wwwroot\dist\**" />
+    <Content Remove="wwwroot\fonts\**" />
+    <Content Remove="wwwroot\js\**" />
+    <Content Remove="wwwroot\lib\**" />
+    <EmbeddedResource Remove="wwwroot\cache\**" />
+    <EmbeddedResource Remove="wwwroot\config\**" />
+    <EmbeddedResource Remove="wwwroot\css\**" />
+    <EmbeddedResource Remove="wwwroot\dist\**" />
+    <EmbeddedResource Remove="wwwroot\fonts\**" />
+    <EmbeddedResource Remove="wwwroot\js\**" />
+    <EmbeddedResource Remove="wwwroot\lib\**" />
+    <None Remove="wwwroot\cache\**" />
+    <None Remove="wwwroot\config\**" />
+    <None Remove="wwwroot\css\**" />
+    <None Remove="wwwroot\dist\**" />
+    <None Remove="wwwroot\fonts\**" />
+    <None Remove="wwwroot\js\**" />
+    <None Remove="wwwroot\lib\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Remove="Views\User\Register.cshtml" />
     <Content Remove="Views\User\View1.cshtml" />
   </ItemGroup>
@@ -32,6 +62,46 @@
   <ItemGroup>
     <Folder Include="wwwroot\Uploads\" />
     <Folder Include="wwwroot\Uploads\TopicIcon\" />
+    <None Include="wwwroot\assets\cache\babel\post-babel.js" />
+    <None Include="wwwroot\assets\cache\babel\pre-babel.js" />
+    <None Include="wwwroot\assets\cache\import-maps\_components.scss" />
+    <None Include="wwwroot\assets\cache\import-maps\_dependencies.scss" />
+    <None Include="wwwroot\assets\cache\import-maps\_parts.scss" />
+    <None Include="wwwroot\assets\cache\import-maps\_vendor.scss" />
+    <None Include="wwwroot\assets\cache\postcss\style.min.css.map" />
+    <None Include="wwwroot\assets\css\parts\accordion.scss" />
+    <None Include="wwwroot\assets\css\parts\animation.scss" />
+    <None Include="wwwroot\assets\css\parts\buttons.scss" />
+    <None Include="wwwroot\assets\css\parts\entry-content.scss" />
+    <None Include="wwwroot\assets\css\parts\forms.scss" />
+    <None Include="wwwroot\assets\css\parts\forum.scss" />
+    <None Include="wwwroot\assets\css\parts\headings.scss" />
+    <None Include="wwwroot\assets\css\parts\hero.scss" />
+    <None Include="wwwroot\assets\css\parts\navigation.scss" />
+    <None Include="wwwroot\assets\css\style.scss" />
+    <None Include="wwwroot\assets\css\theme\font.scss" />
+    <None Include="wwwroot\assets\css\theme\helpers.scss" />
+    <None Include="wwwroot\assets\css\theme\mixins.scss" />
+    <None Include="wwwroot\assets\css\theme\theme.scss" />
+    <None Include="wwwroot\assets\css\theme\variables.scss" />
+    <None Include="wwwroot\assets\css\vendor\asanitize.scss" />
+    <None Include="wwwroot\assets\css\vendor\fontello.scss" />
+    <None Include="wwwroot\assets\css\vendor\jquery.modal.min.scss" />
+    <None Include="wwwroot\assets\css\vendor\select2.min.scss" />
+    <None Include="wwwroot\assets\css\vendor\swiper-bundle.min.scss" />
+    <None Include="wwwroot\assets\dist\app.min.js" />
+    <None Include="wwwroot\assets\dist\jquery.min.js" />
+    <None Include="wwwroot\assets\dist\style.min.css.map" />
+    <None Include="wwwroot\assets\fonts\fontello.svg" />
+    <None Include="wwwroot\assets\fonts\fontello.woff2" />
+    <None Include="wwwroot\assets\fonts\Kievit-Medium.woff2" />
+    <None Include="wwwroot\assets\fonts\KievitProBold.woff2" />
+    <None Include="wwwroot\assets\fonts\KievitProLight.woff2" />
+    <None Include="wwwroot\assets\fonts\KievitProRegular.woff2" />
+    <None Include="wwwroot\assets\js\app.js" />
+    <None Include="wwwroot\assets\js\parts\theme.js" />
+    <None Include="wwwroot\assets\js\vendor\swiper-bundle.js" />
+    <None Include="wwwroot\assets\select2.min.js" />
     <PackageReference Include="DevExtreme.AspNet.Core" Version="21.1.5" />
     <PackageReference Include="DevExtreme.AspNet.Data" Version="2.8.2" />
   </ItemGroup>

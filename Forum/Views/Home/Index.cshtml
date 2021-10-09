@@ -1,8 +1,12 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Forum";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@section Header{ 
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-   
+<partial name="~/Views/Shared/PartialView/Header.cshtml" />
+
+}
+<div class="hero">
+    <img src="assets/img/banner.png" alt="" class="img-responsive slide-image" />
 </div>

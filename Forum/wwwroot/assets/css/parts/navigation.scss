@@ -1,0 +1,56 @@
+.header {
+    &-top {
+        @include padding-tb( rem-calc( 8 ) );
+        background-color: rgba( $color: $black, $alpha: 0.06 );
+    }
+}
+
+.navigation {
+    @include padding-tb( rem-calc( 8 ) );
+    min-height: rem-calc( 50 );
+
+    figure {
+        max-width: rem-calc( 90 );
+    }
+}
+
+nav {
+    ul {
+        display: flex;
+        @include margin-lr( rem-calc( -15 ) );
+
+        li {
+            @include padding-lr( rem-calc( 15 ) );
+        }
+    }
+
+    &.tab-like {
+        margin-bottom: rem-calc( 15 );
+        ul {
+            @include margin-lr( 0 );
+        }
+
+        li {
+            padding: 0;
+
+            a {
+                padding: rem-calc( 10 ) rem-calc( 15 );
+                display: flex;
+
+                &:hover {
+                    text-decoration: none;
+                    box-shadow: none;
+                }
+            }
+
+            &.activated {
+                border-radius: rem-calc( 5 );
+                background-color: $white;
+            }
+        }
+    }
+}
+
+.active {
+    font-weight: 700;
+}

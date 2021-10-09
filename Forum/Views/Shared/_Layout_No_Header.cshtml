@@ -1,0 +1,125 @@
+﻿<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Forum</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" />
+    <link rel="stylesheet" href="assets/dist/style.min.css" />
+</head>
+<body>
+    <header></header>
+    <nav></nav>
+    <main id="main">
+        <section class="login-wrapper">
+            <div class="back-button">
+                <a href="index.html" class="btn btn-default">Go back</a>
+            </div>
+            <div class="wrapper wrapper-full" id="container">
+                <div class="form-container sign-in-container">
+                    <div class="form-container__wrapper">
+                        <form action="#" class="wrapper wrapper-50">
+                            <h2>Sign in</h2>
+                            <div class="form-wrapper float-label">
+                                <input type="email" class="input-field" id="signin_email" name="signin_email" />
+                                <label for="signin_email">Email</label>
+                            </div>
+                            <div class="form-wrapper float-label">
+                                <input type="password" class="input-field" id="signin_password" name="signin_password" />
+                                <label for="signin_password">Password</label>
+                            </div>
+                            <a href="#" class="optional-text">Forgot your password?</a>
+                            <button class="btn btn-primary btn-large">Sign In</button>
+                            <span class="optional-text">or use your account</span>
+                            <div class="social-container">
+                                <a href="#" class="social">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="social">
+                                    <i class="fab fa-google-plus-g"></i>
+                                </a>
+                                <a href="#" class="social">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="overlay-container wrapper wrapper-50">
+                        <div class="overlay">
+                            <div class="overlay-panel overlay-right">
+                                <h2>Already have account?</h2>
+                                <p>
+                                    If you have already signed up, please sign in to access your
+                                    account.
+                                </p>
+                                <div class="button-wrapper">
+                                    <a href="javascript:void(0);"
+                                       class="btn btn-primary-light"
+                                       id="signIn">
+                                        Sign in
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-container sign-up-container">
+                    <div class="form-container__wrapper">
+                        <form action="#" class="wrapper wrapper-50">
+                            <h2>Create Account</h2>
+                            <div class="form-wrapper float-label">
+                                <input type="text" class="input-field" id="signup_name" name="signup_name" />
+                                <label for="signup_name">Name</label>
+                            </div>
+                            <div class="form-wrapper float-label form-error">
+                                <input type="email" class="input-field" id="signup_email" name="signup_email" />
+                                <label for="signup_email">Email</label>
+                                <span class="validation_error">Invalid email format.</span>
+                            </div>
+                            <div class="form-wrapper float-label">
+                                <input type="password" class="input-field" id="signup_password" name="signup_password" />
+                                <label for="signup_password">Password</label>
+                            </div>
+                            <button class="btn btn-primary btn-large">Sign Up</button>
+                            <span class="optional-text">or use your account</span>
+                            <div class="social-container">
+                                <a href="#" class="social">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="social">
+                                    <i class="fab fa-google-plus-g"></i>
+                                </a>
+                                <a href="#" class="social">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="overlay-container wrapper wrapper-50">
+                        <div class="overlay">
+                            <div class="overlay-panel overlay-left">
+                                <h2>Hey, Friend!</h2>
+                                <p>Sign up and get connected with us.</p>
+                                <div class="button-wrapper">
+                                    <a href="javascript:void(0);"
+                                       class="btn btn-primary-light"
+                                       id="signUp">
+                                        Sign up
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer></footer>
+    <script type="text/javascript" src="assets/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/dist/app.min.js"></script>
+</body>
+</html>

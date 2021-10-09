@@ -1,0 +1,216 @@
+.forum {
+    padding: rem-calc( 30 );
+    flex: 1;
+    background-color: rgba( $color: $blue, $alpha: 0.1 );
+    min-height: 100%;
+
+    @media ( max-width: 1024px ) {
+        padding: rem-calc( 15 );
+    }
+
+    .col-lg-9 {
+        padding-right: 0;
+    }
+
+    table {
+        font-size: rem-calc( 14 );
+        font-weight: 200;
+
+        th {
+            text-align: inherit;
+            background-color: $th;
+            padding: rem-calc( 10 );
+            color: $white;
+        }
+
+        td {
+            padding: rem-calc( 10 );
+
+            td {
+                @include padding-lr( rem-calc( 15 ) );
+
+                &.subforum-item {
+                    padding: 0;
+                }
+            }
+        }
+
+        a {
+            color: $darkblue;
+            display: inline-flex;
+        }
+    }
+
+    &-wrapper {
+        margin-bottom: rem-calc( 10 );
+    }
+
+    &-item {
+        border-top: 1px solid $border_color_grey;
+
+        &.new {
+            // background-color: rgb(238, 251, 255);
+        }
+    }
+
+    &-title {
+        font-size: rem-calc( 16 );
+        font-weight: 600;
+    }
+
+    .cell-forum {
+        .forum-wrapper {
+            margin-bottom: 0;
+        }
+    }
+
+    &-add {
+        margin-bottom: rem-calc( 15 );
+    }
+
+    &-search {
+        max-width: rem-calc( 200 );
+        margin-bottom: rem-calc( 15 );
+        
+        label {
+            margin-right: rem-calc( 10 );
+        }
+    }
+}
+
+.subforum {
+    border: 1px dashed $border_color_grey;
+    padding: rem-calc( 8 );
+    margin-bottom: rem-calc( 20 );
+}
+
+.canvas {
+    &-widget {
+        background-color: rgba( $color: $blue, $alpha: 0.1 );
+        padding: rem-calc( 15 );
+        border: 1px solid $border_color_grey;
+    }
+}
+
+.type {
+    &-alert {
+        background-color: $alertYellow;
+    }
+}
+
+.category-header {
+    height: rem-calc( 35 );
+
+    > td {
+        padding: 0 !important;
+    } 
+
+    .header {
+        padding: rem-calc( 10 );
+        background-color: $border_color_grey_light;
+    }
+
+    .category {
+        color: $black;
+        font-weight: 600;
+    }
+
+    ~ .category-header {
+        margin-top: rem-calc( 10 ); 
+        
+        .header {
+            margin-top: rem-calc( 20 );
+        }
+    }
+}
+
+
+.rx-lastpost-info {
+    font-style: italic;
+    margin-top: rem-calc( 3 );
+}
+
+.lastpost {
+    &-wrapper {
+        display: flex;
+        flex-direction: row;
+        font-size: rem-calc( 13 );
+        max-width: rem-calc( 250 );
+    }
+
+    .avatar {
+        margin-right: rem-calc( 5 );
+        min-width: rem-calc( 45 );
+    }
+
+    .img-rounded {
+        width: rem-calc( 40 );
+        height: rem-calc( 40 );
+        object-fit: cover;
+    }
+}
+
+.b-post-sm {
+    @include margin-tb( rem-calc( 20 ) );
+    display: flex;
+    flex-direction: column;
+    font-size: rem-calc( 14 );
+    border-bottom: 1px solid $grey1;
+    padding-bottom: rem-calc( 20 );
+
+    &:first-child {
+        padding-top: 0;
+        border-top: 0;
+    }
+
+    .entry-content {
+        font-size: rem-calc( 14 );
+
+        p {
+            font-size: 100%;
+        }
+    }
+
+    .avatar {
+        margin-right: rem-calc( 5 );
+        min-width: rem-calc( 45 );
+    }
+
+    .img-rounded {
+        width: rem-calc( 40 );
+        height: rem-calc( 40 );
+        object-fit: cover;
+    }
+
+    &__content {
+        margin-top: rem-calc( 10 );
+    }
+}
+
+.channel {
+    &-title {
+        margin-right: rem-calc( 10 );
+    }
+
+    &-display-orders {
+        width: rem-calc( 100 );
+        > input {
+            width: rem-calc( 60 );
+            text-align: center;
+            @include padding-lr( rem-calc( 10 ) );
+        }
+    }
+
+    &-controls,
+    &-moderators {
+        width: rem-calc( 200 );
+
+        select {
+            width: rem-calc( 160 );
+        }
+
+        .btn {
+            @include padding-lr( rem-calc( 10 ) );
+        }
+    }
+}

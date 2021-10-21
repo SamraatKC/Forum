@@ -62,7 +62,7 @@ namespace Forum.Controllers
                 var getallmaintopic = await adminService.GetAllMainTopic();
                 if (getallmaintopic != null)
                 {
-                    return View(getallmaintopic);
+                    return View();
                 }
                 else
                 {
@@ -76,7 +76,7 @@ namespace Forum.Controllers
                 throw ex;
             }
         }
-
+        [HttpGet]
         public JsonResult GetMainTopics(DataSourceLoadOptions loadOptions)
         {
             var data = mainTopicService.GetAllMainTopic();

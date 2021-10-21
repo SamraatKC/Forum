@@ -1,108 +1,256 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="wwwroot\cache\**" />
-    <Compile Remove="wwwroot\config\**" />
-    <Compile Remove="wwwroot\css\**" />
-    <Compile Remove="wwwroot\dist\**" />
-    <Compile Remove="wwwroot\fonts\**" />
-    <Compile Remove="wwwroot\js\**" />
-    <Compile Remove="wwwroot\lib\**" />
-    <Content Remove="wwwroot\cache\**" />
-    <Content Remove="wwwroot\config\**" />
-    <Content Remove="wwwroot\css\**" />
-    <Content Remove="wwwroot\dist\**" />
-    <Content Remove="wwwroot\fonts\**" />
-    <Content Remove="wwwroot\js\**" />
-    <Content Remove="wwwroot\lib\**" />
-    <EmbeddedResource Remove="wwwroot\cache\**" />
-    <EmbeddedResource Remove="wwwroot\config\**" />
-    <EmbeddedResource Remove="wwwroot\css\**" />
-    <EmbeddedResource Remove="wwwroot\dist\**" />
-    <EmbeddedResource Remove="wwwroot\fonts\**" />
-    <EmbeddedResource Remove="wwwroot\js\**" />
-    <EmbeddedResource Remove="wwwroot\lib\**" />
-    <None Remove="wwwroot\cache\**" />
-    <None Remove="wwwroot\config\**" />
-    <None Remove="wwwroot\css\**" />
-    <None Remove="wwwroot\dist\**" />
-    <None Remove="wwwroot\fonts\**" />
-    <None Remove="wwwroot\js\**" />
-    <None Remove="wwwroot\lib\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Remove="Views\User\Register.cshtml" />
-    <Content Remove="Views\User\View1.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="3.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="3.1.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.4">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.8">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Forum.Common\Forum.Common.csproj" />
-    <ProjectReference Include="..\Forum.Models\Forum.Models.csproj" />
-    <ProjectReference Include="..\Forum.Service\Forum.Service.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="wwwroot\Uploads\" />
-    <Folder Include="wwwroot\Uploads\TopicIcon\" />
-    <None Include="wwwroot\assets\cache\babel\post-babel.js" />
-    <None Include="wwwroot\assets\cache\babel\pre-babel.js" />
-    <None Include="wwwroot\assets\cache\import-maps\_components.scss" />
-    <None Include="wwwroot\assets\cache\import-maps\_dependencies.scss" />
-    <None Include="wwwroot\assets\cache\import-maps\_parts.scss" />
-    <None Include="wwwroot\assets\cache\import-maps\_vendor.scss" />
-    <None Include="wwwroot\assets\cache\postcss\style.min.css.map" />
-    <None Include="wwwroot\assets\css\parts\accordion.scss" />
-    <None Include="wwwroot\assets\css\parts\animation.scss" />
-    <None Include="wwwroot\assets\css\parts\buttons.scss" />
-    <None Include="wwwroot\assets\css\parts\entry-content.scss" />
-    <None Include="wwwroot\assets\css\parts\forms.scss" />
-    <None Include="wwwroot\assets\css\parts\forum.scss" />
-    <None Include="wwwroot\assets\css\parts\headings.scss" />
-    <None Include="wwwroot\assets\css\parts\hero.scss" />
-    <None Include="wwwroot\assets\css\parts\navigation.scss" />
-    <None Include="wwwroot\assets\css\style.scss" />
-    <None Include="wwwroot\assets\css\theme\font.scss" />
-    <None Include="wwwroot\assets\css\theme\helpers.scss" />
-    <None Include="wwwroot\assets\css\theme\mixins.scss" />
-    <None Include="wwwroot\assets\css\theme\theme.scss" />
-    <None Include="wwwroot\assets\css\theme\variables.scss" />
-    <None Include="wwwroot\assets\css\vendor\asanitize.scss" />
-    <None Include="wwwroot\assets\css\vendor\fontello.scss" />
-    <None Include="wwwroot\assets\css\vendor\jquery.modal.min.scss" />
-    <None Include="wwwroot\assets\css\vendor\select2.min.scss" />
-    <None Include="wwwroot\assets\css\vendor\swiper-bundle.min.scss" />
-    <None Include="wwwroot\assets\dist\app.min.js" />
-    <None Include="wwwroot\assets\dist\jquery.min.js" />
-    <None Include="wwwroot\assets\dist\style.min.css.map" />
-    <None Include="wwwroot\assets\fonts\fontello.svg" />
-    <None Include="wwwroot\assets\fonts\fontello.woff2" />
-    <None Include="wwwroot\assets\fonts\Kievit-Medium.woff2" />
-    <None Include="wwwroot\assets\fonts\KievitProBold.woff2" />
-    <None Include="wwwroot\assets\fonts\KievitProLight.woff2" />
-    <None Include="wwwroot\assets\fonts\KievitProRegular.woff2" />
-    <None Include="wwwroot\assets\js\app.js" />
-    <None Include="wwwroot\assets\js\parts\theme.js" />
-    <None Include="wwwroot\assets\js\vendor\swiper-bundle.js" />
-    <None Include="wwwroot\assets\select2.min.js" />
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net5</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Content Remove="wwwroot\assets\cache\babel\post-babel.js" />
+      <Content Remove="wwwroot\assets\cache\babel\pre-babel.js" />
+      <Content Remove="wwwroot\assets\cache\import-maps\_components.scss" />
+      <Content Remove="wwwroot\assets\cache\import-maps\_dependencies.scss" />
+      <Content Remove="wwwroot\assets\cache\import-maps\_parts.scss" />
+      <Content Remove="wwwroot\assets\cache\import-maps\_vendor.scss" />
+      <Content Remove="wwwroot\assets\cache\postcss\style.min.css.map" />
+      <Content Remove="wwwroot\assets\css\parts\accordion.scss" />
+      <Content Remove="wwwroot\assets\css\parts\animation.scss" />
+      <Content Remove="wwwroot\assets\css\parts\buttons.scss" />
+      <Content Remove="wwwroot\assets\css\parts\entry-content.scss" />
+      <Content Remove="wwwroot\assets\css\parts\forms.scss" />
+      <Content Remove="wwwroot\assets\css\parts\forum.scss" />
+      <Content Remove="wwwroot\assets\css\parts\headings.scss" />
+      <Content Remove="wwwroot\assets\css\parts\hero.scss" />
+      <Content Remove="wwwroot\assets\css\parts\navigation.scss" />
+      <Content Remove="wwwroot\assets\css\style.scss" />
+      <Content Remove="wwwroot\assets\css\theme\font.scss" />
+      <Content Remove="wwwroot\assets\css\theme\helpers.scss" />
+      <Content Remove="wwwroot\assets\css\theme\mixins.scss" />
+      <Content Remove="wwwroot\assets\css\theme\theme.scss" />
+      <Content Remove="wwwroot\assets\css\theme\variables.scss" />
+      <Content Remove="wwwroot\assets\css\vendor\asanitize.scss" />
+      <Content Remove="wwwroot\assets\css\vendor\fontello.scss" />
+      <Content Remove="wwwroot\assets\css\vendor\jquery.modal.min.scss" />
+      <Content Remove="wwwroot\assets\css\vendor\select2.min.scss" />
+      <Content Remove="wwwroot\assets\css\vendor\swiper-bundle.min.scss" />
+      <Content Remove="wwwroot\assets\dist\app.min.js" />
+      <Content Remove="wwwroot\assets\dist\jquery.min.js" />
+      <Content Remove="wwwroot\assets\dist\style.min.css.map" />
+      <Content Remove="wwwroot\assets\fonts\fontello.svg" />
+      <Content Remove="wwwroot\assets\fonts\fontello.woff2" />
+      <Content Remove="wwwroot\assets\fonts\Kievit-Medium.woff2" />
+      <Content Remove="wwwroot\assets\fonts\KievitProBold.woff2" />
+      <Content Remove="wwwroot\assets\fonts\KievitProLight.woff2" />
+      <Content Remove="wwwroot\assets\fonts\KievitProRegular.woff2" />
+      <Content Remove="wwwroot\assets\js\app.js" />
+      <Content Remove="wwwroot\assets\js\parts\theme.js" />
+      <Content Remove="wwwroot\assets\js\vendor\swiper-bundle.js" />
+      <Content Remove="wwwroot\assets\select2.min.js" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="5.0.11" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="5.0.11" />
+      <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="5.0.11" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.11" />
+      <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.11">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.11" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.11">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+
+      <PackageReference Include="DevExtreme.AspNet.Data" Version="2.8.2" />
     <PackageReference Include="DevExtreme.AspNet.Core" Version="21.1.5" />
-    <PackageReference Include="DevExtreme.AspNet.Data" Version="2.8.2" />
-  </ItemGroup>
+    <PackageReference Include="BuildBundlerMinifier" Version="2.9.406" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Forum.Common\Forum.Common.csproj" />
+      <ProjectReference Include="..\Forum.Models\Forum.Models.csproj" />
+      <ProjectReference Include="..\Forum.Service\Forum.Service.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Update="Views\Home\Index.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Views\Shared\Error.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Views\Shared\_Layout.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Views\Shared\_Layout_No_Header.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Views\Shared\_ValidationScriptsPartial.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Views\User\AccountConfirmed.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Views\User\AdminView.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Views\User\CreateRole.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Views\User\ForgotPassword.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Views\User\LoggedIn.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Views\User\Login.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Views\User\ResetPassword.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Views\User\SecretView.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Views\User\UserView.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Views\_ViewImports.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Views\_ViewStart.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Views\Admin\AdminDashboard.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Admin\AdminDashboard.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Forum\AddMainTopic.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Forum\GetAllMainTopic.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Forum\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Forum\UpdateMainTopic.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Home\Privacy.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\MainTopicPost\AddMainTopicPost.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\MainTopicPost\GetAllMainTopicPost.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\MainTopicPost\UpdateMainTopicPost.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\RegularUser\RegularUserDashboard.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\PartialView\AdminHeader.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\PartialView\Header.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\_DevExtremeLayout.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Views\Forum\AddMainTopic.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Views\Forum\GetAllMainTopic.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Views\Forum\Index.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Views\Forum\UpdateMainTopic.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Views\Home\Privacy.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Views\MainTopicPost\AddMainTopicPost.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Views\MainTopicPost\GetAllMainTopicPost.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Views\MainTopicPost\UpdateMainTopicPost.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Views\RegularUser\RegularUserDashboard.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Views\Shared\PartialView\AdminHeader.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Views\Shared\PartialView\Header.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Views\Shared\_DevExtremeLayout.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="wwwroot\assets\cache\babel\post-babel.js" />
+      <None Include="wwwroot\assets\cache\babel\pre-babel.js" />
+      <None Include="wwwroot\assets\cache\import-maps\_components.scss" />
+      <None Include="wwwroot\assets\cache\import-maps\_dependencies.scss" />
+      <None Include="wwwroot\assets\cache\import-maps\_parts.scss" />
+      <None Include="wwwroot\assets\cache\import-maps\_vendor.scss" />
+      <None Include="wwwroot\assets\cache\postcss\style.min.css.map" />
+      <None Include="wwwroot\assets\css\parts\accordion.scss" />
+      <None Include="wwwroot\assets\css\parts\animation.scss" />
+      <None Include="wwwroot\assets\css\parts\buttons.scss" />
+      <None Include="wwwroot\assets\css\parts\entry-content.scss" />
+      <None Include="wwwroot\assets\css\parts\forms.scss" />
+      <None Include="wwwroot\assets\css\parts\forum.scss" />
+      <None Include="wwwroot\assets\css\parts\headings.scss" />
+      <None Include="wwwroot\assets\css\parts\hero.scss" />
+      <None Include="wwwroot\assets\css\parts\navigation.scss" />
+      <None Include="wwwroot\assets\css\style.scss" />
+      <None Include="wwwroot\assets\css\theme\font.scss" />
+      <None Include="wwwroot\assets\css\theme\helpers.scss" />
+      <None Include="wwwroot\assets\css\theme\mixins.scss" />
+      <None Include="wwwroot\assets\css\theme\theme.scss" />
+      <None Include="wwwroot\assets\css\theme\variables.scss" />
+      <None Include="wwwroot\assets\css\vendor\asanitize.scss" />
+      <None Include="wwwroot\assets\css\vendor\fontello.scss" />
+      <None Include="wwwroot\assets\css\vendor\jquery.modal.min.scss" />
+      <None Include="wwwroot\assets\css\vendor\select2.min.scss" />
+      <None Include="wwwroot\assets\css\vendor\swiper-bundle.min.scss" />
+      <None Include="wwwroot\assets\dist\app.min.js" />
+      <None Include="wwwroot\assets\dist\jquery.min.js" />
+      <None Include="wwwroot\assets\dist\style.min.css.map" />
+      <None Include="wwwroot\assets\fonts\fontello.svg" />
+      <None Include="wwwroot\assets\fonts\fontello.woff2" />
+      <None Include="wwwroot\assets\fonts\Kievit-Medium.woff2" />
+      <None Include="wwwroot\assets\fonts\KievitProBold.woff2" />
+      <None Include="wwwroot\assets\fonts\KievitProLight.woff2" />
+      <None Include="wwwroot\assets\fonts\KievitProRegular.woff2" />
+      <None Include="wwwroot\assets\js\app.js" />
+      <None Include="wwwroot\assets\js\parts\theme.js" />
+      <None Include="wwwroot\assets\js\vendor\swiper-bundle.js" />
+      <None Include="wwwroot\assets\select2.min.js" />
+    </ItemGroup>
+
 </Project>

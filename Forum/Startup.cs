@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Forum.Common;
 using Forum.Data;
 using Forum.Models;
@@ -13,7 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WanderLust.Common;
 
-namespace Forum
+namespace DevExtremeAspNetCoreApp
 {
     public class Startup
     {
@@ -27,7 +31,10 @@ namespace Forum
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
+            // Add framework services.
+            services
+                .AddControllersWithViews()
+                .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
             string connectionString = Configuration.GetConnectionString("DefaultConnectionString");
             services.AddDbContext<ApplicationDbContext>(config =>
             {
@@ -70,45 +77,21 @@ namespace Forum
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            //#region configure JWT bearer configuration
 
-            //var key_phrase = Configuration.GetSection("AppSettings:JwtKey").Value;
-            //var key = Encoding.ASCII.GetBytes(key_phrase);
-            //services.AddAuthentication(x =>
-            //{
-
-            //    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            //    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            //})
-            //    .AddJwtBearer(x =>
-            //    {
-
-            //        x.RequireHttpsMetadata = false;
-            //        x.SaveToken = true;
-            //        x.TokenValidationParameters = new TokenValidationParameters
-            //        {
-            //            ValidateIssuerSigningKey = true,
-            //            IssuerSigningKey = new SymmetricSecurityKey(key),
-            //            ValidateIssuer = false,
-            //            ValidateAudience = false
-            //        };
-            //    })
-            //    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options => Configuration.Bind("CookieSettings", options));
-            //#endregion
             #region External Authentication
             services.AddAuthentication()
-      .AddGoogle(options =>
-      {
-          options.ClientId = Configuration["Authentication:Google:ClientId"];
-          options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-          options.SignInScheme = IdentityConstants.ExternalScheme;
+              .AddGoogle(options =>
+              {
+                  options.ClientId = Configuration["Authentication:Google:ClientId"];
+                  options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+                  options.SignInScheme = IdentityConstants.ExternalScheme;
       })
       .AddFacebook(options =>
       {
           options.AppId = Configuration["Authentication:Facebook:AppId"];
           options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-            //options.SignInScheme = IdentityConstants.ExternalScheme;
-        });
+          //options.SignInScheme = IdentityConstants.ExternalScheme;
+      });
             #endregion
 
             #region injection
@@ -124,6 +107,7 @@ namespace Forum
             services.AddScoped<HostgatorEmailHelper>();
             services.AddServiceExtension();
             #endregion
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -136,21 +120,14 @@ namespace Forum
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-
             }
-            //// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-            //app.UseHsts();
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
-            app.UseAuthentication();
-            
+
             app.UseRouting();
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
+            app.UseEndpoints(endpoints => {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

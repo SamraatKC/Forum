@@ -1,0 +1,40 @@
+body .dx-widget {
+    font-family: 'Open Sans', serif;
+}
+
+.dx-header-row [role="columnheader"]{
+    text-align: inherit;
+    background-color: #6f8086;
+    padding: .625rem !important;
+    color: #fff;
+    font-weight: 700;
+}
+
+.forum table {
+    font-weight: 400;
+}
+
+.dx-treelist .dx-treelist-borders .dx-treelist-rowsview {
+    border-left-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    font-weight: 400;
+}
+
+.dx-treelist .dx-treelist-borders .dx-treelist-rowsview a {
+    color: #002a4d;
+}
+
+.forum .dx-treelist .dx-row > td {
+    padding: .625rem;
+    border-left-width: 0;
+    border-right-width: 0;
+}
+
+.forum .dx-treelist-headers {
+    border-bottom-width: 0;
+}
+
+.forum .dx-treelist .dx-column-lines > td {
+    border-right-width: 0;
+}

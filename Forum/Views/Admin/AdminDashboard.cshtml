@@ -96,7 +96,7 @@
 <div id="newChannel" class="modal">
     <header class="modal-header">Add New Topic</header>
     <main class="modal-main">
-        <form method="post" asp-controller="MainTopic" asp-action="AddMainTopic">
+        <form method="post" asp-controller="Forum" asp-action="AddMainTopic" enctype="multipart/form-data">
             <div class="form-wrapper">
                 <div class="row align-items-center">
                     <label class="col-lg-3 form-title"> Title </label>
@@ -210,11 +210,11 @@
                         Topic icon
                         <span>
                             Icon changes will not be reflected on the forum until you
-                            save this channel
+                            save this Main Topic
                         </span>
                     </label>
                     <div class="col-lg-9">
-                        <input type="file" class="form-control" name="TopicIcon" />
+                        <input type="file" class="form-control" name="Graphics" />
                     </div>
                 </div>
 
@@ -229,7 +229,7 @@
                 </div>
 
                 <div class="row align-items-center">
-                    <label class="col-lg-3 form-title"> Parent channel </label>
+                    <label class="col-lg-3 form-title"> Parent Topic </label>
                     <div class="col-lg-9">
                         <select id="parentTopicId" name="ParentIdFK" asp-items="@ViewBag.ParentTopic">
                             <option value="0"> --Main Topic --</option>

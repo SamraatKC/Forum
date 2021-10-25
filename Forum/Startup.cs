@@ -95,7 +95,7 @@ namespace DevExtremeAspNetCoreApp
             #endregion
 
             #region injection
-            services.AddScoped<HttpContextAccessor>();
+            
             services.AddScoped<ForumDbx>();
             services.AddScoped<UserService>();
             services.AddScoped<HttpContextAccessor>();
@@ -124,7 +124,7 @@ namespace DevExtremeAspNetCoreApp
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => {

@@ -129,7 +129,7 @@ namespace Forum.Controllers
                 var result = await userManager.CreateAsync(user, user.PasswordHash);
                 if (result.Succeeded)
                 {
-                    var addusertorole = await userManager.AddToRoleAsync(user, asp_role.Name);
+                    var addusertorole = await userManager.AddToRoleAsync(user, asp_role.Name);                                   
                     #region Send Account Activation Email
                     string code = userManager.GenerateEmailConfirmationTokenAsync(user).Result;
                     code = System.Web.HttpUtility.UrlEncode(code);

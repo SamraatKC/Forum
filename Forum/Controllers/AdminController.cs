@@ -54,11 +54,13 @@ namespace Forum.Controllers
                 new SelectListItem { Value = "2", Text = "Moderator2" },
                 new SelectListItem { Value = "3", Text = "Moderator3" },
                
-            };
-
-                //assigning SelectListItem to view Bag
+            };                              
                 ViewBag.moderators = moderators;
 
+                var parentTopics = mainTopicService.GetAllMainTopic()
+               .Select(x => new SelectListItem { Text = x.Title, Value = x.MainTopicId.ToString() }).ToList();
+                //.ToList(x => x.MainTopicId, y => y.Title);
+                ViewBag.ParentTopic = parentTopics;
                 var getallmaintopic = await adminService.GetAllMainTopic();
                 if (getallmaintopic != null)
                 {

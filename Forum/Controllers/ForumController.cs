@@ -58,7 +58,7 @@ namespace Forum.Controllers
             ViewBag.ParentTopic = parentTopics;
             return View();
         }
-
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddMainTopic([FromForm] MainTopicViewModel mainTopicViewModel)
         {
@@ -101,7 +101,7 @@ namespace Forum.Controllers
                 if (result == true)
                 {
                     TempData["Success"] = "Main Topic Successfully Added.";
-                    return View();
+                    return Redirect("~/Admin/AdminDashboard");
                 }
                 else
                 {
@@ -137,7 +137,7 @@ namespace Forum.Controllers
             try
             {
 
-                var getallmaintopic = mainTopicService.GetAllMainTopic();
+                var getallmaintopic =mainTopicService.GetAllMainTopic();
                 if (getallmaintopic != null)
                 {
                     return View(getallmaintopic);

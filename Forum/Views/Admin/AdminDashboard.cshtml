@@ -59,13 +59,14 @@
            .DeleteAction("DeleteTask")
            .Key("MainTopicId")
        )
-       .RemoteOperations(r => r.Filtering(true).Sorting(true).Grouping(true))
+       .RemoteOperations(r => r.Filtering(true).Sorting(true).Grouping(false))
        .KeyExpr("MainTopicId")
        .ParentIdExpr("ParentIdFK")
        .HasItemsExpr("HasItems")
        .ExpandedRowKeys(new[] { 1, 2 })
        .SearchPanel(seachPanel => seachPanel.Visible(true))
        .HeaderFilter(headerFilter => headerFilter.Visible(true))
+
        //.Editing(editing => editing
        //    .Mode(GridEditMode.Row)
        //    .AllowAdding(false)
@@ -76,13 +77,38 @@
        .ShowBorders(true)
        .ColumnAutoWidth(true)
        .WordWrapEnabled(true)
-
        .Columns(columns =>
        {
            columns.AddFor(m => m.Title).MinWidth(250);
-           columns.AddFor(m => m.Description);
-           columns.AddFor(x => x.DisplayOrder);
+
+           columns.Add()
+               .Caption("Controls")
+               .MinWidth(120)
+               .CellTemplate("<div class='d-flex align-items-center'>" +
+                                "<select class='form-control-sm'>" +
+                                    "<option>Edit topic</option>" +
+                                    "<option>Delete topic</option>" +
+                                "</select>" +
+                                "<a href='#' class='btn btn-sm btn-default' id='edit_delete_control_event'>Go</a>" +
+                                "</div>"
+                            );
+           columns.AddFor(x => x.DisplayOrder)
+             .MinWidth(60)
+              .CellTemplate("<div class='channel-display-orders'>" +
+                                  "<input class='form-control-sm' type='text' />" +
+                                  "</div>"
+              ).HeaderCellTemplate("<div class='header-posts'><span>Display order</span></div>");
+           columns.AddFor(x => x.Moderator)
+               .MinWidth(120)
+               .CellTemplate("<div class='d-flex align-items-center'>"+
+                                "<select class='form-control-sm'>"+
+                                    "<option>User 1</option>"+
+                                    "<option>User 2</option>"+
+                                "</select>"+
+                                "</div>"
+                        );
        })
+
        .OnInitNewRow("treeList_onInitNewRow")
                                         )
                         </tbody>
@@ -262,4 +288,10 @@
         e.data.Task_Start_Date = new Date();
         e.data.Task_Due_Date = new Date();
     }
+    $(function () {
+        $('#edit_delete_control_event').on("click", function () {
+            console.log($(this).attr("id"));
+        });
+    });
+
 </script>

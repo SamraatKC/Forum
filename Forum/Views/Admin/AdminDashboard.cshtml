@@ -127,7 +127,8 @@
                 <div class="row align-items-center">
                     <label class="col-lg-3 form-title"> Title </label>
                     <div class="col-lg-9">
-                        <input type="text" class="form-control" name="Title" />
+                        <input type="text" class="form-control" asp-for="Title" name="Title" />
+                        <span class="validation_error" asp-validation-for="Title"></span>
                     </div>
                 </div>
 

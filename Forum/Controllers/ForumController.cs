@@ -50,13 +50,17 @@ namespace Forum.Controllers
 
         public IActionResult AddMainTopic()
         {
-
-            //fettch all the topics from table MainTopics with Text as title and value as id,
-            var parentTopics = mainTopicService.GetAllMainTopic()
-                .Select(x => new SelectListItem{ Text = x.Title, Value = x.MainTopicId.ToString() }).ToList();
+            if (ModelState.IsValid)
+            {
+                //fettch all the topics from table MainTopics with Text as title and value as id,
+                var parentTopics = mainTopicService.GetAllMainTopic()
+                    .Select(x => new SelectListItem { Text = x.Title, Value = x.MainTopicId.ToString() }).ToList();
                 //.ToList(x => x.MainTopicId, y => y.Title);
-            ViewBag.ParentTopic = parentTopics;
-            return View();
+                ViewBag.ParentTopic = parentTopics;
+                return View();
+
+            }
+            return RedirectToAction("AdminDashboard", "Admin");
         }
         [Authorize]
         [HttpPost]

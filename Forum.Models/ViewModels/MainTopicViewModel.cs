@@ -18,6 +18,7 @@ namespace Forum.Models.ViewModels
         public int ThemeIdFK { get; set; }
         public int? ParentIdFK { get; set; }
         public string ReferenceLink { get; set; }
+        [Required]
         public string Title { get; set; }
        
         public string Description { get; set; }

@@ -89,7 +89,7 @@
                                     "<option>Edit topic</option>" +
                                     "<option>Delete topic</option>" +
                                 "</select>" +
-                                "<a href='#' class='btn btn-sm btn-default' id='edit_delete_control_event'>Go</a>" +
+                                "<a class='btn btn-sm btn-default' id='edit_delete_control_event' onclick='edit_delete_control_event()'> Go</a>" +
                                 "</div>"
                             );
            columns.AddFor(x => x.DisplayOrder)
@@ -260,7 +260,7 @@
                 <div class="row align-items-center">
                     <label class="col-lg-3 form-title"> Parent Topic </label>
                     <div class="col-lg-9">
-                        <select id="parentTopicId" asp-items="@ViewBag.ParentTopic"  asp-for="ParentIdFK" name="ParentIdFK"  >
+                        <select id="parentTopicId" asp-items="@ViewBag.ParentTopic" asp-for="ParentIdFK" name="ParentIdFK">
                             <option value="0"> --Main Topic --</option>
                         </select>
                         <span class="validation_error" asp-validation-for="ParentIdFK"></span>
@@ -292,10 +292,7 @@
         e.data.Task_Start_Date = new Date();
         e.data.Task_Due_Date = new Date();
     }
-    $(function () {
-        $('#edit_delete_control_event').on("click", function () {
-            console.log($(this).attr("id"));
-        });
-    });
-
+    function edit_delete_control_event() {
+        $("#newChannel").modal('show');
+    }
 </script>

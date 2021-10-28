@@ -228,7 +228,7 @@
                                   .Placeholder("Write your decription..."))
 
 
-
+                        <span class="validation_error" asp-validation-for="Description"></span>
                     </div>
                 </div>
 
@@ -241,7 +241,8 @@
                         </span>
                     </label>
                     <div class="col-lg-9">
-                        <input type="file" class="form-control" name="Graphics" />
+                        <input type="file" class="form-control" asp-for="TopicIcon" name="TopicIcon" />
+                        <span class="validation_error" asp-validation-for="TopicIcon"></span>
                     </div>
                 </div>
 
@@ -251,16 +252,18 @@
                         <span>Set to '0' to not display this item.</span>
                     </label>
                     <div class="col-lg-9">
-                        <input type="number" class="form-control" name="DisplayOrder" />
+                        <input type="number" class="form-control" asp-for="DisplayOrder" name="DisplayOrder" />
+                        <span class="validation_error" asp-validation-for="DisplayOrder"></span>
                     </div>
                 </div>
 
                 <div class="row align-items-center">
                     <label class="col-lg-3 form-title"> Parent Topic </label>
                     <div class="col-lg-9">
-                        <select id="parentTopicId" name="ParentIdFK" asp-items="@ViewBag.ParentTopic">
+                        <select id="parentTopicId" asp-items="@ViewBag.ParentTopic"  asp-for="ParentIdFK" name="ParentIdFK"  >
                             <option value="0"> --Main Topic --</option>
                         </select>
+                        <span class="validation_error" asp-validation-for="ParentIdFK"></span>
                     </div>
                 </div>
 

@@ -62,7 +62,7 @@ namespace Forum.Controllers
             }
             return RedirectToAction("AdminDashboard", "Admin");
         }
-        [Authorize]
+        
         [HttpPost]
         public async Task<IActionResult> AddMainTopic([FromForm] MainTopicViewModel mainTopicViewModel)
         {

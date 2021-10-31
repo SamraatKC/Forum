@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Forum.Models.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,21 @@ namespace Forum.Models.DataModels
         public List<MainTopicPost> MainTopicPost { get; set; }
         public ICollection<MainTopic> ChildTopic { get; set; }
 
+
+        public static implicit operator MainTopic(MainTopicViewModel vm)
+        {
+            MainTopic mt = new MainTopic();
+            mt.MainTopicId = vm.MainTopicId;
+            mt.Description = vm.Description;
+            //c.GraphicsURL = vm.GraphicsURL;
+            mt.TopicIcon = vm.TopicIcon;
+            mt.ParentIdFK = vm.ParentIdFK;
+            mt.DisplayOrder = vm.DisplayOrder;
+            mt.Title = vm.Title;
+            
+
+            return mt;
+        }
 
 
     }

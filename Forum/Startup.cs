@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Forum.Common;
 using Forum.Data;
@@ -34,7 +35,8 @@ namespace DevExtremeAspNetCoreApp
             // Add framework services.
             services
                 .AddControllersWithViews()
-                .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
+                .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null
+                    );
             string connectionString = Configuration.GetConnectionString("DefaultConnectionString");
             services.AddDbContext<ApplicationDbContext>(config =>
             {
@@ -95,7 +97,7 @@ namespace DevExtremeAspNetCoreApp
             #endregion
 
             #region injection
-            
+           
             services.AddScoped<ForumDbx>();
             services.AddScoped<UserService>();
             services.AddScoped<HttpContextAccessor>();

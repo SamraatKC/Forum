@@ -2,13 +2,16 @@
 using Forum.Data;
 using Forum.Models.DataModels;
 using Forum.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace Forum.Service
 {
@@ -16,10 +19,12 @@ namespace Forum.Service
     {
         ForumDbx db;
         IOptions<AppSettings> appSettings;
+       
         public MainTopicService(IOptions<AppSettings> _appSettings)
         {
             appSettings = _appSettings;
             db = new ForumDbx(_appSettings);
+          
         }
         public async Task<bool> AddMainTopic(MainTopicViewModel mainTopicViewModel)
         {
@@ -43,28 +48,28 @@ namespace Forum.Service
             await db.SaveChangesAsync();
             return true;
         }
-        public async Task<bool> UpdateMainTopic(MainTopicViewModel mainTopicViewModel)
-        {
-            MainTopic mainTopic = await db.MainTopics.FindAsync(mainTopicViewModel.MainTopicId);
-            if (mainTopic != null)
-            {
-                mainTopic.ThemeIdFK = mainTopicViewModel.ThemeIdFK;
-                mainTopic.ParentIdFK = mainTopicViewModel.ParentIdFK;
-                mainTopic.ReferenceLink = mainTopicViewModel.ReferenceLink;
-                mainTopic.Title = mainTopicViewModel.Title;
-                mainTopic.Description = mainTopicViewModel.Description;
-                mainTopic.TopicIcon = mainTopicViewModel.TopicIcon;
-                mainTopic.DisplayOrder = mainTopicViewModel.DisplayOrder;
-                mainTopic.CreatedDate = mainTopicViewModel.CreatedDate;
-                mainTopic.CreatedBy = mainTopicViewModel.CreatedBy;
-                mainTopic.LastUpdatedDate = mainTopicViewModel.LastUpdatedDate;
-                mainTopic.LastUpdatedBy = mainTopicViewModel.LastUpdatedBy;
-                mainTopic.Status = mainTopicViewModel.Status;
-                await db.SaveChangesAsync();
-                return true;
-            };
-            return false;
-        }
+        //public async Task<bool> UpdateMainTopic(MainTopicViewModel mainTopicViewModel)
+        //{
+        //    MainTopic mainTopic = await db.MainTopics.FindAsync(mainTopicViewModel.MainTopicId);
+        //    if (mainTopic != null)
+        //    {
+        //        mainTopic.ThemeIdFK = mainTopicViewModel.ThemeIdFK;
+        //        mainTopic.ParentIdFK = mainTopicViewModel.ParentIdFK;
+        //        mainTopic.ReferenceLink = mainTopicViewModel.ReferenceLink;
+        //        mainTopic.Title = mainTopicViewModel.Title;
+        //        mainTopic.Description = mainTopicViewModel.Description;
+        //        mainTopic.TopicIcon = mainTopicViewModel.TopicIcon;
+        //        mainTopic.DisplayOrder = mainTopicViewModel.DisplayOrder;
+        //        mainTopic.CreatedDate = mainTopicViewModel.CreatedDate;
+        //        mainTopic.CreatedBy = mainTopicViewModel.CreatedBy;
+        //        mainTopic.LastUpdatedDate = mainTopicViewModel.LastUpdatedDate;
+        //        mainTopic.LastUpdatedBy = mainTopicViewModel.LastUpdatedBy;
+        //        mainTopic.Status = mainTopicViewModel.Status;
+        //        await db.SaveChangesAsync();
+        //        return true;
+        //    };
+        //    return false;
+        //}
 
         public List<MainTopicViewModel> GetAllMainTopic()
         {
@@ -118,6 +123,36 @@ namespace Forum.Service
             await db.SaveChangesAsync();
             return true;
 
+        }
+
+        public async Task<MainTopicViewModel> UpdateMainTopic(MainTopicViewModel mainTopicViewModel)
+        {
+            if (mainTopicViewModel.MainTopicId > 0)
+            {
+                var result = await db.MainTopics.FirstOrDefaultAsync(e => e.MainTopicId == mainTopicViewModel.MainTopicId);
+                result.Title = mainTopicViewModel.Title;
+                result.TopicIcon = mainTopicViewModel.TopicIcon;
+                result.Description = mainTopicViewModel.Description;
+                result.DisplayOrder = mainTopicViewModel.DisplayOrder;
+                result.ParentIdFK = mainTopicViewModel.ParentIdFK;
+
+                if (await db.SaveChangesAsync() > 0)
+                    return mainTopicViewModel;
+                else
+                {
+                    //-1 meaning not able to update the record.
+                    mainTopicViewModel.MainTopicId = -1;
+                    return mainTopicViewModel;
+                }
+            }
+            else
+            {
+                MainTopic mainTopic = new MainTopic();
+                mainTopic = (MainTopic)mainTopicViewModel;
+                db.MainTopics.Add(mainTopic);
+                await db.SaveChangesAsync();
+                return (MainTopicViewModel)mainTopic;
+            }
         }
     }
 }

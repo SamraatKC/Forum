@@ -100,17 +100,33 @@ namespace Forum.Controllers
                 // }
                 #endregion
 
-
-                var result = await mainTopicService.AddMainTopic(mainTopicViewModel);
-                if (result == true)
+                if(mainTopicViewModel.MainTopicId==0)
                 {
-                    TempData["Success"] = "Main Topic Successfully Added.";
-                    return Redirect("~/Admin/AdminDashboard");
+                    var result = await mainTopicService.AddMainTopic(mainTopicViewModel);
+                    if (result == true)
+                    {
+                        TempData["Success"] = "Main Topic Successfully Added.";
+                        return Redirect("~/Admin/AdminDashboard");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Oops! some error occured while adding main topic.");
+                        return View("Error");
+                    }
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Oops! some error occured while adding channel.");
-                    return View("Error");
+                    var data = await mainTopicService.UpdateMainTopic(mainTopicViewModel);
+                    if(data!=null)
+                    {
+                        TempData["Success"] = "Main Topic Successfully Updated.";
+                        return Redirect("~/Admin/AdminDashboard");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Oops! some error occured while updating main topic.");
+                        return View("Error");
+                    }
                 }
                 //return View();
             }
@@ -141,7 +157,7 @@ namespace Forum.Controllers
             try
             {
 
-                var getallmaintopic =mainTopicService.GetAllMainTopic();
+                var getallmaintopic = mainTopicService.GetAllMainTopic();
                 if (getallmaintopic != null)
                 {
                     return View(getallmaintopic);

@@ -50,66 +50,88 @@
                     <table class="forum-list-container stretch">
                         <tbody>
                             @(Html.DevExtreme().TreeList<Forum.Models.ViewModels.MainTopicViewModel>()
-       .ID("tree-list")
-       .DataSource(ds => ds.WebApi()
-           .Controller("Admin")
-           .LoadAction("GetMainTopics")
-           .InsertAction("InsertTask")
-           .UpdateAction("UpdateTask")
-           .DeleteAction("DeleteTask")
-           .Key("MainTopicId")
-       )
-       .RemoteOperations(r => r.Filtering(true).Sorting(true).Grouping(false))
-       .KeyExpr("MainTopicId")
-       .ParentIdExpr("ParentIdFK")
-       .HasItemsExpr("HasItems")
-       .ExpandedRowKeys(new[] { 1, 2 })
-       .SearchPanel(seachPanel => seachPanel.Visible(true))
-       .HeaderFilter(headerFilter => headerFilter.Visible(true))
+.ID("tree-list")
+.DataSource(ds => ds.WebApi()
+.Controller("Admin")
+.LoadAction("GetMainTopics")
+.InsertAction("InsertTask")
+.UpdateAction("UpdateTask")
+.DeleteAction("DeleteTask")
+.Key("MainTopicId")
+)
+.RemoteOperations(r => r.Filtering(true).Sorting(true).Grouping(false))
+.KeyExpr("MainTopicId")
+.ParentIdExpr("ParentIdFK")
+.HasItemsExpr("HasItems")
+.ExpandedRowKeys(new[] { 1, 2 })
+.SearchPanel(seachPanel => seachPanel.Visible(true))
+.HeaderFilter(headerFilter => headerFilter.Visible(true))
 
-       //.Editing(editing => editing
-       //    .Mode(GridEditMode.Row)
-       //    .AllowAdding(false)
-       //    .AllowUpdating(false)
-       //    .AllowDeleting(false)
-       //)
-       .ShowRowLines(true)
-       .ShowBorders(true)
-       .ColumnAutoWidth(true)
-       .WordWrapEnabled(true)
-       .Columns(columns =>
-       {
-           columns.AddFor(m => m.Title).MinWidth(250);
+//.Editing(editing => editing
+//    .Mode(GridEditMode.Row)
+//    .AllowAdding(false)
+//    .AllowUpdating(false)
+//    .AllowDeleting(false)
+//)
+.ShowRowLines(true)
+.ShowBorders(true)
+.ColumnAutoWidth(true)
+.WordWrapEnabled(true)
+.Columns(columns =>
+{
+columns.AddFor(m => m.Title).MinWidth(250);
 
-           columns.Add()
+columns.Add()
                .Caption("Controls")
                .MinWidth(120)
-               .CellTemplate("<div class='d-flex align-items-center'>" +
-                                "<select class='form-control-sm'>" +
-                                    "<option>Edit topic</option>" +
-                                    "<option>Delete topic</option>" +
-                                "</select>" +
-                                "<a class='btn btn-sm btn-default' id='edit_delete_control_event' onclick='edit_delete_control_event()'> Go</a>" +
-                                "</div>"
-                            );
-           columns.AddFor(x => x.DisplayOrder)
+               //.CellTemplate("<div class='d-flex align-items-center'>" +
+               //                 "<select class='form-control-sm'>" +
+               //                     "<option>Edit topic</option>" +
+               //                     "<option>Delete topic</option>" +
+               //                 "</select>" +
+               //                 "<a class='btn btn-sm btn-default' id='edit_delete_control_event' onclick='edit_delete_control_event()'> Go</a>" +
+               //                 "</div>"
+               //             );
+               .CellTemplate(@<text>
+
+                @(Html.DevExtreme().SelectBox()
+                              .ID(new JS("id(row)"))
+                              .ElementAttr(new { @class = "selectBox" })
+                              .DataSource(new[] {
+                        "Edit",
+                        "Delete"
+
+           })
+                              .Buttons(b =>
+                              {
+                                  b.Add()
+                                      .Name("Go")
+                                      .Widget(w => w.Button()
+                                          .Text("Go")
+                                          .OnClick("function(){onClick(row)}")
+                                      );
+                              })
+                )
+              
+            </text>);
+    columns.AddFor(x => x.DisplayOrder)
              .MinWidth(60)
               .CellTemplate("<div class='channel-display-orders'>" +
                                   "<input class='form-control-sm' type='text' />" +
                                   "</div>"
               ).HeaderCellTemplate("<div class='header-posts'><span>Display order</span></div>");
-           columns.AddFor(x => x.Moderator)
+    columns.AddFor(x => x.Moderator)
                .MinWidth(120)
-               .CellTemplate("<div class='d-flex align-items-center'>"+
-                                "<select class='form-control-sm'>"+
-                                    "<option>User 1</option>"+
-                                    "<option>User 2</option>"+
-                                "</select>"+
+               .CellTemplate("<div class='d-flex align-items-center'>" +
+                                "<select class='form-control-sm'>" +
+                                    "<option>User 1</option>" +
+                                    "<option>User 2</option>" +
+                                "</select>" +
                                 "</div>"
                         );
-       })
+})
 
-       .OnInitNewRow("treeList_onInitNewRow")
+.OnInitNewRow("treeList_onInitNewRow")
                                         )
                         </tbody>
                     </table>
@@ -121,13 +143,21 @@
 
 <div id="newChannel" class="modal">
     <header class="modal-header">Add New Topic</header>
+    <input type="hidden" id="hdMainTopicId" />
     <main class="modal-main">
         <form method="post" asp-controller="Forum" asp-action="AddMainTopic" enctype="multipart/form-data">
             <div class="form-wrapper">
+               
+                   
+                   
+                        <input type="text" class="form-control" id="MainTopicId" asp-for="MainTopicId" name="MainTopicId" hidden />
+                      
+                   
+               
                 <div class="row align-items-center">
                     <label class="col-lg-3 form-title"> Title </label>
                     <div class="col-lg-9">
-                        <input type="text" class="form-control" asp-for="Title" name="Title" />
+                        <input type="text" class="form-control" id="Title" asp-for="Title" name="Title" />
                         <span class="validation_error" asp-validation-for="Title"></span>
                     </div>
                 </div>
@@ -135,7 +165,8 @@
                 <div class="row align-items-center">
                     <label class="col-lg-3 form-title"> Description </label>
                     <div class="col-lg-9">
-                        @(Html.DevExtreme().HtmlEditorFor(m=>m.Description)
+                        @(Html.DevExtreme().HtmlEditorFor(m => m.Description)
+                        .ID("html-editor")
                                      .Height(200)
                                  .Toolbar(toolbar => toolbar.Items(
                                   items =>
@@ -241,8 +272,8 @@
                         </span>
                     </label>
                     <div class="col-lg-9">
-                        <input type="file" class="form-control" asp-for="TopicIcon" name="TopicIcon" />
-                        <span class="validation_error" asp-validation-for="TopicIcon"></span>
+                        <input type="file" class="form-control" asp-for="Graphics" id="Graphics" name="Graphics" />
+                        <span class="validation_error" asp-validation-for="Graphics"></span>
                     </div>
                 </div>
 
@@ -252,7 +283,7 @@
                         <span>Set to '0' to not display this item.</span>
                     </label>
                     <div class="col-lg-9">
-                        <input type="number" class="form-control" asp-for="DisplayOrder" name="DisplayOrder" />
+                        <input type="number" class="form-control" asp-for="DisplayOrder" name="DisplayOrder" id="DisplayOrder" />
                         <span class="validation_error" asp-validation-for="DisplayOrder"></span>
                     </div>
                 </div>
@@ -260,7 +291,7 @@
                 <div class="row align-items-center">
                     <label class="col-lg-3 form-title"> Parent Topic </label>
                     <div class="col-lg-9">
-                        <select id="parentTopicId" asp-items="@ViewBag.ParentTopic" asp-for="ParentIdFK" name="ParentIdFK">
+                        <select id="ParentIdFK" asp-items="@ViewBag.ParentTopic" asp-for="ParentIdFK" name="ParentIdFK">
                             <option value="0"> --Main Topic --</option>
                         </select>
                         <span class="validation_error" asp-validation-for="ParentIdFK"></span>
@@ -295,4 +326,46 @@
     function edit_delete_control_event() {
         $("#newChannel").modal('show');
     }
+
+    var selectBoxes = []
+    function onClick(row) {
+        console.log($(`#selectBox${row.key}`).dxSelectBox("instance").option("value"));
+        console.log(row.key);
+        var mainTopicId = (row.key);
+        $.ajax({
+            type: "GET",
+            url: "/Admin/GetMainTopicById/" + mainTopicId,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                mainTopicInfo(result);
+            },
+            error: function (xhr) {
+                console.log(xhr.responseText);
+            }
+        });
+        return false;
+    }
+
+    var id = function (row) {
+        return "selectBox" + row.key;
+    }
+
+    var mainTopicInfo = function (result) {
+        $("#newChannel").modal('show');
+        result = JSON.parse(result);
+        console.log(result);
+        //$("#hdMainTopicId").val(result.Main)
+        /*$('#newChannel #MainTopicId').val(result.MainTopicId);*/
+        $("#newChannel #MainTopicId").val(result.Result.MainTopicId);
+        $("#newChannel #Title").val(result.Result.Title);
+        $("#newChannel #Description").val(result.Result.Description);
+        $("#newChannel #DisplayOrder").val(result.Result.DisplayOrder);
+        $("#newChannel #Graphics").val(result.Result.TopicIcon);
+        $("#newChannel #ParentIdFK").val(result.Result.ParentIdFK);
+
+    };
+
+
+   
 </script>

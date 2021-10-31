@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using DevExtreme.AspNet.Data;
+using DevExtreme.AspNet.Mvc;
 using Forum.Common;
 using Forum.Data;
 using Forum.Models;
@@ -129,6 +131,67 @@ namespace Forum.Controllers
             return View(result);
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         [HttpPost]
         public async Task<IActionResult> UpdateMainTopic(MainTopicViewModel mainTopicViewModel)
         {
@@ -150,6 +213,40 @@ namespace Forum.Controllers
                 {
                     ModelState.AddModelError(string.Empty, "Oops! some error occured while loading main topics.");
                     return View();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        [HttpGet]
+        [Route("/Forum/SubTopic/{mainTopicId}")]
+        public async Task<IActionResult> SubTopic(int mainTopicId)
+        {
+            ViewBag.MainTopicId = mainTopicId;
+            var topicAndItsSubTopic = await mainTopicService.GetParentAndSubTopic(mainTopicId);
+            return View(topicAndItsSubTopic);
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> GetParentAndSubTopic(int topicId, DataSourceLoadOptions loadOptions)
+        {
+            try
+            {
+                var topicAndItsSubTopic = await mainTopicService.GetParentAndSubTopic(topicId);
+                if (topicAndItsSubTopic != null)
+                {
+                    //return new JsonResult(topicAndItsSubTopic);
+                    return new JsonResult(DataSourceLoader.Load(topicAndItsSubTopic, loadOptions));
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Oops! some error occured while loading main topics.");
+                    return new JsonResult(DataSourceLoader.Load(new List<MainTopicViewModel>(), loadOptions));
                 }
 
             }

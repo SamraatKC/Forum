@@ -50,36 +50,40 @@
                     <table class="forum-list-container stretch">
                         <tbody>
                             @(Html.DevExtreme().TreeList<Forum.Models.ViewModels.MainTopicViewModel>()
-       .ID("tree-list")
-       .DataSource(ds => ds.WebApi()
-           .Controller("Admin")
-           .LoadAction("GetMainTopics")
-           .InsertAction("InsertTask")
-           .UpdateAction("UpdateTask")
-           .DeleteAction("DeleteTask")
-           .Key("MainTopicId")
-       )
-       .RemoteOperations(r => r.Filtering(true).Sorting(true).Grouping(false))
-       .KeyExpr("MainTopicId")
-       .ParentIdExpr("ParentIdFK")
-       .HasItemsExpr("HasItems")
-       .ExpandedRowKeys(new[] { 1, 2 })
-       .SearchPanel(seachPanel => seachPanel.Visible(true))
-       .HeaderFilter(headerFilter => headerFilter.Visible(true))
+.ID("tree-list")
+.DataSource(ds => ds.WebApi()
+   .Controller("Admin")
+   .LoadAction("GetMainTopics")
+   .InsertAction("InsertTask")
+   .UpdateAction("UpdateTask")
+   .DeleteAction("DeleteTask")
+   .Key("MainTopicId")
+)
+.RemoteOperations(r => r.Filtering(true).Sorting(true).Grouping(false))
+.KeyExpr("MainTopicId")
+.ParentIdExpr("ParentIdFK")
+.HasItemsExpr("HasItems")
+.ExpandedRowKeys(new[] { 1, 2 })
+.SearchPanel(seachPanel => seachPanel.Visible(false))
+.HeaderFilter(headerFilter => headerFilter.Visible(true))
 
-       //.Editing(editing => editing
-       //    .Mode(GridEditMode.Row)
-       //    .AllowAdding(false)
-       //    .AllowUpdating(false)
-       //    .AllowDeleting(false)
-       //)
-       .ShowRowLines(true)
-       .ShowBorders(true)
-       .ColumnAutoWidth(true)
-       .WordWrapEnabled(true)
-       .Columns(columns =>
-       {
-           columns.AddFor(m => m.Title).MinWidth(250);
+//.Editing(editing => editing
+//    .Mode(GridEditMode.Row)
+//    .AllowAdding(false)
+//    .AllowUpdating(false)
+//    .AllowDeleting(false)
+//)
+.ShowRowLines(true)
+.ShowBorders(true)
+.ColumnAutoWidth(true)
+.WordWrapEnabled(true)
+.Columns(columns =>
+{
+columns.AddFor(x => x.Title)
+       .CellTemplate(@<text>
+                           <a href="@Url.Action("SubTopic", "Forum")/<%= data.MainTopicId %>"><%= data.Title %></a>
+            </text>);
+
 
            columns.Add()
                .Caption("Controls")
@@ -108,9 +112,8 @@
                                 "</div>"
                         );
        })
-
-       .OnInitNewRow("treeList_onInitNewRow")
-                                        )
+                            .OnInitNewRow("treeList_onInitNewRow")
+                            )
                         </tbody>
                     </table>
                 </section>
@@ -294,5 +297,8 @@
     }
     function edit_delete_control_event() {
         $("#newChannel").modal('show');
+    }
+    function onClickTitle(row) {
+        console.log("Title row cliced: ", row);
     }
 </script>

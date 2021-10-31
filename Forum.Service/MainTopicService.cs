@@ -66,6 +66,117 @@ namespace Forum.Service
             return false;
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public List<MainTopicViewModel> GetAllMainTopic()
         {
             var result = db.MainTopics
@@ -87,6 +198,31 @@ namespace Forum.Service
                     Moderator = x.Moderator,
                     HasItems = db.MainTopics.Count(y=>y.ParentIdFK == x.MainTopicId) > 0,
                 }).ToList();
+
+            return result;
+        }
+
+        public async Task<List<MainTopicViewModel>> GetParentAndSubTopic(int topicId)
+        {
+            var result = await db.MainTopics.Where(x=>x.ParentIdFK == topicId)
+                .Select(x => new MainTopicViewModel
+                {
+                    MainTopicId = x.MainTopicId,
+                    ThemeIdFK = x.ThemeIdFK,
+                    ParentIdFK = x.ParentIdFK,
+                    ReferenceLink = x.ReferenceLink,
+                    Title = x.Title,
+                    Description = x.Description,
+                    TopicIcon = x.TopicIcon,
+                    DisplayOrder = x.DisplayOrder,
+                    CreatedDate = x.CreatedDate,
+                    CreatedBy = x.CreatedBy,
+                    LastUpdatedDate = x.LastUpdatedDate,
+                    LastUpdatedBy = x.LastUpdatedBy,
+                    Status = x.Status,
+                    Moderator = x.Moderator,
+                    HasItems = db.MainTopics.Count(y => y.ParentIdFK == x.MainTopicId) > 0,
+                }).ToListAsync();
 
             return result;
         }

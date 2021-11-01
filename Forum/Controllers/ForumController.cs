@@ -186,30 +186,5 @@ namespace Forum.Controllers
             return View(topicAndItsSubTopic);
         }
 
-        [HttpGet]
-        public async Task<JsonResult> GetParentAndSubTopic(int topicId, DataSourceLoadOptions loadOptions)
-        {
-            try
-            {
-                var topicAndItsSubTopic = await mainTopicService.GetParentAndSubTopic(topicId);
-                if (topicAndItsSubTopic != null)
-                {
-                    //return new JsonResult(topicAndItsSubTopic);
-                    return new JsonResult(DataSourceLoader.Load(topicAndItsSubTopic, loadOptions));
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Oops! some error occured while loading main topics.");
-                    return new JsonResult(DataSourceLoader.Load(new List<MainTopicViewModel>(), loadOptions));
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-        }
-
     }
 }

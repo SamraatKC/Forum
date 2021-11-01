@@ -34,10 +34,10 @@ namespace Forum.Data
                 .HasForeignKey(x => x.ParentIdFK);
                 
             });
-            mb.Entity<MainTopicPost>(entity =>
+            mb.Entity<TopicInformation>(entity =>
             {
-                entity.HasKey(e => new { e.MainTopicPostId });
-                entity.Property(x => x.MainTopicPostId).ValueGeneratedOnAdd();
+                entity.HasKey(e => new { e.TopicInformationId });
+                entity.Property(x => x.TopicInformationId).ValueGeneratedOnAdd();
                 entity.HasOne(p => p.MainTopic)
                .WithMany(p => p.MainTopicPost)
                .HasForeignKey(p => p.MainTopicsIdFK)
@@ -47,6 +47,6 @@ namespace Forum.Data
         }
         public DbSet<AspNetUser> AspNetUsers { get; set; }
         public DbSet<MainTopic> MainTopics { get; set; }
-        public DbSet<MainTopicPost> MainTopicPosts { get; set; }
+        public DbSet<TopicInformation> TopicInformation { get; set; }
     }
 }

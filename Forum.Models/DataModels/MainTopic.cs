@@ -32,7 +32,7 @@ namespace Forum.Models.DataModels
         public string LastUpdatedBy { get; set; }
         public string Status { get; set; }
         public string Moderator { get; set; }
-        public List<MainTopicPost> MainTopicPost { get; set; }
+        public List<TopicInformation> MainTopicPost { get; set; }
         public ICollection<MainTopic> ChildTopic { get; set; }
 
 

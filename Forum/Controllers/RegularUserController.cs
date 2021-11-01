@@ -31,29 +31,5 @@ namespace Forum.Controllers
             regularUserService = _regularUserService;
             db = _db;
         }
-
-        [HttpGet]
-        public async Task<IActionResult> RegularUserDashboard()
-        {
-            try
-            {
-
-                var getallmaintopicpost = await regularUserService.GetAllMainTopicPost();
-                if (getallmaintopicpost != null)
-                {
-                    return View(getallmaintopicpost);
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Oops! some error occured while loading main topic posts.");
-                    return View();
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
     }
 }

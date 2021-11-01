@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Forum.Models.ViewModels
 {
-    public class MainTopicPostViewModel
+    public class TopicInformationViewModel
     {
-        public int MainTopicPostId { get; set; }
+        public int TopicInformationId { get; set; }
         public int MainTopicsIdFK { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
@@ -19,10 +19,10 @@ namespace Forum.Models.ViewModels
         public string LastUpdatedBy { get; set; }
         public string Status { get; set; }
 
-        public static implicit operator MainTopicPostViewModel(MainTopicPost mainTopicPost)
+        public static implicit operator TopicInformationViewModel(TopicInformation mainTopicPost)
         {
-            MainTopicPostViewModel mainTopicPostVM = new MainTopicPostViewModel();
-            mainTopicPostVM.MainTopicPostId = mainTopicPost.MainTopicPostId;
+            TopicInformationViewModel mainTopicPostVM = new TopicInformationViewModel();
+            mainTopicPostVM.TopicInformationId = mainTopicPost.TopicInformationId;
             mainTopicPostVM.MainTopicsIdFK = mainTopicPost.MainTopicsIdFK;
             mainTopicPostVM.Title = mainTopicPost.Title;
             mainTopicPostVM.Description = mainTopicPost.Description;
@@ -32,7 +32,6 @@ namespace Forum.Models.ViewModels
             mainTopicPostVM.LastUpdatedDate = mainTopicPost.LastUpdatedDate;
             mainTopicPostVM.LastUpdatedBy = mainTopicPost.LastUpdatedBy;
             mainTopicPostVM.Status = mainTopicPost.Status;
-
             return mainTopicPostVM;
         }
     }

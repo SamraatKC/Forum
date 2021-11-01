@@ -12,7 +12,7 @@
 
 <div class="forum">
     <div class="wrapper wrapper wrapper-1600">
-        <div class="box round-corner entry-content type-alert">
+        @*<div class="box round-corner entry-content type-alert">
             <div>
                 <p>
                     Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -37,12 +37,23 @@
                     your software, please see this topic.
                 </p>
             </div>
+        </div>*@
+        <div class="parent-title">
+            @{
+                var queryParam = Context.Request.RouteValues["mainTopicId"];
+                int parentIdFk = int.Parse(queryParam == null ? "0" : queryParam.ToString());
+                var parentTopic = Model.Where(x => x.MainTopicId == parentIdFk).FirstOrDefault();
+                if (parentTopic != null)
+                {
+                        <a href="/Admin/AdminDashboard">@parentTopic.Title</a>
+                }
+            }
         </div>
+
 
         <nav class="tab-like">
             <ul>
-                <li class="activated"><a href="">Forum</a></li>
-                <li><a href="">Latest articles</a></li>
+                <li class="activated"><a href="">Forum</a></li>                
             </ul>
         </nav>
 
@@ -89,10 +100,11 @@
                                 @*Top level Forums*@
 
                                 @{
-                                    foreach (Forum.Models.ViewModels.MainTopicViewModel topic in Model)
+
+                                    foreach (Forum.Models.ViewModels.MainTopicViewModel topic in Model.Where(x=>x.ParentIdFK == parentIdFk))
                                     {
 
-                                        <tr class="forum-item main new"
+                                        <tr class="forum-item main new" 
                                             id="forum28"
                                             data-channel-id="28"
                                             data-lastcontent="1633038619"
@@ -100,20 +112,18 @@
                                             <td class="cell-forum">
                                                 <div class="forum-wrapper">
                                                     <div class="forum-info forum-info-has-rss">
-                                                        <span class="
-                                            icon
-                                            b-icon b-icon__speech-double-large--blue
-                                            h-left
-                                        "
-                                                              title="Contains unread posts."></span>
-
-                                                        <a href="forum-details.html" class="forum-title">@topic.Title</a>
+                                                        <span class="icon b-icon b-icon__speech-double-large--blue h-left" title="Contains unread posts."></span>
+                                                        <a href="~/TopicInformation/Information/@(topic.MainTopicId)" class="forum-title">@topic.Title</a>
 
                                                         <div class="forum-desc">
                                                             @{
                                                                 if (topic.Description != null)
-                                                                { Regex.Replace(topic.Description, "<[^>]*(>|$)", string.Empty); }
-                                                            }
+                                                                {
+                                                                    Regex regex = new Regex("\\<[^\\>]*\\>");
+                                                                    string description = regex.Replace(topic.Description, String.Empty);
+                                                                    @description
+                                                                }
+                                                             }
                                                         </div>
                                                     </div>
 

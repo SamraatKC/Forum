@@ -102,7 +102,7 @@ namespace DevExtremeAspNetCoreApp
             services.AddScoped<UserService>();
             services.AddScoped<HttpContextAccessor>();
             services.AddScoped<MainTopicService>();
-            services.AddScoped<MainTopicPostService>();
+            services.AddScoped<TopicInformationService>();
             services.AddScoped<AdminService>();
             services.AddScoped<RegularUserService>();
             services.AddScoped<EmailHelper>();

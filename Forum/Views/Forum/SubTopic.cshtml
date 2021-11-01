@@ -110,7 +110,10 @@
                                                         <a href="forum-details.html" class="forum-title">@topic.Title</a>
 
                                                         <div class="forum-desc">
-                                                            @Regex.Replace(topic.Description, "<[^>]*(>|$)", string.Empty);
+                                                            @{
+                                                                if (topic.Description != null)
+                                                                { Regex.Replace(topic.Description, "<[^>]*(>|$)", string.Empty); }
+                                                            }
                                                         </div>
                                                     </div>
 

@@ -79,7 +79,10 @@
 .WordWrapEnabled(true)
 .Columns(columns =>
 {
-columns.AddFor(m => m.Title).MinWidth(250);
+columns.AddFor(x => x.Title)
+    .CellTemplate(@<text>
+                            <a href="@Url.Action("SubTopic", "Forum")/<%= data.MainTopicId %>"><%= data.Title %></a>
+                            </text>);
 
 columns.Add()
                .Caption("Controls")
@@ -96,7 +99,7 @@ columns.Add()
 
                 @(Html.DevExtreme().SelectBox()
                               .ID(new JS("id(row)"))
-                              .ElementAttr(new { @class = "selectBox" })
+                              .ElementAttr(new { @class = "form-control-sm" })
                               .DataSource(new[] {
                         "Edit",
                         "Delete"
@@ -105,14 +108,15 @@ columns.Add()
                               .Buttons(b =>
                               {
                                   b.Add()
-                                      .Name("Go")
-                                      .Widget(w => w.Button()
+                                      .Name("Go")                                      
+                                      .Widget(w => w.Button().ElementAttr(new { @class = "btn btn-sm btn-default" })
                                           .Text("Go")
                                           .OnClick("function(){onClick(row)}")
                                       );
+                                  
                               })
                 )
-              
+
             </text>);
     columns.AddFor(x => x.DisplayOrder)
              .MinWidth(60)
@@ -359,13 +363,10 @@ columns.Add()
         /*$('#newChannel #MainTopicId').val(result.MainTopicId);*/
         $("#newChannel #MainTopicId").val(result.Result.MainTopicId);
         $("#newChannel #Title").val(result.Result.Title);
-        $("#newChannel #Description").val(result.Result.Description);
+        $("#newChannel .ql-editor.dx-htmleditor-content").html(result.Result.Description);
         $("#newChannel #DisplayOrder").val(result.Result.DisplayOrder);
         $("#newChannel #Graphics").val(result.Result.TopicIcon);
         $("#newChannel #ParentIdFK").val(result.Result.ParentIdFK);
-
     };
-
-
    
 </script>

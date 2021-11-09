@@ -19,7 +19,7 @@ using Microsoft.Extensions.Options;
 
 namespace Forum.Controllers
 {
-    public class AdminController : Controller
+    public class AdminController : BaseController
     {
         ForumDbx db;
         private readonly IOptions<AppSettings> appSettings;

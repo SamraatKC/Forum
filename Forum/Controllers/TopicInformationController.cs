@@ -17,7 +17,7 @@ using static Forum.Common.Enums;
 
 namespace Forum.Controllers
 {
-    public class TopicInformationController : Controller
+    public class TopicInformationController : BaseController
     {
         ForumDbx db;
         private readonly IOptions<AppSettings> appSettings;
@@ -39,12 +39,14 @@ namespace Forum.Controllers
         }
 
         [HttpGet]
-        [Route("/TopicInformation/Information/{mainTopicId}")]
+        [Route("/TopicInformation/Information/{mainTopicId}/{parentIdFk}")]
 
-        public async Task<IActionResult> Information(int mainTopicId)
+        public async Task<IActionResult> Information(int mainTopicId, int parentIdFk)
         {
             ViewBag.MainTopicId = mainTopicId;
+            ViewBag.ParentIdFk = parentIdFk;
             var topicInformations = await topicInformationService.FindTopicInformationByTopicId(mainTopicId);
+
             return View(topicInformations);
         }
         public IActionResult Index()

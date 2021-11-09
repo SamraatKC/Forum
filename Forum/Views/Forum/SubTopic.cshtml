@@ -42,32 +42,34 @@
             @{
                 var queryParam = Context.Request.RouteValues["mainTopicId"];
                 int parentIdFk = int.Parse(queryParam == null ? "0" : queryParam.ToString());
-                var parentTopic = Model.Where(x => x.MainTopicId == parentIdFk).FirstOrDefault();
-                if (parentTopic != null)
-                {
-                        <a href="/Admin/AdminDashboard">@parentTopic.Title</a>
-                }
             }
         </div>
 
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="~/Admin/AdminDashboard">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Sub Topic</li>
+            </ol>
+        </nav>
 
         <nav class="tab-like">
             <ul>
-                <li class="activated"><a href="">Forum</a></li>                
+                <li class="activated"><a href="">Forum</a></li>
             </ul>
         </nav>
+
 
         <div class="box round-corner type-forum">
             <div class="row">
                 <section class="col-lg-9">
                     <div class="d-flex flex-direction-row align-items-center justify-content-between">
                         @*<div class="forum-add">
-                                <a href="#newChannel"
-                                   rel="modal:open"
-                                   class="btn btn-outline open-modal">+ Add New Channel</a>
+                            <a href="#newChannel"
+                               rel="modal:open"
+                               class="btn btn-outline open-modal">+ Add New Channel</a>
 
-                                <a href="channel-manager.html" class="btn btn-outline">Channel Manager</a>
-                            </div>*@
+                            <a href="channel-manager.html" class="btn btn-outline">Channel Manager</a>
+                        </div>*@
                         <div class="forum-search d-flex flex-direction-row align-items-center justify-content-end">
                             <label>Filter</label>
                             <select class="form-control form-control-sm">
@@ -91,20 +93,20 @@
                                 </tr>
 
                                 @*<tr class="category-header" id="forum14">
-            <td colspan="4">
-                <div class="header">
-                    <a class="category" data-nodeid="14" href="">Announcements</a>
-                </div>
-            </td>
-        </tr>*@
+                                    <td colspan="4">
+                                        <div class="header">
+                                            <a class="category" data-nodeid="14" href="">Announcements</a>
+                                        </div>
+                                    </td>
+                                </tr>*@
                                 @*Top level Forums*@
 
                                 @{
 
-                                    foreach (Forum.Models.ViewModels.MainTopicViewModel topic in Model.Where(x=>x.ParentIdFK == parentIdFk))
+                                    foreach (Forum.Models.ViewModels.MainTopicViewModel topic in Model.Where(x => x.ParentIdFK == parentIdFk))
                                     {
 
-                                        <tr class="forum-item main new" 
+                                        <tr class="forum-item main new"
                                             id="forum28"
                                             data-channel-id="28"
                                             data-lastcontent="1633038619"
@@ -113,7 +115,7 @@
                                                 <div class="forum-wrapper">
                                                     <div class="forum-info forum-info-has-rss">
                                                         <span class="icon b-icon b-icon__speech-double-large--blue h-left" title="Contains unread posts."></span>
-                                                        <a href="~/TopicInformation/Information/@(topic.MainTopicId)" class="forum-title">@topic.Title</a>
+                                                        <a href="~/TopicInformation/Information/@(topic.MainTopicId)/@(parentIdFk)" class="forum-title">@topic.Title</a>
 
                                                         <div class="forum-desc">
                                                             @{
@@ -123,7 +125,7 @@
                                                                     string description = regex.Replace(topic.Description, String.Empty);
                                                                     @description
                                                                 }
-                                                             }
+                                                            }
                                                         </div>
                                                     </div>
 

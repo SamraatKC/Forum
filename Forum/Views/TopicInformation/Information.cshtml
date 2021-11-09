@@ -32,15 +32,24 @@
     <div class="wrapper wrapper wrapper-1600">
         <div class="parent-title">
             @*@{
-                    var queryParam = Context.Request.RouteValues["mainTopicId"];
-                    int parentIdFk = int.Parse(queryParam == null ? "0" : queryParam.ToString());
-                    var parentTopic = Model.Where(x => x.MainTopicId == parentIdFk).FirstOrDefault();
-                    if (parentTopic != null)
-                    {
-                            @parentTopic.Title
-                    }
-                }*@
+                var queryParam = Context.Request.RouteValues["mainTopicId"];
+                int parentIdFk = int.Parse(queryParam == null ? "0" : queryParam.ToString());
+                var parentTopic = Model.Where(x => x.MainTopicId == parentIdFk).FirstOrDefault();
+                if (parentTopic != null)
+                {
+                        @parentTopic.Title
+                }
+            }*@
         </div>
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="~/Admin/AdminDashboard">Home</a></li>
+                <li class="breadcrumb-item"><a href="~/Forum/SubTopic/@(ViewBag.ParentIdFk)">Sub Topic</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Information</li>
+            </ol>
+        </nav>
+
 
 
         <div class="box round-corner type-forum">
@@ -74,12 +83,12 @@
                                 </tr>
 
                                 @*<tr class="category-header" id="forum14">
-                                        <td colspan="4">
-                                            <div class="header">
-                                                <a class="category" data-nodeid="14" href="">Announcements</a>
-                                            </div>
-                                        </td>
-                                    </tr>*@
+                                    <td colspan="4">
+                                        <div class="header">
+                                            <a class="category" data-nodeid="14" href="">Announcements</a>
+                                        </div>
+                                    </td>
+                                </tr>*@
                                 @*Top level Forums*@
 
                                 @{

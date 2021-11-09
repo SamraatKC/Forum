@@ -67,9 +67,11 @@ namespace DevExtremeAspNetCoreApp
                 options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                
             })
              .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, (options) =>
              {
+                 options.Cookie.Name = "_06151813.Cookies";
                  options.LoginPath = "/User/Login";
                  //options.LogoutPath = "/Home";
              });

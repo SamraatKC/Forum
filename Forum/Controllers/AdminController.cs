@@ -99,5 +99,42 @@ namespace Forum.Controllers
             var res = JsonSerializer.Serialize(mainTopicById, options);
             return Json(res);
         }
+        [HttpPost]
+        public async Task<ActionResult>DeleteMainTopicById(int id)
+        {
+            try
+            {
+                JsonSerializerOptions options = new()
+                {
+                    ReferenceHandler = ReferenceHandler.Preserve,
+                    WriteIndented = true
+                };
+                var checkMainTopicParentDependencies = await mainTopicService.CheckMainTopicParentDependencies(id);
+                if(checkMainTopicParentDependencies==true)
+                {
+
+                    return Json(null);
+                }
+                else
+                {
+                    
+                    var deleteMainTopicById = await mainTopicService.DeleteMainTopictById(id);
+                    if (deleteMainTopicById == true)
+                    {
+                        var res = JsonSerializer.Serialize(deleteMainTopicById, options);
+                        return Json(res);
+                    }
+                    else
+                    {
+                        return Json(null);
+                    }
+                }
+              
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

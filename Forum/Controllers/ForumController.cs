@@ -34,7 +34,8 @@ namespace Forum.Controllers
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly UserService userService;
-        public ForumController(IHttpContextAccessor _httpContextAccessor, IWebHostEnvironment _webHostEnvironment, IOptions<AppSettings> _appSettings, MainTopicService _mainTopicService, ForumDbx _db, UserService _userService)
+        public ForumController(IHttpContextAccessor _httpContextAccessor, IWebHostEnvironment _webHostEnvironment,
+            IOptions<AppSettings> _appSettings, MainTopicService _mainTopicService, ForumDbx _db, UserService _userService)
         {
             webHostEnvironment = _webHostEnvironment;
             appSettings = _appSettings;

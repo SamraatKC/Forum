@@ -42,7 +42,40 @@ namespace Forum.Service
             return true;
         }
 
-        public async Task<List<TopicInformationViewModel>> GetAllMainTopicPost()
+        public async Task<TopicInformationViewModel> UpdateTopicInformation(TopicInformationViewModel mainTopicPostViewModel)
+        {
+            if (mainTopicPostViewModel.TopicInformationId > 0)
+            {
+                var result = await db.TopicInformation.FirstOrDefaultAsync(e => e.TopicInformationId == mainTopicPostViewModel.TopicInformationId);
+                result.Title = mainTopicPostViewModel.Title;
+                result.Description = mainTopicPostViewModel.Description;
+                result.TopicIcon = mainTopicPostViewModel.TopicIcon;
+                result.CreatedDate = mainTopicPostViewModel.CreatedDate;
+                result.CreatedBy = mainTopicPostViewModel.CreatedBy;
+                result.LastUpdatedDate = mainTopicPostViewModel.LastUpdatedDate;
+                result.LastUpdatedBy = mainTopicPostViewModel.LastUpdatedBy;
+                result.Status = mainTopicPostViewModel.Status;
+               
+                if (await db.SaveChangesAsync() > 0)
+                    return mainTopicPostViewModel;
+                else
+                {
+                    //-1 meaning not able to update the record.
+                    mainTopicPostViewModel.TopicInformationId = -1;
+                    return mainTopicPostViewModel;
+                }
+            }
+            else
+            {
+                TopicInformation topicInformation = new TopicInformation();
+                topicInformation = (TopicInformation)mainTopicPostViewModel;
+                db.TopicInformation.Add(topicInformation);
+                await db.SaveChangesAsync();
+                return (TopicInformationViewModel)topicInformation;
+            }
+        }
+
+        public async Task<List<TopicInformationViewModel>> GetAllTopicInformation()
         {
             var result= await db.TopicInformation.Select(x => (TopicInformationViewModel)x).ToListAsync();
             return result;
@@ -54,7 +87,7 @@ namespace Forum.Service
             return res;
         }
 
-        public async Task<bool> DeleteMainTopicPostById(int id)
+        public async Task<bool> DeleteTopicInformationById(int id)
         {
             var mainTopicPost = db.TopicInformation.Where(a => a.TopicInformationId == id).FirstOrDefault();
             db.TopicInformation.Remove(mainTopicPost);

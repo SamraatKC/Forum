@@ -330,25 +330,55 @@ columns.Add()
     function edit_delete_control_event() {
         $("#newChannel").modal('show');
     }
+   
+
 
     var selectBoxes = []
     function onClick(row) {
-        console.log($(`#selectBox${row.key}`).dxSelectBox("instance").option("value"));
-        console.log(row.key);
-        var mainTopicId = (row.key);
-        $.ajax({
-            type: "GET",
-            url: "/Admin/GetMainTopicById/" + mainTopicId,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (result) {
-                mainTopicInfo(result);
-            },
-            error: function (xhr) {
-                console.log(xhr.responseText);
-            }
-        });
-        return false;
+        //console.log($(`#selectBox${row.key}`).dxSelectBox("instance").option("value"));
+        //console.log(row.key);
+        var selectedValue = $(`#selectBox${row.key}`).dxSelectBox("instance").option("value");
+        if (selectedValue == 'Edit') {
+            var mainTopicId = (row.key);
+            $.ajax({
+                type: "GET",
+                url: "/Admin/GetMainTopicById/" + mainTopicId,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    mainTopicInfo(result);
+                },
+                error: function (xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
+            return false;
+
+
+        }
+        else if (selectedValue == 'Delete') {
+            var maintopicId = (row.key);
+            if (maintopicId === 0 || maintopicId === undefined) return false;
+            var isConfirmed = confirm("Are you sure you want to delete selected record?");
+            if (!isConfirmed) return false;
+            $.ajax({
+                type: "POST",
+                url: "/Admin/DeleteMainTopicById/" + maintopicId,
+                success: function (result) {
+                    if (result != null) {
+
+                        alert("Selected Record has been successfully deleted.")
+                    }
+                    else {
+                        alert("Selected Record couldnot be deleted because of its dependencies with child topic.")
+                    }
+                },
+                error: function (xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
+
+        }
     }
 
     var id = function (row) {
@@ -368,5 +398,11 @@ columns.Add()
         $("#newChannel #Graphics").val(result.Result.TopicIcon);
         $("#newChannel #ParentIdFK").val(result.Result.ParentIdFK);
     };
+
+
+    
+
+
+
    
 </script>

@@ -1,14 +1,17 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Forum.Models.ViewModels
 {
     public class TopicInformationViewModel
     {
+        [Key]
         public int TopicInformationId { get; set; }
         public int MainTopicsIdFK { get; set; }
+        [Required]
         public string Title { get; set; }
         public string Description { get; set; }
         public IFormFile Graphics { get; set; }

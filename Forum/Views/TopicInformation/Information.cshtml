@@ -1,5 +1,7 @@
 ﻿@using System.Text.RegularExpressions
 @model List<Forum.Models.ViewModels.TopicInformationViewModel>
+
+
 @{
     ViewData["Title"] = "Forum";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,7 +10,23 @@
 @section Header{
     <partial name="~/Views/Shared/PartialView/AdminHeader.cshtml" />
 }
-<input type="hidden" value="@ViewBag.MainTopicId" id="hdMainTopicId" />
+
+<style>
+    #validation-summary label {
+        float: none;
+        width: auto;
+        color: red;
+    }
+
+        #validation-summary label.error.no-text {
+            display: none !important;
+        }
+
+    input.error {
+        border: 1px solid #FF2323;
+    }
+</style>
+
 
 <div class="forum">
     <div class="wrapper wrapper wrapper-1600">
@@ -50,7 +68,7 @@
                                 <tr class="forum-list-header">
                                     <th class="header-forum"><span>Information</span></th>
                                     <th class="header-topics"><span>Response</span></th>
-                                    <th class="header-posts"><span>Vies</span></th>
+                                    <th class="header-posts"><span>Views</span></th>
                                     <th class="header-posts"><span>Likes</span></th>
                                     <th class="header-lastpost"><span>Last Post</span></th>
                                 </tr>
@@ -161,22 +179,25 @@
 
 <div id="newInformation" class="modal">
     <header class="modal-header">Add New Information</header>
-    <input type="hidden" id="hdMainTopicId" />
+
     <main class="modal-main">
-        <form method="post" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data" id="AddTopicInformation">
+            <div id="validation-summary">
+                <p>Please provide values for the highlighted fields.</p>
+                <ul />
+            </div>
             <div class="form-wrapper">
 
 
 
-                <input type="text" class="form-control" id="MainTopicId"  name="MainTopicId" hidden />
-
+                <input type="hidden" value="@ViewBag.MainTopicId" id="MainTopicsIdFK" name="MainTopicsIdFK" />
 
 
                 <div class="row align-items-center">
                     <label class="col-lg-3 form-title"> Title </label>
                     <div class="col-lg-9">
-                        <input type="text" class="form-control" id="Title"  name="Title" />
-                        <span class="validation_error" ></span>
+                        <input type="text" class="form-control" id="Title" name="Title" />
+                        <span class="validation_error" name="Title"></span>
                     </div>
                 </div>
 
@@ -184,7 +205,7 @@
                     <label class="col-lg-3 form-title"> Description </label>
                     <div class="col-lg-9">
                         @(Html.DevExtreme().HtmlEditor()
-                        .ID("html-editor")
+                        .ID("html-editor").Name("Description")
                                      .Height(200)
                                  .Toolbar(toolbar => toolbar.Items(
                                   items =>
@@ -272,12 +293,17 @@
                                       //items.Add().Name(HtmlEditorToolbarItem.InsertColumnRight);
 
                                       //items.Add().Name(HtmlEditorToolbarItem.DeleteColumn);
+
                                   }))
 
-                                  .Placeholder("Write your decription..."))
+                                  .Placeholder("Write your decription...")
+                                  //.ElementAttr(new JS("{Name:'Description'}"))
+
+                                  )
 
 
-                        <span class="validation_error" ></span>
+
+                        <span class="validation_error"></span>
                     </div>
                 </div>
 
@@ -290,8 +316,8 @@
                         </span>
                     </label>
                     <div class="col-lg-9">
-                        <input type="file" class="form-control"  id="Graphics" name="Graphics" />
-                        <span class="validation_error" ></span>
+                        <input type="file" class="form-control" id="Graphics" name="Graphics" />
+                        <span class="validation_error"></span>
                     </div>
                 </div>
 
@@ -299,7 +325,7 @@
                 <div class="row align-items-center">
                     <label class="col-lg-3 form-title"></label>
                     <div class="col-lg-9">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" onclick="Submit()" class="btn btn-primary" id="btn-submit-topicinformation">Submit</button>
                     </div>
                 </div>
             </div>
@@ -307,7 +333,6 @@
     </main>
     <footer class="modal-footer"></footer>
 </div>
-
 
 <script>
     function serializeData() {
@@ -323,7 +348,122 @@
         $("#newChannel").modal('show');
     }
 
-    function getMainTopicId() {
-        return $("#hdMainTopicId").val();
+    //function getMainTopicId() {
+    //    debugger;
+    //    return $("#MainTopicsIdFK").val();
+    //}
+
+    function Submit() {
+        $('body').on('click', '#btn-submit-topicinformation', function (e) {
+            $('#AddTopicInformation').closest('.form-wrapper').removeClass('has-success has-error')
+            e.preventDefault();
+            $('#btn-submit-topicinformation').prop('disabled', true);
+            var formData = new FormData($(this).parents('form')[0]);
+
+    for (var d of formData.entries()) {
+    console.log(d[0]+ ', ' + d[1]);
+}
+           var baseUrl = '@Url.Content("~/")';
+            $.ajax({
+                url: baseUrl + 'TopicInformation/AddTopicInformation',
+                type: 'POST',
+                xhr: function () {
+                    var myXhr = $.ajaxSettings.xhr();
+                    return myXhr;
+                },
+                success: function (data) {
+                    $("#newInformation").modal('close');
+                    /*messageBoxStay(data.status.toLowerCase(), unescape(data.message));*/
+                },
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+            return false;
+        });
     }
+
+
+
+    //$('body').on("click", "#btn-submit-topicinformation", function () {
+    //    addTopicInformation();
+    //});
+    //var addTopicInformation = function () {
+    //    //$("#Title").val();
+    //    var title = $("#Title").val();
+    //    var description = $(".dx-htmleditor-content").html();
+    //    //var file = document.getElementById('Graphics').files[0];
+    //    //var formdata = new FormData();
+    //    var formdata = $("#Graphics").val();
+    //    //formdata.append("Graphics", file);
+    //    var _data = {
+    //        'Title': title,
+    //        'Description': description,
+    //        'Graphics': formdata
+
+    //    };
+    //    $.ajax({
+    //        type: "POST",
+    //        processData: false,
+    //        contentType: false,
+    //        data: _data,
+
+    //        url: "/TopicInformation/AddTopicInformation",
+
+    //        success: function (result) {
+    //            if (result == "True") {
+    //                alert("Successfully added new information");
+    //                return;
+    //            }
+
+
+    //        },
+    //        error: function (xhr) {
+    //            console.log(xhr.responseText);
+    //        }
+    //    });
+    //};
+
+    //function nameAttribute() {
+    //    return "Name='Description'";
+    //}
+
+
+    $('#AddTopicInformation').validate({
+        errorPlacement: function (error, element) {
+            return true;
+        },
+        highlight: function (e) {
+            $(e).closest('.form-wrapper').removeClass('has-success has-error').addClass('has-error');
+            $(e).addClass("error-control");
+        },
+        unhighlight: function (e) {
+            $(e).removeClass("error-control");
+
+        },
+        success: function (e) {
+            e.closest('.form-wrapper').removeClass('has-success has-error');
+            $(e).removeClass("error-control");
+            $('#AddTopicInformation .form-wrapper').find('.error-control').length <= 0 ? $("#AddTopicInformation #validation-summary").hide() : $("#AddTopicInformation #validation-summary").show();
+        },
+        rules: {
+            'Title': {
+                required: true,
+            },
+
+            'Description': {
+                required: true
+            },
+
+            'Graphics': {
+                required: true
+            },
+
+
+        },
+    });
+
+
+
 </script>

@@ -1,7 +1,9 @@
 ﻿using Forum.Models.DataModels;
+using Forum.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Forum.Models
@@ -9,6 +11,7 @@ namespace Forum.Models
     public class TopicInformation
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int TopicInformationId { get; set; }
         public int MainTopicsIdFK { get; set; }
         public string Title { get; set; }
@@ -21,5 +24,19 @@ namespace Forum.Models
         public string LastUpdatedBy { get; set; }
         public string Status { get; set; }
         public MainTopic MainTopic { get; set; }
+
+        public static implicit operator TopicInformation(TopicInformationViewModel vm)
+        {
+            TopicInformation ti = new TopicInformation();
+            ti.TopicInformationId = vm.TopicInformationId;
+            ti.Description = vm.Description;
+            //c.GraphicsURL = vm.GraphicsURL;
+            ti.TopicIcon = vm.TopicIcon;
+           
+            ti.Title = vm.Title;
+
+
+            return ti;
+        }
     }
 }

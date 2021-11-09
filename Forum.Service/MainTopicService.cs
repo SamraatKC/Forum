@@ -150,6 +150,15 @@ namespace Forum.Service
 
         }
 
+        public async Task<bool> CheckMainTopicParentDependencies(int id)
+        {
+            var result =  db.MainTopics.Any(x => x.ParentIdFK == id);
+            if(result)
+            {
+                return true;
+            }
+            return false;
+        }
         public async Task<MainTopicViewModel> UpdateMainTopic(MainTopicViewModel mainTopicViewModel)
         {
             if (mainTopicViewModel.MainTopicId > 0)

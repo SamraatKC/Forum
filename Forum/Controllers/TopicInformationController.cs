@@ -52,7 +52,7 @@ namespace Forum.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> AddTopicInformation(TopicInformationViewModel topicInformationViewModel)
+        public async Task<IActionResult> AddTopicInformation(TopicInformationViewModel topicInformationViewModel,int? id=null)
         {
             try
             {
@@ -93,8 +93,10 @@ namespace Forum.Controllers
                     var result = await topicInformationService.AddTopicInformation(topicInformationViewModel);
                     if (result == true)
                     {
+                        id = topicInformationViewModel.MainTopicsIdFK;
                         TempData["Success"] = "Topic Information Successfully Added.";
-                        return Redirect("~/TopicInformation/Information/36");
+                        
+                        return RedirectToAction("~/TopicInformation/Information/"+id );
                     }
                     else
                     {

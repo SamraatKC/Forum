@@ -9,6 +9,7 @@ using Forum.Data;
 using Forum.Models;
 using Forum.Models.ViewModels;
 using Forum.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -53,6 +54,8 @@ namespace Forum.Controllers
         {
             return View();
         }
+
+       
         [HttpPost]
         public async Task<IActionResult> AddTopicInformation(TopicInformationViewModel topicInformationViewModel,int? id=null)
         {

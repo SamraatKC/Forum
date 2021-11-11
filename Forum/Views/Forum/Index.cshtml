@@ -1,52 +1,55 @@
 ﻿@model Forum.Models.ViewModels.MainTopicViewModel
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<ApplicationUser> signInManager;
 
 @{
     ViewData["Title"] = "Forum";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<partial name="~/Views/Shared/PartialView/Header.cshtml"/>
-
-<div class="forum">
-    <div class="wrapper wrapper wrapper-1600">
-        <nav class="tab-like">
-            <ul>
-                <li class="forum-add">
-                    <a href="#newChannel"
-                       rel="modal:open"
-                       class="btn btn-outline open-modal">+ Add New Topic</a>
-                </li>
-                <li><a href="">Latest articles</a></li>
-            </ul>
-        </nav>
-        <div class="box round-corner type-forum">
-            <div class="row">
-                <section class="col-lg-12">
-                    <div class="
+<partial name="~/Views/Shared/PartialView/Header.cshtml" />
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="forum">
+        <div class="wrapper wrapper wrapper-1600">
+            <nav class="tab-like">
+                <ul>
+                    <li class="forum-add">
+                        <a href="#newChannel"
+                           rel="modal:open"
+                           class="btn btn-outline open-modal">+ Add New Topic</a>
+                    </li>
+                    <li><a href="">Latest articles</a></li>
+                </ul>
+            </nav>
+            <div class="box round-corner type-forum">
+                <div class="row">
+                    <section class="col-lg-12">
+                        <div class="
 										d-flex
 										flex-direction-row
 										align-items-center
 										justify-content-end
 									">
-                        <div class="
+                            <div class="
 											forum-search
 											d-flex
 											flex-direction-row
 											align-items-center
 											justify-content-end
 										">
-                            @*<label>Filter</label>
-                                <select class="form-control form-control-sm">
-                                    <option>Datewise</option>
-                                    <option>Latest</option>
-                                    <option>Oldest</option>
-                                    <option>Most commented</option>
-                                </select>*@
+                                @*<label>Filter</label>
+                                    <select class="form-control form-control-sm">
+                                        <option>Datewise</option>
+                                        <option>Latest</option>
+                                        <option>Oldest</option>
+                                        <option>Most commented</option>
+                                    </select>*@
+                            </div>
                         </div>
-                    </div>
-                    <table class="forum-list-container stretch">
-                        <tbody>
-                            @(Html.DevExtreme().TreeList<Forum.Models.ViewModels.MainTopicViewModel>()
+                        <table class="forum-list-container stretch">
+                            <tbody>
+                                @(Html.DevExtreme().TreeList<Forum.Models.ViewModels.MainTopicViewModel>()
 .ID("tree-list")
 .DataSource(ds => ds.WebApi()
 .Controller("Admin")
@@ -134,13 +137,144 @@ columns.Add()
 
 .OnInitNewRow("treeList_onInitNewRow")
                                         )
-                        </tbody>
-                    </table>
-                </section>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
             </div>
         </div>
     </div>
-</div>
+}
+else
+{
+    <div class="forum">
+        <div class="wrapper wrapper wrapper-1600">
+
+            <div class="box round-corner type-forum">
+                <div class="row">
+                    <section class="col-lg-12">
+                        <div class="
+										d-flex
+										flex-direction-row
+										align-items-center
+										justify-content-end
+									">
+                            <div class="
+											forum-search
+											d-flex
+											flex-direction-row
+											align-items-center
+											justify-content-end
+										">
+                                @*<label>Filter</label>
+                                    <select class="form-control form-control-sm">
+                                        <option>Datewise</option>
+                                        <option>Latest</option>
+                                        <option>Oldest</option>
+                                        <option>Most commented</option>
+                                    </select>*@
+                            </div>
+                        </div>
+                        <table class="forum-list-container stretch">
+                            <tbody>
+                                @(Html.DevExtreme().TreeList<Forum.Models.ViewModels.MainTopicViewModel>()
+.ID("tree-list")
+.DataSource(ds => ds.WebApi()
+.Controller("Admin")
+.LoadAction("GetMainTopics")
+.InsertAction("InsertTask")
+.UpdateAction("UpdateTask")
+.DeleteAction("DeleteTask")
+.Key("MainTopicId")
+)
+.RemoteOperations(r => r.Filtering(true).Sorting(true).Grouping(false))
+.KeyExpr("MainTopicId")
+.ParentIdExpr("ParentIdFK")
+.HasItemsExpr("HasItems")
+.ExpandedRowKeys(new[] { 1, 2 })
+.SearchPanel(seachPanel => seachPanel.Visible(true))
+.HeaderFilter(headerFilter => headerFilter.Visible(true))
+
+//.Editing(editing => editing
+//    .Mode(GridEditMode.Row)
+//    .AllowAdding(false)
+//    .AllowUpdating(false)
+//    .AllowDeleting(false)
+//)
+.ShowRowLines(true)
+.ShowBorders(true)
+.ColumnAutoWidth(true)
+.WordWrapEnabled(true)
+.Columns(columns =>
+{
+columns.AddFor(x => x.Title)
+    .CellTemplate(@<text>
+                            <a href="@Url.Action("SubTopic", "Forum")/<%= data.MainTopicId %>"><%= data.Title %></a>
+                            </text>);
+
+columns.Add()
+               .Caption("Controls")
+               .MinWidth(120)
+               //.CellTemplate("<div class='d-flex align-items-center'>" +
+               //                 "<select class='form-control-sm'>" +
+               //                     "<option>Edit topic</option>" +
+               //                     "<option>Delete topic</option>" +
+               //                 "</select>" +
+               //                 "<a class='btn btn-sm btn-default' id='edit_delete_control_event' onclick='edit_delete_control_event()'> Go</a>" +
+               //                 "</div>"
+               //             );
+               .CellTemplate(@<text>
+
+                @(Html.DevExtreme().SelectBox()
+                              .ID(new JS("id(row)"))
+                              .ElementAttr(new { @class = "form-control-sm" })
+                              .DataSource(new[] {
+                        "Edit",
+                        "Delete"
+
+           })
+                              .Buttons(b =>
+                              {
+                                  b.Add()
+                                      .Name("Go")
+                                      .Widget(w => w.Button().ElementAttr(new { @class = "btn btn-sm btn-default" })
+                                          .Text("Go")
+                                          .OnClick("function(){onClick(row)}")
+                                      );
+
+                              })
+                )
+
+            </text>);
+    columns.AddFor(x => x.DisplayOrder)
+             .MinWidth(60)
+              .CellTemplate("<div class='channel-display-orders'>" +
+                                  "<input class='form-control-sm' type='text' />" +
+                                  "</div>"
+              ).HeaderCellTemplate("<div class='header-posts'><span>Display order</span></div>");
+    columns.AddFor(x => x.Moderator)
+               .MinWidth(120)
+               .CellTemplate("<div class='d-flex align-items-center'>" +
+                                "<select class='form-control-sm'>" +
+                                    "<option>User 1</option>" +
+                                    "<option>User 2</option>" +
+                                "</select>" +
+                                "</div>"
+                        );
+})
+
+.OnInitNewRow("treeList_onInitNewRow")
+                                        )
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
 
 <div id="newChannel" class="modal">
     <header class="modal-header">Add New Topic</header>

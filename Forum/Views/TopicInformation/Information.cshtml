@@ -1,5 +1,8 @@
-﻿@using System.Text.RegularExpressions
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<ApplicationUser> signInManager;
+@using System.Text.RegularExpressions
 @model List<Forum.Models.ViewModels.TopicInformationViewModel>
+
 
 
 @{
@@ -7,39 +10,26 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@section Header{
+@section Header
+{
     <partial name="~/Views/Shared/PartialView/AdminHeader.cshtml" />
 }
 
-<style>
-    #validation-summary label {
-        float: none;
-        width: auto;
-        color: red;
-    }
 
-        #validation-summary label.error.no-text {
-            display: none !important;
-        }
-
-    input.error {
-        border: 1px solid #FF2323;
-    }
-</style>
 
 
 <div class="forum">
     <div class="wrapper wrapper wrapper-1600">
         <div class="parent-title">
             @*@{
-                var queryParam = Context.Request.RouteValues["mainTopicId"];
-                int parentIdFk = int.Parse(queryParam == null ? "0" : queryParam.ToString());
-                var parentTopic = Model.Where(x => x.MainTopicId == parentIdFk).FirstOrDefault();
-                if (parentTopic != null)
-                {
-                        @parentTopic.Title
-                }
-            }*@
+                    var queryParam = Context.Request.RouteValues["mainTopicId"];
+                    int parentIdFk = int.Parse(queryParam == null ? "0" : queryParam.ToString());
+                    var parentTopic = Model.Where(x => x.MainTopicId == parentIdFk).FirstOrDefault();
+                    if (parentTopic != null)
+                    {
+                            @parentTopic.Title
+                    }
+                }*@
         </div>
 
         <nav aria-label="breadcrumb">
@@ -55,10 +45,22 @@
         <div class="box round-corner type-forum">
             <div class="row">
                 <section class="col-lg-12">
+
                     <div class="d-flex flex-direction-row align-items-center justify-content-between">
-                        <div class="forum-add">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="forum-add">
+
+                                <a href="#newInformation" rel="modal:open" class="btn btn-outline open-modal">+ Add New Information</a>
+                            </div>
+
+                        }
+                        @*<div class="forum-add">
+
                             <a href="#newInformation" rel="modal:open" class="btn btn-outline open-modal">+ Add New Information</a>
-                        </div>
+                        </div>*@
+
+
                         <div class="forum-search d-flex flex-direction-row align-items-center justify-content-end">
                             <label>Filter</label>
                             <select class="form-control form-control-sm">
@@ -69,6 +71,8 @@
                             </select>
                         </div>
                     </div>
+
+
 
                     <div>
 
@@ -83,12 +87,12 @@
                                 </tr>
 
                                 @*<tr class="category-header" id="forum14">
-                                    <td colspan="4">
-                                        <div class="header">
-                                            <a class="category" data-nodeid="14" href="">Announcements</a>
-                                        </div>
-                                    </td>
-                                </tr>*@
+                                        <td colspan="4">
+                                            <div class="header">
+                                                <a class="category" data-nodeid="14" href="">Announcements</a>
+                                            </div>
+                                        </td>
+                                    </tr>*@
                                 @*Top level Forums*@
 
                                 @{
@@ -192,9 +196,9 @@
     <main class="modal-main">
         <form id="AddTopicInformation" method="post" enctype="multipart/form-data">
             @*<div id="validation-summary">
-                <p>Please provide values for the highlighted fields.</p>
-                <ul />
-            </div>*@
+                    <p>Please provide values for the highlighted fields.</p>
+                    <ul />
+                </div>*@
             <div class="form-wrapper">
 
 
@@ -206,7 +210,7 @@
                     <label class="col-lg-3 form-title"> Title </label>
                     <div class="col-lg-9">
                         <input type="text" class="form-control" id="Title" name="Title" required />
-                        <span class="validation_error"  name="Title"></span>
+                        <span class="validation_error" name="Title"></span>
                     </div>
                 </div>
 
@@ -325,7 +329,7 @@
                         </span>
                     </label>
                     <div class="col-lg-9">
-                        <input type="file" class="form-control"  id="Graphics" name="Graphics" re />
+                        <input type="file" class="form-control" id="Graphics" name="Graphics" re />
                         <span class="validation_error" name="Graphics"></span>
                     </div>
                 </div>
@@ -361,13 +365,13 @@
     //    debugger;
     //    return $("#MainTopicsIdFK").val();
     //}
-    
-   
-   
+
+
+
 
     function Submit() {
         $('body').on('click', '#btn-submit-topicinformation', function (e) {
-          
+
            e.preventDefault();
             $('#btn-submit-topicinformation').prop('disabled', true);
             var formData = new FormData($(this).parents('form')[0]);
@@ -397,11 +401,11 @@
         });
     }
 
-   
 
 
 
-   
+
+
 
 
 

@@ -11,6 +11,7 @@ using Forum.Models.ViewModels;
 using Forum.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -28,8 +29,9 @@ namespace Forum.Controllers
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly UserService userService;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
-        public TopicInformationController(UserService _userService,IWebHostEnvironment _webHostEnvironment, IOptions<AppSettings> _appSettings,
+        public TopicInformationController(IHttpContextAccessor _httpContextAccessor, UserService _userService,IWebHostEnvironment _webHostEnvironment, IOptions<AppSettings> _appSettings,
             TopicInformationService _topicInformationService, ForumDbx _db)
         {
             webHostEnvironment = _webHostEnvironment;
@@ -37,6 +39,8 @@ namespace Forum.Controllers
             topicInformationService = _topicInformationService;
             db = _db;
             userService = _userService;
+            httpContextAccessor = _httpContextAccessor;
+
         }
 
         [HttpGet]
@@ -59,7 +63,7 @@ namespace Forum.Controllers
         {
             try
             {
-                topicInformationViewModel.Status = StatusEnum.New.ToString();
+                int parentIdFK = topicInformationViewModel.ParentIdFK;
                 List<Claim> userClaims = userService.GetUserClaims();
 
                 //var user = await userManager.FindByEmailAsync(currentUserEmail);
@@ -98,8 +102,9 @@ namespace Forum.Controllers
                     {
                         id = topicInformationViewModel.MainTopicsIdFK;
                         TempData["Success"] = "Topic Information Successfully Added.";
-                        
-                        return RedirectToAction("~/TopicInformation/Information/"+id );
+
+                        //return RedirectToAction(string.Format("/TopicInformation/Information/{0}/{1}", id, parentIdFK) );
+                        return RedirectToAction("Information", "TopicInformation", new { mainTopicId = id, parentIdFk = parentIdFK });
                     }
                     else
                     {

@@ -21,7 +21,7 @@ namespace Forum.Models.ViewModels
         public Nullable<System.DateTime> LastUpdatedDate { get; set; }
         public string LastUpdatedBy { get; set; }
         public string Status { get; set; }
-
+        public int ParentIdFK { get; set; }
         public static implicit operator TopicInformationViewModel(TopicInformation mainTopicPost)
         {
             TopicInformationViewModel mainTopicPostVM = new TopicInformationViewModel();

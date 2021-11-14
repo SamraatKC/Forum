@@ -202,7 +202,7 @@
             <div class="form-wrapper">
 
 
-                <input type="hidden" value="@ViewBag.ParentIdFk" name="ParentIdFK"/>
+
                 <input type="hidden" value="@ViewBag.MainTopicId" id="MainTopicsIdFK" name="MainTopicsIdFK" />
 
 
@@ -382,6 +382,7 @@
             $("#AddTopicInformation").valid();
            var baseUrl = '@Url.Content("~/")';
             $.ajax({
+                
                 url: baseUrl + 'TopicInformation/AddTopicInformation',
                 type: 'POST',
                 xhr: function () {
@@ -389,7 +390,8 @@
                     return myXhr;
                 },
                 success: function (data) {
-                    $("#newInformation").modal('close');
+                    //window.location.reload();
+                    $("#newInformation").modal('hide');
                     /*messageBoxStay(data.status.toLowerCase(), unescape(data.message));*/
                 },
                 data: formData,

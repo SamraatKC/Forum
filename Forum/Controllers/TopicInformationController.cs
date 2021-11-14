@@ -59,11 +59,11 @@ namespace Forum.Controllers
 
        
         [HttpPost]
-        public async Task<IActionResult> AddTopicInformation(TopicInformationViewModel topicInformationViewModel,int? id=null)
+        public async Task<IActionResult> AddTopicInformation(TopicInformationViewModel topicInformationViewModel,int? id=null,int? parentIdFK=null)
         {
             try
             {
-                int parentIdFK = topicInformationViewModel.ParentIdFK;
+                
                 List<Claim> userClaims = userService.GetUserClaims();
 
                 //var user = await userManager.FindByEmailAsync(currentUserEmail);
@@ -101,10 +101,11 @@ namespace Forum.Controllers
                     if (result == true)
                     {
                         id = topicInformationViewModel.MainTopicsIdFK;
-                        TempData["Success"] = "Topic Information Successfully Added.";
-
+                        parentIdFK = topicInformationViewModel.ParentIdFK;
+                        return Ok();
+                        //TempData["Success"] = "Topic Information Successfully Added.";
                         //return RedirectToAction(string.Format("/TopicInformation/Information/{0}/{1}", id, parentIdFK) );
-                        return RedirectToAction("Information", "TopicInformation", new { mainTopicId = id, parentIdFk = parentIdFK });
+                        //return RedirectToAction("Information", "TopicInformation", new {  id,  parentIdFK });
                     }
                     else
                     {

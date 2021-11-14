@@ -347,6 +347,7 @@ columns.Add()
                 dataType: "json",
                 success: function (result) {
                     mainTopicInfo(result);
+                    //window.location.reload();
                 },
                 error: function (xhr) {
                     console.log(xhr.responseText);
@@ -366,10 +367,11 @@ columns.Add()
                 url: "/Admin/DeleteMainTopicById/" + maintopicId,
                 success: function (result) {
                     if (result != null) {
-
+                        window.location.reload();
                         alert("Selected Record has been successfully deleted.")
                     }
                     else {
+                        window.location.reload();
                         alert("Selected Record couldnot be deleted because of its dependencies with child topic.")
                     }
                 },

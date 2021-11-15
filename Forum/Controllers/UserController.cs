@@ -435,7 +435,8 @@ namespace Forum.Controllers
 
         public async Task<IActionResult> LogOut()
         {
-            await signInManager.SignOutAsync();
+            await userService.SignOut(httpContextAccessor.HttpContext);
+            //await signInManager.SignOutAsync();
             return LocalRedirect("/");
 
         }

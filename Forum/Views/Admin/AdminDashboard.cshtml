@@ -50,40 +50,92 @@
                     <table class="forum-list-container stretch">
                         <tbody>
                             @(Html.DevExtreme().TreeList<Forum.Models.ViewModels.MainTopicViewModel>()
-       .ID("tree-list")
-       .DataSource(ds => ds.WebApi()
-           .Controller("Admin")
-           .LoadAction("GetMainTopics")
-           .InsertAction("InsertTask")
-           .UpdateAction("UpdateTask")
-           .DeleteAction("DeleteTask")
-           .Key("MainTopicId")
-       )
-       .RemoteOperations(r => r.Filtering(true).Sorting(true).Grouping(true))
-       .KeyExpr("MainTopicId")
-       .ParentIdExpr("ParentIdFK")
-       .HasItemsExpr("HasItems")
-       .ExpandedRowKeys(new[] { 1, 2 })
-       .SearchPanel(seachPanel => seachPanel.Visible(true))
-       .HeaderFilter(headerFilter => headerFilter.Visible(true))
-       //.Editing(editing => editing
-       //    .Mode(GridEditMode.Row)
-       //    .AllowAdding(false)
-       //    .AllowUpdating(false)
-       //    .AllowDeleting(false)
-       //)
-       .ShowRowLines(true)
-       .ShowBorders(true)
-       .ColumnAutoWidth(true)
-       .WordWrapEnabled(true)
+.ID("tree-list")
+.DataSource(ds => ds.WebApi()
+.Controller("Admin")
+.LoadAction("GetMainTopics")
+.InsertAction("InsertTask")
+.UpdateAction("UpdateTask")
+.DeleteAction("DeleteTask")
+.Key("MainTopicId")
+)
+.RemoteOperations(r => r.Filtering(true).Sorting(true).Grouping(false))
+.KeyExpr("MainTopicId")
+.ParentIdExpr("ParentIdFK")
+.HasItemsExpr("HasItems")
+.ExpandedRowKeys(new[] { 1, 2 })
+.SearchPanel(seachPanel => seachPanel.Visible(true))
+.HeaderFilter(headerFilter => headerFilter.Visible(true))
 
-       .Columns(columns =>
-       {
-           columns.AddFor(m => m.Title).MinWidth(250);
-           columns.AddFor(m => m.Description);
-           columns.AddFor(x => x.DisplayOrder);
-       })
-       .OnInitNewRow("treeList_onInitNewRow")
+//.Editing(editing => editing
+//    .Mode(GridEditMode.Row)
+//    .AllowAdding(false)
+//    .AllowUpdating(false)
+//    .AllowDeleting(false)
+//)
+.ShowRowLines(true)
+.ShowBorders(true)
+.ColumnAutoWidth(true)
+.WordWrapEnabled(true)
+.Columns(columns =>
+{
+columns.AddFor(x => x.Topic)
+    .CellTemplate(@<text>
+                            <a href="@Url.Action("SubTopic", "Forum")/<%= data.MainTopicId %>"><%= data.Topic %></a>
+                            </text>);
+
+columns.Add()
+               .Caption("Controls")
+               .MinWidth(120)
+               //.CellTemplate("<div class='d-flex align-items-center'>" +
+               //                 "<select class='form-control-sm'>" +
+               //                     "<option>Edit topic</option>" +
+               //                     "<option>Delete topic</option>" +
+               //                 "</select>" +
+               //                 "<a class='btn btn-sm btn-default' id='edit_delete_control_event' onclick='edit_delete_control_event()'> Go</a>" +
+               //                 "</div>"
+               //             );
+               .CellTemplate(@<text>
+
+                @(Html.DevExtreme().SelectBox()
+                              .ID(new JS("id(row)"))
+                              .ElementAttr(new { @class = "form-control-sm" })
+                              .DataSource(new[] {
+                        "Edit",
+                        "Delete"
+
+           })
+                              .Buttons(b =>
+                              {
+                                  b.Add()
+                                      .Name("Go")                                      
+                                      .Widget(w => w.Button().ElementAttr(new { @class = "btn btn-sm btn-default" })
+                                          .Text("Go")
+                                          .OnClick("function(){onClick(row)}")
+                                      );
+                                  
+                              })
+                )
+
+            </text>);
+    columns.AddFor(x => x.DisplayOrder)
+             .MinWidth(60)
+              .CellTemplate("<div class='channel-display-orders'>" +
+                                  "<input class='form-control-sm' type='text' />" +
+                                  "</div>"
+              ).HeaderCellTemplate("<div class='header-posts'><span>Display order</span></div>");
+    columns.AddFor(x => x.Moderator)
+               .MinWidth(120)
+               .CellTemplate("<div class='d-flex align-items-center'>" +
+                                "<select class='form-control-sm'>" +
+                                    "<option>User 1</option>" +
+                                    "<option>User 2</option>" +
+                                "</select>" +
+                                "</div>"
+                        );
+})
+
+.OnInitNewRow("treeList_onInitNewRow")
                                         )
                         </tbody>
                     </table>
@@ -95,20 +147,30 @@
 
 <div id="newChannel" class="modal">
     <header class="modal-header">Add New Topic</header>
+    <input type="hidden" id="hdMainTopicId" />
     <main class="modal-main">
-        <form method="post" asp-controller="MainTopic" asp-action="AddMainTopic">
+        <form method="post" asp-controller="Forum" asp-action="AddMainTopic" enctype="multipart/form-data">
             <div class="form-wrapper">
+               
+                   
+                   
+                        <input type="text" class="form-control" id="MainTopicId" asp-for="MainTopicId" name="MainTopicId" hidden />
+                      
+                   
+               
                 <div class="row align-items-center">
-                    <label class="col-lg-3 form-title"> Title </label>
+                    <label class="col-lg-3 form-title"> Topic </label>
                     <div class="col-lg-9">
-                        <input type="text" class="form-control" name="Title" />
+                        <input type="text" class="form-control" id="Topic" asp-for="Topic" name="Topic" />
+                        <span class="validation_error" asp-validation-for="Topic"></span>
                     </div>
                 </div>
 
                 <div class="row align-items-center">
                     <label class="col-lg-3 form-title"> Description </label>
                     <div class="col-lg-9">
-                        @(Html.DevExtreme().HtmlEditorFor(m=>m.Description)
+                        @(Html.DevExtreme().HtmlEditorFor(m => m.Description)
+                        .ID("html-editor")
                                      .Height(200)
                                  .Toolbar(toolbar => toolbar.Items(
                                   items =>
@@ -201,7 +263,7 @@
                                   .Placeholder("Write your decription..."))
 
 
-
+                        <span class="validation_error" asp-validation-for="Description"></span>
                     </div>
                 </div>
 
@@ -210,11 +272,12 @@
                         Topic icon
                         <span>
                             Icon changes will not be reflected on the forum until you
-                            save this channel
+                            save this Main Topic
                         </span>
                     </label>
                     <div class="col-lg-9">
-                        <input type="file" class="form-control" name="TopicIcon" />
+                        <input type="file" class="form-control" asp-for="Graphics" id="Graphics" name="Graphics" />
+                        <span class="validation_error" asp-validation-for="Graphics"></span>
                     </div>
                 </div>
 
@@ -224,16 +287,18 @@
                         <span>Set to '0' to not display this item.</span>
                     </label>
                     <div class="col-lg-9">
-                        <input type="number" class="form-control" name="DisplayOrder" />
+                        <input type="number" class="form-control" asp-for="DisplayOrder" name="DisplayOrder" id="DisplayOrder" />
+                        <span class="validation_error" asp-validation-for="DisplayOrder"></span>
                     </div>
                 </div>
 
                 <div class="row align-items-center">
-                    <label class="col-lg-3 form-title"> Parent channel </label>
+                    <label class="col-lg-3 form-title"> Parent Topic </label>
                     <div class="col-lg-9">
-                        <select id="parentTopicId" name="ParentIdFK" asp-items="@ViewBag.ParentTopic">
+                        <select id="ParentIdFK" asp-items="@ViewBag.ParentTopic" asp-for="ParentIdFK" name="ParentIdFK">
                             <option value="0"> --Main Topic --</option>
                         </select>
+                        <span class="validation_error" asp-validation-for="ParentIdFK"></span>
                     </div>
                 </div>
 
@@ -262,4 +327,78 @@
         e.data.Task_Start_Date = new Date();
         e.data.Task_Due_Date = new Date();
     }
+    function edit_delete_control_event() {
+        $("#newChannel").modal('show');
+    }
+   
+
+
+    var selectBoxes = []
+    function onClick(row) {
+        //console.log($(`#selectBox${row.key}`).dxSelectBox("instance").option("value"));
+        //console.log(row.key);
+        var selectedValue = $(`#selectBox${row.key}`).dxSelectBox("instance").option("value");
+        if (selectedValue == 'Edit') {
+            var mainTopicId = (row.key);
+            $.ajax({
+                type: "GET",
+                url: "/Admin/GetMainTopicById/" + mainTopicId,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    mainTopicInfo(result);
+                    //window.location.reload();
+                },
+                error: function (xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
+            return false;
+
+
+        }
+        else if (selectedValue == 'Delete') {
+            var maintopicId = (row.key);
+            if (maintopicId === 0 || maintopicId === undefined) return false;
+            var isConfirmed = confirm("Are you sure you want to delete selected record?");
+            if (!isConfirmed) return false;
+            $.ajax({
+                type: "POST",
+                url: "/Admin/DeleteMainTopicById/" + maintopicId,
+                success: function (result) {
+                    if (result != null) {
+                        window.location.reload();
+                        alert("Selected Record has been successfully deleted.")
+                    }
+                    else {
+                        window.location.reload();
+                        alert("Selected Record couldnot be deleted because of its dependencies with child topic.")
+                    }
+                },
+                error: function (xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
+
+        }
+    }
+
+    var id = function (row) {
+        return "selectBox" + row.key;
+    }
+
+    var mainTopicInfo = function (result) {
+        $("#newChannel").modal('show');
+        result = JSON.parse(result);
+        console.log(result);
+        //$("#hdMainTopicId").val(result.Main)
+        /*$('#newChannel #MainTopicId').val(result.MainTopicId);*/
+        $("#newChannel #MainTopicId").val(result.Result.MainTopicId);
+        $("#newChannel #Title").val(result.Result.Title);
+        $("#newChannel .ql-editor.dx-htmleditor-content").html(result.Result.Description);
+        $("#newChannel #DisplayOrder").val(result.Result.DisplayOrder);
+        $("#newChannel #Graphics").val(result.Result.TopicIcon);
+        $("#newChannel #ParentIdFK").val(result.Result.ParentIdFK);
+    };
+   
 </script>

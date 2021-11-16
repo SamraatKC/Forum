@@ -20,11 +20,5 @@ namespace Forum.Service
             appSettings = _appSettings;
             db = new ForumDbx(_appSettings);
         }
-
-        public async Task<List<MainTopicPostViewModel>> GetAllMainTopicPost()
-        {
-            var result = await db.MainTopicPosts.Select(x => (MainTopicPostViewModel)x).ToListAsync();
-            return result;
-        }
     }
 }

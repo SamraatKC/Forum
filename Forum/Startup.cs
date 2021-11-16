@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Forum.Common;
 using Forum.Data;
@@ -34,7 +35,8 @@ namespace DevExtremeAspNetCoreApp
             // Add framework services.
             services
                 .AddControllersWithViews()
-                .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
+                .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null
+                    );
             string connectionString = Configuration.GetConnectionString("DefaultConnectionString");
             services.AddDbContext<ApplicationDbContext>(config =>
             {
@@ -65,9 +67,11 @@ namespace DevExtremeAspNetCoreApp
                 options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                
             })
              .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, (options) =>
              {
+                 options.Cookie.Name = "_06151813.Cookies";
                  options.LoginPath = "/User/Login";
                  //options.LogoutPath = "/Home";
              });
@@ -95,12 +99,12 @@ namespace DevExtremeAspNetCoreApp
             #endregion
 
             #region injection
-            services.AddScoped<HttpContextAccessor>();
+           
             services.AddScoped<ForumDbx>();
             services.AddScoped<UserService>();
             services.AddScoped<HttpContextAccessor>();
             services.AddScoped<MainTopicService>();
-            services.AddScoped<MainTopicPostService>();
+            services.AddScoped<TopicInformationService>();
             services.AddScoped<AdminService>();
             services.AddScoped<RegularUserService>();
             services.AddScoped<EmailHelper>();
@@ -124,7 +128,7 @@ namespace DevExtremeAspNetCoreApp
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => {

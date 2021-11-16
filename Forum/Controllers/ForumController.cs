@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using DevExtreme.AspNet.Data;
+using DevExtreme.AspNet.Mvc;
 using Forum.Common;
 using Forum.Data;
 using Forum.Models;
@@ -24,6 +26,7 @@ namespace Forum.Controllers
     public class ForumController : Controller
     {
         ForumDbx db;
+        private readonly TopicInformationService topicInformationService;
         private readonly IOptions<AppSettings> appSettings;
         private readonly MainTopicService mainTopicService;
         private IWebHostEnvironment webHostEnvironment;
@@ -32,10 +35,12 @@ namespace Forum.Controllers
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly UserService userService;
-        public ForumController(IHttpContextAccessor _httpContextAccessor, IWebHostEnvironment _webHostEnvironment, IOptions<AppSettings> _appSettings, MainTopicService _mainTopicService, ForumDbx _db, UserService _userService)
+        public ForumController(TopicInformationService _topicInformationService, IHttpContextAccessor _httpContextAccessor, IWebHostEnvironment _webHostEnvironment,
+            IOptions<AppSettings> _appSettings, MainTopicService _mainTopicService, ForumDbx _db, UserService _userService)
         {
             webHostEnvironment = _webHostEnvironment;
             appSettings = _appSettings;
+            topicInformationService = _topicInformationService;
             mainTopicService = _mainTopicService;
             db = _db;
             httpContextAccessor = _httpContextAccessor;
@@ -44,21 +49,26 @@ namespace Forum.Controllers
         }
         public IActionResult Index()
         {
+          
             return View();
         }
         [HttpGet]
 
         public IActionResult AddMainTopic()
         {
-
-            //fettch all the topics from table MainTopics with Text as title and value as id,
-            var parentTopics = mainTopicService.GetAllMainTopic()
-                .Select(x => new SelectListItem{ Text = x.Title, Value = x.MainTopicId.ToString() }).ToList();
+            if (ModelState.IsValid)
+            {
+                //fettch all the topics from table MainTopics with Text as title and value as id,
+                var parentTopics = mainTopicService.GetAllMainTopic()
+                    .Select(x => new SelectListItem { Text = x.Topic, Value = x.MainTopicId.ToString() }).ToList();
                 //.ToList(x => x.MainTopicId, y => y.Title);
-            ViewBag.ParentTopic = parentTopics;
-            return View();
-        }
+                ViewBag.ParentTopic = parentTopics;
+                return View();
 
+            }
+            return RedirectToAction("AdminDashboard", "Admin");
+        }
+        
         [HttpPost]
         public async Task<IActionResult> AddMainTopic([FromForm] MainTopicViewModel mainTopicViewModel)
         {
@@ -96,17 +106,33 @@ namespace Forum.Controllers
                 // }
                 #endregion
 
-
-                var result = await mainTopicService.AddMainTopic(mainTopicViewModel);
-                if (result == true)
+                if(mainTopicViewModel.MainTopicId==0)
                 {
-                    TempData["Success"] = "Main Topic Successfully Added.";
-                    return View();
+                    var result = await mainTopicService.AddMainTopic(mainTopicViewModel);
+                    if (result == true)
+                    {
+                        TempData["Success"] = "Main Topic Successfully Added.";
+                        return Redirect("~/Admin/AdminDashboard");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Oops! some error occured while adding main topic.");
+                        return View("Error");
+                    }
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Oops! some error occured while adding channel.");
-                    return View("Error");
+                    var data = await mainTopicService.UpdateMainTopic(mainTopicViewModel);
+                    if(data!=null)
+                    {
+                        TempData["Success"] = "Main Topic Successfully Updated.";
+                        return Redirect("~/Admin/AdminDashboard");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Oops! some error occured while updating main topic.");
+                        return View("Error");
+                    }
                 }
                 //return View();
             }
@@ -124,7 +150,6 @@ namespace Forum.Controllers
             var result = await mainTopicService.FindMainTopicById(id);
             return View(result);
         }
-
         [HttpPost]
         public async Task<IActionResult> UpdateMainTopic(MainTopicViewModel mainTopicViewModel)
         {
@@ -154,6 +179,15 @@ namespace Forum.Controllers
                 throw ex;
             }
 
+        }
+
+        [HttpGet]
+        [Route("/Forum/SubTopic/{mainTopicId}")]
+        public async Task<IActionResult> SubTopic(int mainTopicId)
+        {
+            ViewBag.MainTopicId = mainTopicId;
+            var topicAndItsSubTopic = await topicInformationService.FindTopicInformationByTopicId(mainTopicId);
+            return View(topicAndItsSubTopic);
         }
 
     }

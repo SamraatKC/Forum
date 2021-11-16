@@ -32,8 +32,6 @@
       <Content Remove="wwwroot\assets\css\vendor\jquery.modal.min.scss" />
       <Content Remove="wwwroot\assets\css\vendor\select2.min.scss" />
       <Content Remove="wwwroot\assets\css\vendor\swiper-bundle.min.scss" />
-      <Content Remove="wwwroot\assets\dist\app.min.js" />
-      <Content Remove="wwwroot\assets\dist\jquery.min.js" />
       <Content Remove="wwwroot\assets\dist\style.min.css.map" />
       <Content Remove="wwwroot\assets\fonts\fontello.svg" />
       <Content Remove="wwwroot\assets\fonts\fontello.woff2" />
@@ -148,26 +146,11 @@
 
     <ItemGroup>
       <_ContentIncludedByDefault Remove="Views\Admin\AdminDashboard.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Forum\AddMainTopic.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Forum\GetAllMainTopic.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Forum\Index.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Forum\UpdateMainTopic.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Home\Privacy.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\MainTopicPost\AddMainTopicPost.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\MainTopicPost\GetAllMainTopicPost.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\MainTopicPost\UpdateMainTopicPost.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\RegularUser\RegularUserDashboard.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Shared\PartialView\AdminHeader.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Shared\PartialView\Header.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Shared\_DevExtremeLayout.cshtml" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <UpToDateCheckInput Remove="Views\Forum\AddMainTopic.cshtml" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <UpToDateCheckInput Remove="Views\Forum\GetAllMainTopic.cshtml" />
     </ItemGroup>
 
     <ItemGroup>
@@ -175,27 +158,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <UpToDateCheckInput Remove="Views\Forum\UpdateMainTopic.cshtml" />
-    </ItemGroup>
-
-    <ItemGroup>
       <UpToDateCheckInput Remove="Views\Home\Privacy.cshtml" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <UpToDateCheckInput Remove="Views\MainTopicPost\AddMainTopicPost.cshtml" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <UpToDateCheckInput Remove="Views\MainTopicPost\GetAllMainTopicPost.cshtml" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <UpToDateCheckInput Remove="Views\MainTopicPost\UpdateMainTopicPost.cshtml" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <UpToDateCheckInput Remove="Views\RegularUser\RegularUserDashboard.cshtml" />
     </ItemGroup>
 
     <ItemGroup>
@@ -238,8 +201,6 @@
       <None Include="wwwroot\assets\css\vendor\jquery.modal.min.scss" />
       <None Include="wwwroot\assets\css\vendor\select2.min.scss" />
       <None Include="wwwroot\assets\css\vendor\swiper-bundle.min.scss" />
-      <None Include="wwwroot\assets\dist\app.min.js" />
-      <None Include="wwwroot\assets\dist\jquery.min.js" />
       <None Include="wwwroot\assets\dist\style.min.css.map" />
       <None Include="wwwroot\assets\fonts\fontello.svg" />
       <None Include="wwwroot\assets\fonts\fontello.woff2" />
@@ -251,6 +212,10 @@
       <None Include="wwwroot\assets\js\parts\theme.js" />
       <None Include="wwwroot\assets\js\vendor\swiper-bundle.js" />
       <None Include="wwwroot\assets\select2.min.js" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Views\RegularUser\" />
     </ItemGroup>
 
 </Project>

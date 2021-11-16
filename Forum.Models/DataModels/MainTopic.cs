@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Forum.Models.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace Forum.Models.DataModels
         public MainTopic Parent { get; set; }
         public int? ParentIdFK { get; set; }
         public string ReferenceLink { get; set; }
-        public string Title { get; set; }
+        public string Topic { get; set; }
         public string Description { get; set; }
         public string TopicIcon { get; set; }
         public int DisplayOrder { get; set; }
@@ -31,9 +32,24 @@ namespace Forum.Models.DataModels
         public string LastUpdatedBy { get; set; }
         public string Status { get; set; }
         public string Moderator { get; set; }
-        public List<MainTopicPost> MainTopicPost { get; set; }
+        public List<TopicInformation> MainTopicPost { get; set; }
         public ICollection<MainTopic> ChildTopic { get; set; }
 
+
+        public static implicit operator MainTopic(MainTopicViewModel vm)
+        {
+            MainTopic mt = new MainTopic();
+            mt.MainTopicId = vm.MainTopicId;
+            mt.Description = vm.Description;
+            //c.GraphicsURL = vm.GraphicsURL;
+            mt.TopicIcon = vm.TopicIcon;
+            mt.ParentIdFK = vm.ParentIdFK;
+            mt.DisplayOrder = vm.DisplayOrder;
+            mt.Topic = vm.Topic;
+            
+
+            return mt;
+        }
 
 
     }

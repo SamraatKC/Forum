@@ -18,7 +18,8 @@ namespace Forum.Models.ViewModels
         public int ThemeIdFK { get; set; }
         public int? ParentIdFK { get; set; }
         public string ReferenceLink { get; set; }
-        public string Title { get; set; }
+        [Required]
+        public string Topic { get; set; }
        
         public string Description { get; set; }
        
@@ -50,7 +51,7 @@ namespace Forum.Models.ViewModels
             mainTopicVM.ThemeIdFK = mainTopic.ThemeIdFK;
             mainTopicVM.ParentIdFK = mainTopic.ParentIdFK;
             mainTopicVM.ReferenceLink = mainTopic.ReferenceLink;
-            mainTopicVM.Title = mainTopic.Title;
+            mainTopicVM.Topic = mainTopic.Topic;
             mainTopicVM.Description = mainTopic.Description;
             mainTopicVM.TopicIcon = mainTopic.TopicIcon;
             mainTopicVM.DisplayOrder = mainTopic.DisplayOrder;

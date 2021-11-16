@@ -1,43 +1,61 @@
 ﻿@using System.Text.RegularExpressions
-@model List<Forum.Models.ViewModels.MainTopicViewModel>
+@model List<Forum.Models.ViewModels.TopicInformationViewModel>
 @{
     ViewData["Title"] = "Forum";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @section Header{
-    <partial name="~/Views/Shared/PartialView/AdminHeader.cshtml" />
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="header-top">
+            <div class="wrapper wrapper-1280 d-flex justify-content-end">
+                <a asp-controller="User" asp-action="Logout">Sign Out</a>
+
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="header-top">
+            <div class="wrapper wrapper-1280 d-flex justify-content-end">
+                <a asp-controller="User" asp-action="Login">Sign in</a>
+
+            </div>
+        </div>
+    }
+
 }
 <input type="hidden" value="@ViewBag.MainTopicId" id="hdMainTopicId" />
 
 <div class="forum">
     <div class="wrapper wrapper wrapper-1600">
         @*<div class="box round-corner entry-content type-alert">
-            <div>
-                <p>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting
-                    industry. Lorem Ipsum has been the industry's standard dummy
-                    text ever since the 1500s, when an unknown printer took a galley
-                    of type and scrambled it to make a type specimen book.
-                </p>
+                <div>
+                    <p>
+                        Lorem Ipsum is simply dummy text of the printing and typesetting
+                        industry. Lorem Ipsum has been the industry's standard dummy
+                        text ever since the 1500s, when an unknown printer took a galley
+                        of type and scrambled it to make a type specimen book.
+                    </p>
 
-                <p>Useful Links for Guests:</p>
-                <ul>
-                    <li>
-                        Aliquam lobortis erat at est ornare, a rutrum quam convallis.
-                    </li>
-                    <li>Proin molestie lectus quis cursus maximus.</li>
-                    <li>
-                        Morbi lobortis metus a leo volutpat, vitae gravida turpis
-                        luctus.
-                    </li>
-                </ul>
-                <p>
-                    If you are having problems posting in the relevant areas for
-                    your software, please see this topic.
-                </p>
-            </div>
-        </div>*@
+                    <p>Useful Links for Guests:</p>
+                    <ul>
+                        <li>
+                            Aliquam lobortis erat at est ornare, a rutrum quam convallis.
+                        </li>
+                        <li>Proin molestie lectus quis cursus maximus.</li>
+                        <li>
+                            Morbi lobortis metus a leo volutpat, vitae gravida turpis
+                            luctus.
+                        </li>
+                    </ul>
+                    <p>
+                        If you are having problems posting in the relevant areas for
+                        your software, please see this topic.
+                    </p>
+                </div>
+            </div>*@
         <div class="parent-title">
             @{
                 var queryParam = Context.Request.RouteValues["mainTopicId"];
@@ -47,7 +65,7 @@
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="~/Admin/AdminDashboard">Home</a></li>
+                <li class="breadcrumb-item"><a href="/Forum">Home</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Sub Topic</li>
             </ol>
         </nav>
@@ -63,13 +81,14 @@
             <div class="row">
                 <section class="col-lg-9">
                     <div class="d-flex flex-direction-row align-items-center justify-content-between">
-                        @*<div class="forum-add">
-                            <a href="#newChannel"
-                               rel="modal:open"
-                               class="btn btn-outline open-modal">+ Add New Channel</a>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="forum-add">
 
-                            <a href="channel-manager.html" class="btn btn-outline">Channel Manager</a>
-                        </div>*@
+                                <a href="#newInformation" rel="modal:open" class="btn btn-outline open-modal">+ Add New Information</a>
+                            </div>
+
+                        }
                         <div class="forum-search d-flex flex-direction-row align-items-center justify-content-end">
                             <label>Filter</label>
                             <select class="form-control form-control-sm">
@@ -86,24 +105,25 @@
                         <table class="forum-list-container stretch">
                             <tbody>
                                 <tr class="forum-list-header">
-                                    <th class="header-forum"><span>Directory</span></th>
-                                    <th class="header-topics"><span>Topics</span></th>
-                                    <th class="header-posts"><span>Posts</span></th>
+                                    <th class="header-forum"><span>Information</span></th>
+                                    <th class="header-topics"><span>Analysis</span></th>
+                                    <th class="header-posts"><span>Views</span></th>
+                                    <th class="header-posts"><span>Likes</span></th>
                                     <th class="header-lastpost"><span>Last Post</span></th>
                                 </tr>
 
                                 @*<tr class="category-header" id="forum14">
-                                    <td colspan="4">
-                                        <div class="header">
-                                            <a class="category" data-nodeid="14" href="">Announcements</a>
-                                        </div>
-                                    </td>
-                                </tr>*@
+                                        <td colspan="4">
+                                            <div class="header">
+                                                <a class="category" data-nodeid="14" href="">Announcements</a>
+                                            </div>
+                                        </td>
+                                    </tr>*@
                                 @*Top level Forums*@
 
                                 @{
 
-                                    foreach (Forum.Models.ViewModels.MainTopicViewModel topic in Model.Where(x => x.ParentIdFK == parentIdFk))
+                                    foreach (Forum.Models.ViewModels.TopicInformationViewModel topic in Model)
                                     {
 
                                         <tr class="forum-item main new"
@@ -114,8 +134,14 @@
                                             <td class="cell-forum">
                                                 <div class="forum-wrapper">
                                                     <div class="forum-info forum-info-has-rss">
-                                                        <span class="icon b-icon b-icon__speech-double-large--blue h-left" title="Contains unread posts."></span>
-                                                        <a href="~/TopicInformation/Information/@(topic.MainTopicId)/@(parentIdFk)" class="forum-title">@topic.Title</a>
+                                                        <span class="
+                                            icon
+                                            b-icon b-icon__speech-double-large--blue
+                                            h-left
+                                        "
+                                                              title="Contains unread posts."></span>
+
+                                                        <a href="forum-details.html" class="forum-title">@topic.Title</a>
 
                                                         <div class="forum-desc">
                                                             @{
@@ -129,14 +155,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <a href=""
-                                                       title="View this forum's RSS feed."
-                                                       class="
-                                        h-right
-                                        h-margin-right-xl
-                                        h-margin-top-xs
-                                        h-hide-on-small
-                                    ">
+                                                    <a href="" title="View this forum's RSS feed." class="h-right h-margin-right-xl h-margin-top-xs h-hide-on-small">
                                                         <span class="b-icon b-icon__rss"></span>
                                                     </a>
                                                 </div>
@@ -153,6 +172,7 @@
                                             </td>
                                             <td class="topics-count">843</td>
                                             <td class="posts-count">2,360</td>
+                                            <td class="posts-count">1,560</td>
                                             <td class="lastpost">
                                                 <div class="lastpost-wrapper">
                                                     <a href="" class="avatar h-left">
@@ -402,7 +422,162 @@
     </div>
 </div>
 
+<div id="newInformation" class="modal">
+    <header class="modal-header">Add New Information</header>
 
+    <main class="modal-main">
+        <form id="AddTopicInformation" method="post" enctype="multipart/form-data">
+            @*<div id="validation-summary">
+                    <p>Please provide values for the highlighted fields.</p>
+                    <ul />
+                </div>*@
+            <div class="form-wrapper">
+
+
+
+                <input type="hidden" value="@ViewBag.MainTopicId" id="MainTopicsIdFK" name="MainTopicsIdFK" />
+
+
+                <div class="row align-items-center">
+                    <label class="col-lg-3 form-title"> Title </label>
+                    <div class="col-lg-9">
+                        <input type="text" class="form-control" id="Title" name="Title" required />
+                        <span class="validation_error" name="Title"></span>
+                    </div>
+                </div>
+
+                <div class="row align-items-center">
+                    <label class="col-lg-3 form-title"> Description </label>
+                    <div class="col-lg-9">
+                        @(Html.DevExtreme().HtmlEditor()
+                        .ID("html-editor").Name("Description")
+                                     .Height(200)
+                                 .Toolbar(toolbar => toolbar.Items(
+                                  items =>
+                                  {
+                                      items.Add().Name(HtmlEditorToolbarItem.Undo);
+
+                                      items.Add().Name(HtmlEditorToolbarItem.Redo);
+
+                                      items.Add().Name(HtmlEditorToolbarItem.Separator);
+
+                                      items.Add()
+                                          .Name("size")
+                                          .AcceptedValues(new[] { "8pt", "10pt", "12pt", "14pt", "18pt", "24pt", "36pt" });
+
+                                      items.Add()
+                                          .Name("font")
+                                          .AcceptedValues(new[] { "Arial", "Courier New", "Georgia", "Impact", "Lucida Console", "Tahoma", "Times New Roman", "Verdana" });
+
+                                      items.Add().Name(HtmlEditorToolbarItem.Separator);
+
+                                      items.Add().Name(HtmlEditorToolbarItem.Bold);
+
+                                      items.Add().Name(HtmlEditorToolbarItem.Italic);
+
+                                      items.Add().Name(HtmlEditorToolbarItem.Strike);
+
+                                      items.Add().Name(HtmlEditorToolbarItem.Underline);
+
+                                      items.Add().Name(HtmlEditorToolbarItem.Separator);
+
+                                      items.Add().Name(HtmlEditorToolbarItem.AlignLeft);
+
+                                      items.Add().Name(HtmlEditorToolbarItem.AlignCenter);
+
+                                      items.Add().Name(HtmlEditorToolbarItem.AlignRight);
+
+                                      //items.Add().Name(HtmlEditorToolbarItem.AlignJustify);
+
+                                      //items.Add().Name(HtmlEditorToolbarItem.Separator);
+
+                                      //items.Add().Name(HtmlEditorToolbarItem.OrderedList);
+
+                                      //items.Add().Name(HtmlEditorToolbarItem.BulletList);
+
+                                      //items.Add().Name(HtmlEditorToolbarItem.Separator);
+
+                                      //items.Add()
+                                      //    .Name("header")
+                                      //    .AcceptedValues(new JS("[false, 1, 2, 3, 4, 5]"));
+
+                                      //items.Add().Name(HtmlEditorToolbarItem.Separator);
+
+                                      //items.Add().Name(HtmlEditorToolbarItem.Color);
+
+                                      //items.Add().Name(HtmlEditorToolbarItem.Background);
+
+                                      //items.Add().Name(HtmlEditorToolbarItem.Separator);
+
+                                      //items.Add().Name(HtmlEditorToolbarItem.Link);
+
+                                      //items.Add().Name(HtmlEditorToolbarItem.Image);
+
+                                      //items.Add().Name(HtmlEditorToolbarItem.Separator);
+
+                                      //items.Add().Name(HtmlEditorToolbarItem.Clear);
+
+                                      //items.Add().Name(HtmlEditorToolbarItem.CodeBlock);
+
+                                      //items.Add().Name(HtmlEditorToolbarItem.Blockquote);
+
+                                      //items.Add().Name(HtmlEditorToolbarItem.Separator);
+
+                                      //items.Add().Name(HtmlEditorToolbarItem.InsertTable);
+
+                                      //items.Add().Name(HtmlEditorToolbarItem.DeleteTable);
+
+                                      //items.Add().Name(HtmlEditorToolbarItem.InsertRowAbove);
+
+                                      //items.Add().Name(HtmlEditorToolbarItem.InsertRowBelow);
+
+                                      //items.Add().Name(HtmlEditorToolbarItem.DeleteRow);
+
+                                      //items.Add().Name(HtmlEditorToolbarItem.InsertColumnLeft);
+
+                                      //items.Add().Name(HtmlEditorToolbarItem.InsertColumnRight);
+
+                                      //items.Add().Name(HtmlEditorToolbarItem.DeleteColumn);
+
+                                  }))
+
+                                  .Placeholder("Write your decription...")
+                                  //.ElementAttr(new JS("{Name:'Description'}"))
+
+                                  )
+
+
+
+                        <span class="validation_error" name="Description"></span>
+                    </div>
+                </div>
+
+                <div class="row align-items-center">
+                    <label class="col-lg-3 form-title">
+                        Topic icon
+                        <span>
+                            Icon changes will not be reflected on the forum until you
+                            save this Main Topic
+                        </span>
+                    </label>
+                    <div class="col-lg-9">
+                        <input type="file" class="form-control" id="Graphics" name="Graphics" re />
+                        <span class="validation_error" name="Graphics"></span>
+                    </div>
+                </div>
+
+
+                <div class="row align-items-center">
+                    <label class="col-lg-3 form-title"></label>
+                    <div class="col-lg-9">
+                        <button type="submit" onclick="Submit()" class="btn btn-primary" id="btn-submit-topicinformation">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </main>
+    <footer class="modal-footer"></footer>
+</div>
 <script>
     function serializeData() {
         return $('#TestForm :input[name!=DXCss][name!=DXScript]').serialize();
@@ -413,11 +588,46 @@
         e.data.Task_Due_Date = new Date();
     }
     function edit_delete_control_event(e) {
-       
+
         $("#newChannel").modal('show');
     }
 
     function getMainTopicId() {
         return $("#hdMainTopicId").val();
     }
+
+     function Submit() {
+        $('body').on('click', '#btn-submit-topicinformation', function (e) {
+
+           e.preventDefault();
+            $('#btn-submit-topicinformation').prop('disabled', true);
+            var formData = new FormData($(this).parents('form')[0]);
+
+    for (var d of formData.entries()) {
+    console.log(d[0]+ ', ' + d[1]);
+            }
+            $("#AddTopicInformation").valid();
+           var baseUrl = '@Url.Content("~/")';
+            $.ajax({
+
+                url: baseUrl + 'TopicInformation/AddTopicInformation',
+                type: 'POST',
+                xhr: function () {
+                    var myXhr = $.ajaxSettings.xhr();
+                    return myXhr;
+                },
+                success: function (data) {
+                    window.location.reload();
+                    $("#newInformation").modal('hide');
+                    /*messageBoxStay(data.status.toLowerCase(), unescape(data.message));*/
+                },
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+            return false;
+        });
+    }
+
 </script>

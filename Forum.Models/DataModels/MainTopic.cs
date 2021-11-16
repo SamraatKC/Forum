@@ -22,7 +22,7 @@ namespace Forum.Models.DataModels
         public MainTopic Parent { get; set; }
         public int? ParentIdFK { get; set; }
         public string ReferenceLink { get; set; }
-        public string Title { get; set; }
+        public string Topic { get; set; }
         public string Description { get; set; }
         public string TopicIcon { get; set; }
         public int DisplayOrder { get; set; }
@@ -45,7 +45,7 @@ namespace Forum.Models.DataModels
             mt.TopicIcon = vm.TopicIcon;
             mt.ParentIdFK = vm.ParentIdFK;
             mt.DisplayOrder = vm.DisplayOrder;
-            mt.Title = vm.Title;
+            mt.Topic = vm.Topic;
             
 
             return mt;

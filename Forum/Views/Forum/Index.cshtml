@@ -80,9 +80,9 @@
 .WordWrapEnabled(true)
 .Columns(columns =>
 {
-columns.AddFor(x => x.Title)
+columns.AddFor(x => x.Topic)
     .CellTemplate(@<text>
-                            <a href="@Url.Action("SubTopic", "Forum")/<%= data.MainTopicId %>"><%= data.Title %></a>
+                            <a href="@Url.Action("SubTopic", "Forum")/<%= data.MainTopicId %>"><%= data.Topic %></a>
                             </text>);
 
 columns.Add()
@@ -122,7 +122,7 @@ columns.Add()
     columns.AddFor(x => x.DisplayOrder)
              .MinWidth(60)
               .CellTemplate("<div class='channel-display-orders'>" +
-                                  "<input class='form-control-sm' type='text' />" +
+                                  "<input class='form-control-sm'  type='text'  />" +
                                   "</div>"
               ).HeaderCellTemplate("<div class='header-posts'><span>Display order</span></div>");
     columns.AddFor(x => x.Moderator)
@@ -208,9 +208,9 @@ else
 .WordWrapEnabled(true)
 .Columns(columns =>
 {
-columns.AddFor(x => x.Title)
+columns.AddFor(x => x.Topic)
     .CellTemplate(@<text>
-                            <a href="@Url.Action("SubTopic", "Forum")/<%= data.MainTopicId %>"><%= data.Title %></a>
+                            <a href="@Url.Action("SubTopic", "Forum")/<%= data.MainTopicId %>"><%= data.Topic %></a>
                             </text>);
     if(User.Identity.IsAuthenticated)
     {
@@ -304,10 +304,10 @@ columns.AddFor(x => x.Title)
 
 
                     <div class="row align-items-center">
-                        <label class="col-lg-3 form-title"> Title </label>
+                        <label class="col-lg-3 form-title"> Topic </label>
                         <div class="col-lg-9">
-                            <input type="text" class="form-control" id="Title" asp-for="Title" name="Title" />
-                            <span class="validation_error" asp-validation-for="Title"></span>
+                            <input type="text" class="form-control" id="Topic" asp-for="Topic" name="Topic" />
+                            <span class="validation_error" asp-validation-for="Topic"></span>
                         </div>
                     </div>
 

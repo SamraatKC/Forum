@@ -33,7 +33,7 @@ namespace Forum.Service
                 ThemeIdFK = mainTopicViewModel.ThemeIdFK,
                 ParentIdFK = mainTopicViewModel.ParentIdFK,
                 ReferenceLink = mainTopicViewModel.ReferenceLink,
-                Title = mainTopicViewModel.Title,
+                Topic = mainTopicViewModel.Topic,
                 Description = mainTopicViewModel.Description,
                 TopicIcon = mainTopicViewModel.TopicIcon,
                 DisplayOrder = mainTopicViewModel.DisplayOrder,
@@ -80,7 +80,7 @@ namespace Forum.Service
                     ThemeIdFK = x.ThemeIdFK,
                     ParentIdFK = x.ParentIdFK,
                     ReferenceLink = x.ReferenceLink,
-                    Title = x.Title,
+                    Topic = x.Topic,
                     Description = x.Description,
                     TopicIcon = x.TopicIcon,
                     DisplayOrder = x.DisplayOrder,
@@ -105,7 +105,7 @@ namespace Forum.Service
                     ThemeIdFK = x.ThemeIdFK,
                     ParentIdFK = x.ParentIdFK,
                     ReferenceLink = x.ReferenceLink,
-                    Title = x.Title,
+                    Topic = x.Topic,
                     Description = x.Description,
                     TopicIcon = x.TopicIcon,
                     DisplayOrder = x.DisplayOrder,
@@ -164,7 +164,7 @@ namespace Forum.Service
             if (mainTopicViewModel.MainTopicId > 0)
             {
                 var result = await db.MainTopics.FirstOrDefaultAsync(e => e.MainTopicId == mainTopicViewModel.MainTopicId);
-                result.Title = mainTopicViewModel.Title;
+                result.Topic = mainTopicViewModel.Topic;
                 result.TopicIcon = mainTopicViewModel.TopicIcon;
                 result.Description = mainTopicViewModel.Description;
                 result.DisplayOrder = mainTopicViewModel.DisplayOrder;

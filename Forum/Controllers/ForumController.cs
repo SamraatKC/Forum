@@ -26,6 +26,7 @@ namespace Forum.Controllers
     public class ForumController : Controller
     {
         ForumDbx db;
+        private readonly TopicInformationService topicInformationService;
         private readonly IOptions<AppSettings> appSettings;
         private readonly MainTopicService mainTopicService;
         private IWebHostEnvironment webHostEnvironment;
@@ -34,11 +35,12 @@ namespace Forum.Controllers
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly UserService userService;
-        public ForumController(IHttpContextAccessor _httpContextAccessor, IWebHostEnvironment _webHostEnvironment,
+        public ForumController(TopicInformationService _topicInformationService, IHttpContextAccessor _httpContextAccessor, IWebHostEnvironment _webHostEnvironment,
             IOptions<AppSettings> _appSettings, MainTopicService _mainTopicService, ForumDbx _db, UserService _userService)
         {
             webHostEnvironment = _webHostEnvironment;
             appSettings = _appSettings;
+            topicInformationService = _topicInformationService;
             mainTopicService = _mainTopicService;
             db = _db;
             httpContextAccessor = _httpContextAccessor;
@@ -58,7 +60,7 @@ namespace Forum.Controllers
             {
                 //fettch all the topics from table MainTopics with Text as title and value as id,
                 var parentTopics = mainTopicService.GetAllMainTopic()
-                    .Select(x => new SelectListItem { Text = x.Title, Value = x.MainTopicId.ToString() }).ToList();
+                    .Select(x => new SelectListItem { Text = x.Topic, Value = x.MainTopicId.ToString() }).ToList();
                 //.ToList(x => x.MainTopicId, y => y.Title);
                 ViewBag.ParentTopic = parentTopics;
                 return View();
@@ -184,7 +186,7 @@ namespace Forum.Controllers
         public async Task<IActionResult> SubTopic(int mainTopicId)
         {
             ViewBag.MainTopicId = mainTopicId;
-            var topicAndItsSubTopic = await mainTopicService.GetParentAndSubTopic(mainTopicId);
+            var topicAndItsSubTopic = await topicInformationService.FindTopicInformationByTopicId(mainTopicId);
             return View(topicAndItsSubTopic);
         }
 

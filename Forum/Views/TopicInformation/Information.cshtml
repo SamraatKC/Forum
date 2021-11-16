@@ -10,9 +10,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@section Header
+@section Header 
 {
-    <partial name="~/Views/Shared/PartialView/AdminHeader.cshtml" />
+    <div class="header-top">
+        <div class="wrapper wrapper-1280 d-flex justify-content-end">
+            <a asp-controller="User" asp-action="Login">Sign in</a>
+
+        </div>
+    </div>
 }
 
 
@@ -34,7 +39,7 @@
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="~/Admin/AdminDashboard">Home</a></li>
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
                 <li class="breadcrumb-item"><a href="~/Forum/SubTopic/@(ViewBag.ParentIdFk)">Sub Topic</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Information</li>
             </ol>
@@ -57,8 +62,8 @@
                         }
                         @*<div class="forum-add">
 
-                            <a href="#newInformation" rel="modal:open" class="btn btn-outline open-modal">+ Add New Information</a>
-                        </div>*@
+                                <a href="#newInformation" rel="modal:open" class="btn btn-outline open-modal">+ Add New Information</a>
+                            </div>*@
 
 
                         <div class="forum-search d-flex flex-direction-row align-items-center justify-content-end">
@@ -80,7 +85,7 @@
                             <tbody>
                                 <tr class="forum-list-header">
                                     <th class="header-forum"><span>Information</span></th>
-                                    <th class="header-topics"><span>Response</span></th>
+                                    <th class="header-topics"><span>Analysis</span></th>
                                     <th class="header-posts"><span>Views</span></th>
                                     <th class="header-posts"><span>Likes</span></th>
                                     <th class="header-lastpost"><span>Last Post</span></th>
@@ -382,7 +387,7 @@
             $("#AddTopicInformation").valid();
            var baseUrl = '@Url.Content("~/")';
             $.ajax({
-                
+
                 url: baseUrl + 'TopicInformation/AddTopicInformation',
                 type: 'POST',
                 xhr: function () {

@@ -95,7 +95,13 @@ namespace DevExtremeAspNetCoreApp
           options.AppId = Configuration["Authentication:Facebook:AppId"];
           options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
           //options.SignInScheme = IdentityConstants.ExternalScheme;
-      });
+      })
+      .AddLinkedIn(options =>
+      {
+          options.ClientId = Configuration["Authentication:LinkedIn:ClientId"];
+          options.ClientSecret = Configuration["Authentication:LinkedIn:ClientSecret"];
+          //options.SignInScheme = IdentityConstants.ExternalScheme;
+      }); ;
             #endregion
 
             #region injection

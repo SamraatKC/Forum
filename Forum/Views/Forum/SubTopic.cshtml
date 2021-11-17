@@ -65,7 +65,14 @@
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/Forum">Home</a></li>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="breadcrumb-item"><a href="/Admin/AdminDashboard">Home</a></li>
+                }
+                else
+                {
+                    <li class="breadcrumb-item"><a href="/Forum">Home</a></li>
+                }
                 <li class="breadcrumb-item active" aria-current="page">Sub Topic</li>
             </ol>
         </nav>

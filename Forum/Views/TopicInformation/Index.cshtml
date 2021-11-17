@@ -1,94 +1,68 @@
-﻿@using System.Text.RegularExpressions
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<ApplicationUser> signInManager;
+@using System.Text.RegularExpressions
 @model List<Forum.Models.ViewModels.TopicInformationViewModel>
+
+
+
 @{
     ViewData["Title"] = "Forum";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@section Header{
-    @if (User.Identity.IsAuthenticated)
-    {
-        <div class="header-top">
-            <div class="wrapper wrapper-1280 d-flex justify-content-end">
-                <a asp-controller="User" asp-action="Logout">Sign Out</a>
+@section Header 
+{
+    <div class="header-top">
+        <div class="wrapper wrapper-1280 d-flex justify-content-end">
+            <a asp-controller="User" asp-action="Login">Sign in</a>
 
-            </div>
         </div>
-    }
-    else
-    {
-        <div class="header-top">
-            <div class="wrapper wrapper-1280 d-flex justify-content-end">
-                <a asp-controller="User" asp-action="Login">Sign in</a>
-
-            </div>
-        </div>
-    }
-
+    </div>
 }
-<input type="hidden" value="@ViewBag.MainTopicId" id="hdMainTopicId" />
+
+
+
 
 <div class="forum">
     <div class="wrapper wrapper wrapper-1600">
-        @*<div class="box round-corner entry-content type-alert">
-                <div>
-                    <p>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting
-                        industry. Lorem Ipsum has been the industry's standard dummy
-                        text ever since the 1500s, when an unknown printer took a galley
-                        of type and scrambled it to make a type specimen book.
-                    </p>
-
-                    <p>Useful Links for Guests:</p>
-                    <ul>
-                        <li>
-                            Aliquam lobortis erat at est ornare, a rutrum quam convallis.
-                        </li>
-                        <li>Proin molestie lectus quis cursus maximus.</li>
-                        <li>
-                            Morbi lobortis metus a leo volutpat, vitae gravida turpis
-                            luctus.
-                        </li>
-                    </ul>
-                    <p>
-                        If you are having problems posting in the relevant areas for
-                        your software, please see this topic.
-                    </p>
-                </div>
-            </div>*@
         <div class="parent-title">
-            @{
-                var queryParam = Context.Request.RouteValues["mainTopicId"];
-                int parentIdFk = int.Parse(queryParam == null ? "0" : queryParam.ToString());
-            }
+            @*@{
+                    var queryParam = Context.Request.RouteValues["mainTopicId"];
+                    int parentIdFk = int.Parse(queryParam == null ? "0" : queryParam.ToString());
+                    var parentTopic = Model.Where(x => x.MainTopicId == parentIdFk).FirstOrDefault();
+                    if (parentTopic != null)
+                    {
+                            @parentTopic.Title
+                    }
+                }*@
         </div>
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/Forum">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Sub Topic</li>
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Information</li>
             </ol>
         </nav>
 
-        <nav class="tab-like">
-            <ul>
-                <li class="activated"><a href="">Forum</a></li>
-            </ul>
-        </nav>
 
 
         <div class="box round-corner type-forum">
             <div class="row">
-                <section class="col-lg-9">
+                <section class="col-lg-12">
+
                     <div class="d-flex flex-direction-row align-items-center justify-content-between">
                         @if (User.Identity.IsAuthenticated)
                         {
                             <div class="forum-add">
-
                                 <a href="#newInformation" rel="modal:open" class="btn btn-outline open-modal">+ Add New Information</a>
                             </div>
-
                         }
+                        @*<div class="forum-add">
+
+                                <a href="#newInformation" rel="modal:open" class="btn btn-outline open-modal">+ Add New Information</a>
+                            </div>*@
+
+
                         <div class="forum-search d-flex flex-direction-row align-items-center justify-content-end">
                             <label>Filter</label>
                             <select class="form-control form-control-sm">
@@ -100,6 +74,8 @@
                         </div>
                     </div>
 
+
+
                     <div>
 
                         <table class="forum-list-container stretch">
@@ -109,7 +85,7 @@
                                     <th class="header-topics"><span>Analysis</span></th>
                                     <th class="header-posts"><span>Views</span></th>
                                     <th class="header-posts"><span>Likes</span></th>
-                                    <th class="header-lastpost"><span>Last Post</span></th>
+                                    <th class="header-lastpost"><span>Last Analysis</span></th>
                                 </tr>
 
                                 @*<tr class="category-header" id="forum14">
@@ -210,217 +186,11 @@
                     </div>
                 </section>
 
-                <aside class="col-lg-3">
-                    <div class="
-										b-module b-module--hide-xsmall
-										canvas-widget
-										search-widget
-									"
-                         id="widget_6"
-                         data-widget-id="3502"
-                         data-widget-instance-id="6">
-                        <div class="widget-header h-clearfix">
-                            <div class="module-title h-left">
-                                <h5 class="main-title js-main-title hide-on-editmode">
-                                    Latest Forum Topics
-                                </h5>
-                            </div>
-                        </div>
-
-                        <hr class="widget-header-divider" />
-
-                        <div class="widget-content">
-                            <ul class="conversation-list list-container h-clearfix">
-                                <li class="b-post-sm js-post-sm" data-nodeid="4461785">
-                                    <div class="d-flex flex-row">
-                                        <div class="b-post-sm__avatar avatar h-left">
-                                            <a href="">
-                                                <img src="assets/img/logo.png"
-                                                     width="32"
-                                                     height="32"
-                                                     alt="amandatx"
-                                                     class="img-responsive img-rounded" />
-                                            </a>
-                                        </div>
-                                        <div class="avatar-sides">
-                                            <div class="
-																b-post-sm__title
-																ellipsis
-																js-ellipsis-has-title
-															">
-                                                <a href=""> Page Configuration </a>
-                                            </div>
-
-                                            <div class="b-post-sm__author">
-                                                by <a href="">amandatx</a>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="
-														b-post-sm__content b-post-sm__content--has-avatar
-													">
-                                        <div class="
-															b-post-sm__post-content
-															post-content
-															ellipsis
-															restore
-															entry-content
-														">
-                                            <p>
-                                                Hello<br />
-                                                I was attempting to create an about us page;
-                                                however, instead of creating the page, the about
-                                                us page was globally attached to the top of the
-                                                forums and other sections and I can not...
-                                            </p>
-                                        </div>
-
-                                        <div class="list-item-footer h-clearfix">
-                                            <ul class="replylike_count h-left">
-                                                <li id="channel-4461785">
-                                                    <div class="channel h-left">
-                                                        <div class="channel_text">
-                                                            Channel:
-                                                            <a href="">Support Issues &amp; Questions</a>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-
-                                        <div class="b-post-sm__date">Today, 12:00am</div>
-                                    </div>
-                                </li>
-
-                                <li class="b-post-sm js-post-sm" data-nodeid="4461782">
-                                    <div class="d-flex flex-row">
-                                        <div class="b-post-sm__avatar avatar h-left">
-                                            <a href="member/493075-oore">
-                                                <img src="assets/img/logo.png"
-                                                     width="32"
-                                                     height="32"
-                                                     alt="Oore"
-                                                     class="img-responsive img-rounded" />
-                                            </a>
-                                        </div>
-
-                                        <div class="avatar-sides">
-                                            <div class="b-post-sm__title ellipsis">
-                                                <a href="">Bulk pricing</a>
-                                            </div>
-
-                                            <div class="b-post-sm__author">
-                                                by <a href="member/493075-oore">Oore</a>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="
-														b-post-sm__content b-post-sm__content--has-avatar
-													">
-                                        <div class="
-															b-post-sm__post-content
-															post-content
-															ellipsis
-															restore
-															entry-content
-														">
-                                            <p>
-                                                Hello,<br />
-                                                I want to buy a third license for vBulletin. When
-                                                putting the license in the shopping cart, the
-                                                following message is displayed: "The product
-                                                vBulletin 5 Connect is eligible for...
-                                            </p>
-                                        </div>
-
-                                        <div class="list-item-footer h-clearfix">
-                                            <ul class="replylike_count h-left">
-                                                <li id="channel-4461782">
-                                                    <div class="channel h-left">
-                                                        <div class="channel_text">
-                                                            Channel:
-                                                            <a href="">Pre-sales Questions</a>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-
-                                        <div class="b-post-sm__date">Yesterday, 9:48pm</div>
-                                    </div>
-                                </li>
-
-                                <li class="b-post-sm js-post-sm" data-nodeid="4461775">
-                                    <div class="d-flex flex-row">
-                                        <div class="b-post-sm__avatar avatar h-left">
-                                            <a href="member/536599-andrea-benitez">
-                                                <img src="assets/img/logo.png"
-                                                     width="32"
-                                                     height="32"
-                                                     alt="Andrea Benitez"
-                                                     class="img-responsive img-rounded" />
-                                            </a>
-                                        </div>
-
-                                        <div class="avatar-sides">
-                                            <div class="b-post-sm__title ellipsis">
-                                                <a href="">AdminCP</a>
-                                            </div>
-
-                                            <div class="b-post-sm__author">
-                                                by
-                                                <a href="">Andrea Benitez</a>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="
-														b-post-sm__content b-post-sm__content--has-avatar
-													">
-                                        <div class="
-															b-post-sm__post-content
-															post-content
-															ellipsis
-															restore
-															entry-content
-														">
-                                            <p>
-                                                Hello, I want to enter the Admincp panel and this
-                                                appears when I enter the password:<br />
-                                                ...
-                                            </p>
-                                        </div>
-
-                                        <div class="list-item-footer h-clearfix">
-                                            <ul class="replylike_count h-left">
-                                                <li id="channel-4461775">
-                                                    <div class="channel h-left">
-                                                        <div class="channel_text">
-                                                            Channel:
-                                                            <a href="">Support Issues &amp; Questions</a>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-
-                                        <div class="b-post-sm__date">Yesterday, 10:30am</div>
-                                    </div>
-                                </li>
-                            </ul>
-
-                            <div class="widget-footer h-align-left h-clear">
-                                <a href="search?r=35383365" class="b-button">View All</a>
-                            </div>
-                        </div>
-                    </div>
-                </aside>
             </div>
         </div>
     </div>
 </div>
+
 
 <div id="newInformation" class="modal">
     <header class="modal-header">Add New Information</header>
@@ -578,6 +348,7 @@
     </main>
     <footer class="modal-footer"></footer>
 </div>
+
 <script>
     function serializeData() {
         return $('#TestForm :input[name!=DXCss][name!=DXScript]').serialize();
@@ -588,15 +359,19 @@
         e.data.Task_Due_Date = new Date();
     }
     function edit_delete_control_event(e) {
-
+        debugger;
         $("#newChannel").modal('show');
     }
 
-    function getMainTopicId() {
-        return $("#hdMainTopicId").val();
-    }
+    //function getMainTopicId() {
+    //    debugger;
+    //    return $("#MainTopicsIdFK").val();
+    //}
 
-     function Submit() {
+
+
+
+    function Submit() {
         $('body').on('click', '#btn-submit-topicinformation', function (e) {
 
            e.preventDefault();
@@ -629,5 +404,13 @@
             return false;
         });
     }
+
+
+
+
+
+
+
+
 
 </script>

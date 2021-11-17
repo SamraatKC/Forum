@@ -44,11 +44,10 @@ namespace Forum.Controllers
         }
 
         [HttpGet]
-        [Route("/TopicInformation/Information/{mainTopicId}/{parentIdFk}")]
-        public async Task<IActionResult> Information(int mainTopicId, int parentIdFk)
+        [Route("/TopicInformation/{mainTopicId}")]
+        public async Task<IActionResult> Index(int mainTopicId)
         {
             ViewBag.MainTopicId = mainTopicId;
-            ViewBag.ParentIdFk = parentIdFk;
             var topicInformations = await topicInformationService.FindTopicInformationByTopicId (mainTopicId);
             return View(topicInformations);
         }

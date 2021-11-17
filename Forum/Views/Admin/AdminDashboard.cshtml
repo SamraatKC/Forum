@@ -25,118 +25,40 @@
         <div class="box round-corner type-forum">
             <div class="row">
                 <section class="col-lg-12">
-                    <div class="
-										d-flex
-										flex-direction-row
-										align-items-center
-										justify-content-end
-									">
-                        <div class="
-											forum-search
-											d-flex
-											flex-direction-row
-											align-items-center
-											justify-content-end
-										">
-                            @*<label>Filter</label>
-                                <select class="form-control form-control-sm">
-                                    <option>Datewise</option>
-                                    <option>Latest</option>
-                                    <option>Oldest</option>
-                                    <option>Most commented</option>
-                                </select>*@
-                        </div>
+                    <div class="d-flex flex-direction-row align-items-center justify-content-end ">
+                        <div class="forum-search d-flex flex-direction-row align-items-center justify-content-end"></div>
                     </div>
                     <table class="forum-list-container stretch">
                         <tbody>
                             @(Html.DevExtreme().TreeList<Forum.Models.ViewModels.MainTopicViewModel>()
-.ID("tree-list")
-.DataSource(ds => ds.WebApi()
-.Controller("Admin")
-.LoadAction("GetMainTopics")
-.InsertAction("InsertTask")
-.UpdateAction("UpdateTask")
-.DeleteAction("DeleteTask")
-.Key("MainTopicId")
-)
-.RemoteOperations(r => r.Filtering(true).Sorting(true).Grouping(false))
-.KeyExpr("MainTopicId")
-.ParentIdExpr("ParentIdFK")
-.HasItemsExpr("HasItems")
-.ExpandedRowKeys(new[] { 1, 2 })
-.SearchPanel(seachPanel => seachPanel.Visible(true))
-.HeaderFilter(headerFilter => headerFilter.Visible(true))
-
-//.Editing(editing => editing
-//    .Mode(GridEditMode.Row)
-//    .AllowAdding(false)
-//    .AllowUpdating(false)
-//    .AllowDeleting(false)
-//)
-.ShowRowLines(true)
-.ShowBorders(true)
-.ColumnAutoWidth(true)
-.WordWrapEnabled(true)
-.Columns(columns =>
-{
-columns.AddFor(x => x.Topic)
-    .CellTemplate(@<text>
-                            <a href="@Url.Action("SubTopic", "Forum")/<%= data.MainTopicId %>"><%= data.Topic %></a>
-                            </text>);
-
-columns.Add()
-               .Caption("Controls")
-               .MinWidth(120)
-               //.CellTemplate("<div class='d-flex align-items-center'>" +
-               //                 "<select class='form-control-sm'>" +
-               //                     "<option>Edit topic</option>" +
-               //                     "<option>Delete topic</option>" +
-               //                 "</select>" +
-               //                 "<a class='btn btn-sm btn-default' id='edit_delete_control_event' onclick='edit_delete_control_event()'> Go</a>" +
-               //                 "</div>"
-               //             );
-               .CellTemplate(@<text>
-
-                @(Html.DevExtreme().SelectBox()
-                              .ID(new JS("id(row)"))
-                              .ElementAttr(new { @class = "form-control-sm" })
-                              .DataSource(new[] {
-                        "Edit",
-                        "Delete"
-
-           })
-                              .Buttons(b =>
-                              {
-                                  b.Add()
-                                      .Name("Go")                                      
-                                      .Widget(w => w.Button().ElementAttr(new { @class = "btn btn-sm btn-default" })
-                                          .Text("Go")
-                                          .OnClick("function(){onClick(row)}")
-                                      );
-                                  
-                              })
-                )
-
-            </text>);
-    columns.AddFor(x => x.DisplayOrder)
-             .MinWidth(60)
-              .CellTemplate("<div class='channel-display-orders'>" +
-                                  "<input class='form-control-sm' type='text' />" +
-                                  "</div>"
-              ).HeaderCellTemplate("<div class='header-posts'><span>Display order</span></div>");
-    columns.AddFor(x => x.Moderator)
-               .MinWidth(120)
-               .CellTemplate("<div class='d-flex align-items-center'>" +
-                                "<select class='form-control-sm'>" +
-                                    "<option>User 1</option>" +
-                                    "<option>User 2</option>" +
-                                "</select>" +
-                                "</div>"
-                        );
-})
-
-.OnInitNewRow("treeList_onInitNewRow")
-                                        )
+                                .ID("tree-list").DataSource(ds => ds.WebApi().Controller("Admin").LoadAction("GetMainTopics").Key("MainTopicId"))
+                                .RemoteOperations(r => r.Filtering(true).Sorting(true).Grouping(false))
+                                .KeyExpr("MainTopicId").ParentIdExpr("ParentIdFK").HasItemsExpr("HasItems").ExpandedRowKeys(new[] { 1, 2 })
+                                .SearchPanel(seachPanel => seachPanel.Visible(true)).HeaderFilter(headerFilter => headerFilter.Visible(true))
+                                .ShowRowLines(true).ShowBorders(true).ColumnAutoWidth(true).WordWrapEnabled(true)
+                                .Columns(columns =>
+                                {
+                                    columns.AddFor(x => x.Topic).CellTemplate(@<text><a href="@Url.Action("Index", "TopicInformation")/<%= data.MainTopicId %>"><%= data.Topic %></a></text>);
+                                    columns.Add().Caption("Controls").MinWidth(120)
+                                            .CellTemplate(@<text>@(Html.DevExtreme()
+                                                                .SelectBox().ID(new JS("id(row)")).ElementAttr(new { @class = "form-control-sm" }).DataSource(new[] {"Edit","Delete"})
+                                                                .Buttons(b =>{b.Add().Name("Go")
+                                                                                .Widget(w =>w.Button().ElementAttr(new { @class = "btn btn-sm btn-default" }).Text("Go")
+                                                                                            .OnClick("function(){onClick(row)}")
+                                                                                        );  
+                                                                         })
+                                                            )</text>);
+                                    columns.AddFor(x => x.DisplayOrder).MinWidth(60)
+                                            .CellTemplate("<div class='channel-display-orders'><input class='form-control-sm' value='<%= data.DisplayOrder%>' type='text' /></div>")
+                                            .HeaderCellTemplate("<div class='header-posts'><span>Display order</span></div>");
+                                    columns.AddFor(x => x.Moderator).MinWidth(120)
+                                           .CellTemplate("<div class='d-flex align-items-center'>" +
+                                                "<select class='form-control-sm'>" +
+                                                    "<option>User 1</option>" +
+                                                    "<option>User 2</option>" +
+                                                "</select><div>");
+                                }).OnInitNewRow("treeList_onInitNewRow")
+                            )
                         </tbody>
                     </table>
                 </section>
@@ -151,13 +73,7 @@ columns.Add()
     <main class="modal-main">
         <form method="post" asp-controller="Forum" asp-action="AddMainTopic" enctype="multipart/form-data">
             <div class="form-wrapper">
-               
-                   
-                   
-                        <input type="text" class="form-control" id="MainTopicId" asp-for="MainTopicId" name="MainTopicId" hidden />
-                      
-                   
-               
+                <input type="text" class="form-control" id="MainTopicId" asp-for="MainTopicId" name="MainTopicId" hidden />
                 <div class="row align-items-center">
                     <label class="col-lg-3 form-title"> Topic </label>
                     <div class="col-lg-9">
@@ -165,7 +81,6 @@ columns.Add()
                         <span class="validation_error" asp-validation-for="Topic"></span>
                     </div>
                 </div>
-
                 <div class="row align-items-center">
                     <label class="col-lg-3 form-title"> Description </label>
                     <div class="col-lg-9">
@@ -176,92 +91,21 @@ columns.Add()
                                   items =>
                                   {
                                       items.Add().Name(HtmlEditorToolbarItem.Undo);
-
                                       items.Add().Name(HtmlEditorToolbarItem.Redo);
-
                                       items.Add().Name(HtmlEditorToolbarItem.Separator);
-
-                                      items.Add()
-                                          .Name("size")
-                                          .AcceptedValues(new[] { "8pt", "10pt", "12pt", "14pt", "18pt", "24pt", "36pt" });
-
-                                      items.Add()
-                                          .Name("font")
-                                          .AcceptedValues(new[] { "Arial", "Courier New", "Georgia", "Impact", "Lucida Console", "Tahoma", "Times New Roman", "Verdana" });
-
+                                      items.Add().Name("size").AcceptedValues(new[] { "8pt", "10pt", "12pt", "14pt", "18pt", "24pt", "36pt" });
+                                      items.Add().Name("font").AcceptedValues(new[] { "Arial", "Courier New", "Georgia", "Impact", "Lucida Console", "Tahoma", "Times New Roman", "Verdana" });
                                       items.Add().Name(HtmlEditorToolbarItem.Separator);
-
                                       items.Add().Name(HtmlEditorToolbarItem.Bold);
-
                                       items.Add().Name(HtmlEditorToolbarItem.Italic);
-
                                       items.Add().Name(HtmlEditorToolbarItem.Strike);
-
                                       items.Add().Name(HtmlEditorToolbarItem.Underline);
-
                                       items.Add().Name(HtmlEditorToolbarItem.Separator);
-
                                       items.Add().Name(HtmlEditorToolbarItem.AlignLeft);
-
                                       items.Add().Name(HtmlEditorToolbarItem.AlignCenter);
-
                                       items.Add().Name(HtmlEditorToolbarItem.AlignRight);
-
-                                      //items.Add().Name(HtmlEditorToolbarItem.AlignJustify);
-
-                                      //items.Add().Name(HtmlEditorToolbarItem.Separator);
-
-                                      //items.Add().Name(HtmlEditorToolbarItem.OrderedList);
-
-                                      //items.Add().Name(HtmlEditorToolbarItem.BulletList);
-
-                                      //items.Add().Name(HtmlEditorToolbarItem.Separator);
-
-                                      //items.Add()
-                                      //    .Name("header")
-                                      //    .AcceptedValues(new JS("[false, 1, 2, 3, 4, 5]"));
-
-                                      //items.Add().Name(HtmlEditorToolbarItem.Separator);
-
-                                      //items.Add().Name(HtmlEditorToolbarItem.Color);
-
-                                      //items.Add().Name(HtmlEditorToolbarItem.Background);
-
-                                      //items.Add().Name(HtmlEditorToolbarItem.Separator);
-
-                                      //items.Add().Name(HtmlEditorToolbarItem.Link);
-
-                                      //items.Add().Name(HtmlEditorToolbarItem.Image);
-
-                                      //items.Add().Name(HtmlEditorToolbarItem.Separator);
-
-                                      //items.Add().Name(HtmlEditorToolbarItem.Clear);
-
-                                      //items.Add().Name(HtmlEditorToolbarItem.CodeBlock);
-
-                                      //items.Add().Name(HtmlEditorToolbarItem.Blockquote);
-
-                                      //items.Add().Name(HtmlEditorToolbarItem.Separator);
-
-                                      //items.Add().Name(HtmlEditorToolbarItem.InsertTable);
-
-                                      //items.Add().Name(HtmlEditorToolbarItem.DeleteTable);
-
-                                      //items.Add().Name(HtmlEditorToolbarItem.InsertRowAbove);
-
-                                      //items.Add().Name(HtmlEditorToolbarItem.InsertRowBelow);
-
-                                      //items.Add().Name(HtmlEditorToolbarItem.DeleteRow);
-
-                                      //items.Add().Name(HtmlEditorToolbarItem.InsertColumnLeft);
-
-                                      //items.Add().Name(HtmlEditorToolbarItem.InsertColumnRight);
-
-                                      //items.Add().Name(HtmlEditorToolbarItem.DeleteColumn);
                                   }))
-
                                   .Placeholder("Write your decription..."))
-
 
                         <span class="validation_error" asp-validation-for="Description"></span>
                     </div>
@@ -309,10 +153,6 @@ columns.Add()
                     </div>
                 </div>
             </div>
-
-
-
-
         </form>
     </main>
     <footer class="modal-footer"></footer>
@@ -330,7 +170,7 @@ columns.Add()
     function edit_delete_control_event() {
         $("#newChannel").modal('show');
     }
-   
+
 
 
     var selectBoxes = []
@@ -400,5 +240,5 @@ columns.Add()
         $("#newChannel #Graphics").val(result.Result.TopicIcon);
         $("#newChannel #ParentIdFK").val(result.Result.ParentIdFK);
     };
-   
+
 </script>

@@ -181,14 +181,5 @@ namespace Forum.Controllers
 
         }
 
-        [HttpGet]
-        [Route("/Forum/SubTopic/{mainTopicId}")]
-        public async Task<IActionResult> SubTopic(int mainTopicId)
-        {
-            ViewBag.MainTopicId = mainTopicId;
-            var topicAndItsSubTopic = await topicInformationService.FindTopicInformationByTopicId(mainTopicId);
-            return View(topicAndItsSubTopic);
-        }
-
     }
 }

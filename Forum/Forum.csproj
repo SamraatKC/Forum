@@ -32,6 +32,8 @@
       <Content Remove="wwwroot\assets\css\vendor\jquery.modal.min.scss" />
       <Content Remove="wwwroot\assets\css\vendor\select2.min.scss" />
       <Content Remove="wwwroot\assets\css\vendor\swiper-bundle.min.scss" />
+      <Content Remove="wwwroot\assets\dist\app.min.js" />
+      <Content Remove="wwwroot\assets\dist\jquery.min.js" />
       <Content Remove="wwwroot\assets\dist\style.min.css.map" />
       <Content Remove="wwwroot\assets\fonts\fontello.svg" />
       <Content Remove="wwwroot\assets\fonts\fontello.woff2" />
@@ -139,6 +141,12 @@
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </Content>
+      <Content Update="wwwroot\assets\dist\custom.css">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Update="wwwroot\assets\dist\style.min.css">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>
@@ -147,7 +155,10 @@
 
     <ItemGroup>
       <_ContentIncludedByDefault Remove="Views\Admin\AdminDashboard.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Forum\AddMainTopic.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Forum\GetAllMainTopic.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Forum\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Forum\UpdateMainTopic.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Home\Privacy.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Shared\PartialView\AdminHeader.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Shared\PartialView\Header.cshtml" />
@@ -155,7 +166,19 @@
     </ItemGroup>
 
     <ItemGroup>
+      <UpToDateCheckInput Remove="Views\Forum\AddMainTopic.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Views\Forum\GetAllMainTopic.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
       <UpToDateCheckInput Remove="Views\Forum\Index.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Views\Forum\UpdateMainTopic.cshtml" />
     </ItemGroup>
 
     <ItemGroup>
@@ -202,6 +225,12 @@
       <None Include="wwwroot\assets\css\vendor\jquery.modal.min.scss" />
       <None Include="wwwroot\assets\css\vendor\select2.min.scss" />
       <None Include="wwwroot\assets\css\vendor\swiper-bundle.min.scss" />
+      <None Include="wwwroot\assets\dist\app.min.js">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Include="wwwroot\assets\dist\jquery.min.js">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
       <None Include="wwwroot\assets\dist\style.min.css.map" />
       <None Include="wwwroot\assets\fonts\fontello.svg" />
       <None Include="wwwroot\assets\fonts\fontello.woff2" />

@@ -9,10 +9,11 @@
 }
 
 <partial name="~/Views/Shared/PartialView/Header.cshtml" />
-@if (User.Identity.IsAuthenticated)
-{
-    <div class="forum">
-        <div class="wrapper wrapper wrapper-1600">
+
+<div class="forum">
+    <div class="wrapper wrapper wrapper-1600">
+        @if (User.Identity.IsAuthenticated)
+        {
             <nav class="tab-like">
                 <ul>
                     <li class="forum-add">
@@ -23,298 +24,77 @@
                     <li><a href="">Latest articles</a></li>
                 </ul>
             </nav>
-            <div class="box round-corner type-forum">
-                <div class="row">
-                    <section class="col-lg-12">
-                        <div class="
-										d-flex
-										flex-direction-row
-										align-items-center
-										justify-content-end
-									">
-                            <div class="
-											forum-search
-											d-flex
-											flex-direction-row
-											align-items-center
-											justify-content-end
-										">
-                                @*<label>Filter</label>
-                                    <select class="form-control form-control-sm">
-                                        <option>Datewise</option>
-                                        <option>Latest</option>
-                                        <option>Oldest</option>
-                                        <option>Most commented</option>
-                                    </select>*@
-                            </div>
+        }
+        <div class="box round-corner type-forum">
+            <div class="row">
+                <section class="col-lg-12">
+                    <div class="d-flex flex-direction-row align-items-center justify-content-end">
+                        <div class="forum-search d-flex flex-direction-row align-items-center justify-content-end">
                         </div>
-                        <table class="forum-list-container stretch">
-                            <tbody>
-                                @(Html.DevExtreme().TreeList<Forum.Models.ViewModels.MainTopicViewModel>()
-.ID("tree-list")
-.DataSource(ds => ds.WebApi()
-.Controller("Admin")
-.LoadAction("GetMainTopics")
-.InsertAction("InsertTask")
-.UpdateAction("UpdateTask")
-.DeleteAction("DeleteTask")
-.Key("MainTopicId")
-)
-.RemoteOperations(r => r.Filtering(true).Sorting(true).Grouping(false))
-.KeyExpr("MainTopicId")
-.ParentIdExpr("ParentIdFK")
-.HasItemsExpr("HasItems")
-.ExpandedRowKeys(new[] { 1, 2 })
-.SearchPanel(seachPanel => seachPanel.Visible(true))
-.HeaderFilter(headerFilter => headerFilter.Visible(true))
-
-//.Editing(editing => editing
-//    .Mode(GridEditMode.Row)
-//    .AllowAdding(false)
-//    .AllowUpdating(false)
-//    .AllowDeleting(false)
-//)
-.ShowRowLines(true)
-.ShowBorders(true)
-.ColumnAutoWidth(true)
-.WordWrapEnabled(true)
-.Columns(columns =>
-{
-columns.AddFor(x => x.Topic)
-    .CellTemplate(@<text>
-                            <a href="@Url.Action("SubTopic", "Forum")/<%= data.MainTopicId %>"><%= data.Topic %></a>
-                            </text>);
-
-columns.Add()
-               .Caption("Controls")
-               .MinWidth(120)
-               //.CellTemplate("<div class='d-flex align-items-center'>" +
-               //                 "<select class='form-control-sm'>" +
-               //                     "<option>Edit topic</option>" +
-               //                     "<option>Delete topic</option>" +
-               //                 "</select>" +
-               //                 "<a class='btn btn-sm btn-default' id='edit_delete_control_event' onclick='edit_delete_control_event()'> Go</a>" +
-               //                 "</div>"
-               //             );
-               .CellTemplate(@<text>
-
-                @(Html.DevExtreme().SelectBox()
-                              .ID(new JS("id(row)"))
-                              .ElementAttr(new { @class = "form-control-sm" })
-                              .DataSource(new[] {
-                        "Edit",
-                        "Delete"
-
-           })
-                              .Buttons(b =>
-                              {
-                                  b.Add()
-                                      .Name("Go")
-                                      .Widget(w => w.Button().ElementAttr(new { @class = "btn btn-sm btn-default" })
-                                          .Text("Go")
-                                          .OnClick("function(){onClick(row)}")
-                                      );
-
-                              })
-                )
-
-            </text>);
-    columns.AddFor(x => x.DisplayOrder)
-             .MinWidth(60)
-              .CellTemplate("<div class='channel-display-orders'>" +
-                                  "<input class='form-control-sm'  type='text'/>" +
-                                  "</div>"
-              ).HeaderCellTemplate("<div class='header-posts'><span>Display order</span></div>");
-    columns.AddFor(x => x.Moderator)
-               .MinWidth(120)
-               .CellTemplate("<div class='d-flex align-items-center'>" +
-                                "<select class='form-control-sm'>" +
-                                    "<option>User 1</option>" +
-                                    "<option>User 2</option>" +
-                                "</select>" +
-                                "</div>"
-                        );
-})
-
-.OnInitNewRow("treeList_onInitNewRow")
-                                        )
-                            </tbody>
-                        </table>
-                    </section>
-                </div>
+                    </div>
+                    <table class="forum-list-container stretch">
+                        <tbody>
+                            @(Html.DevExtreme().TreeList<Forum.Models.ViewModels.MainTopicViewModel>().ID("tree-list").DataSource(ds => ds.WebApi().Controller("Admin").LoadAction("GetMainTopics")
+                                    .Key("MainTopicId")
+                                    ).RemoteOperations(r => r.Filtering(true).Sorting(true).Grouping(false)).KeyExpr("MainTopicId").ParentIdExpr("ParentIdFK").HasItemsExpr("HasItems")
+                                    .ExpandedRowKeys(new[] { 1, 2 }).SearchPanel(seachPanel => seachPanel.Visible(true)).HeaderFilter(headerFilter => headerFilter.Visible(true))
+                                    .ShowRowLines(true).ShowBorders(true).ColumnAutoWidth(true).WordWrapEnabled(true)
+                                    .Columns(columns =>
+                                    {
+                                        columns.AddFor(x => x.Topic).CellTemplate(@<text><a href="@Url.Action("Index", "TopicInformation")/<%= data.MainTopicId %>"><%= data.Topic%></a></text>);
+                                    columns.AddFor(x => x.Description);
+                                        @*.CellTemplate(@<text>
+                                                                                        @{
+                                                                                            Regex regex = new Regex("\\<[^\\>]*\\>");
+                                                                                            string description = "<%= data.Description%>";
+                                                                                            @description                                                                                            
+                                                                                        }
+                                                                                        </text>);*@
+                                        columns.AddFor(x => x.DisplayOrder).MinWidth(60)
+                                                .CellTemplate("<div class='channel-display-orders'>" +
+                                                                      "<input class='form-control-sm'  type='text'  /></div>")
+                                                .HeaderCellTemplate("<div class='header-posts'><span>Display order</span></div>");
+                                        columns.AddFor(x => x.Moderator).MinWidth(120)
+                                                   .CellTemplate("<div class='d-flex align-items-center'><select class='form-control-sm'>" +
+                                                                        "<option>User 1</option>" +
+                                                                        "<option>User 2</option></select></div>"
+                                                                );
+                                    })
+                                    .OnInitNewRow("treeList_onInitNewRow"))
+                        </tbody>
+                    </table>
+                </section>
             </div>
         </div>
     </div>
-}
-else
-{
-    <div class="forum">
-        <div class="wrapper wrapper wrapper-1600">
-
-            <div class="box round-corner type-forum">
-                <div class="row">
-                    <section class="col-lg-12">
-                        <div class="
-										d-flex
-										flex-direction-row
-										align-items-center
-										justify-content-end
-									">
-                            <div class="
-											forum-search
-											d-flex
-											flex-direction-row
-											align-items-center
-											justify-content-end
-										">
-                                @*<label>Filter</label>
-                                    <select class="form-control form-control-sm">
-                                        <option>Datewise</option>
-                                        <option>Latest</option>
-                                        <option>Oldest</option>
-                                        <option>Most commented</option>
-                                    </select>*@
-                            </div>
-                        </div>
-                        <table class="forum-list-container stretch">
-                            <tbody>
-                                @(Html.DevExtreme().TreeList<Forum.Models.ViewModels.MainTopicViewModel>()
-.ID("tree-list")
-.DataSource(ds => ds.WebApi()
-.Controller("Admin")
-.LoadAction("GetMainTopics")
-.InsertAction("InsertTask")
-.UpdateAction("UpdateTask")
-.DeleteAction("DeleteTask")
-.Key("MainTopicId")
-)
-.RemoteOperations(r => r.Filtering(true).Sorting(true).Grouping(false))
-.KeyExpr("MainTopicId")
-.ParentIdExpr("ParentIdFK")
-.HasItemsExpr("HasItems")
-.ExpandedRowKeys(new[] { 1, 2 })
-.SearchPanel(seachPanel => seachPanel.Visible(true))
-.HeaderFilter(headerFilter => headerFilter.Visible(true))
-
-//.Editing(editing => editing
-//    .Mode(GridEditMode.Row)
-//    .AllowAdding(false)
-//    .AllowUpdating(false)
-//    .AllowDeleting(false)
-//)
-.ShowRowLines(true)
-.ShowBorders(true)
-.ColumnAutoWidth(true)
-.WordWrapEnabled(true)
-.Columns(columns =>
-{
-columns.AddFor(x => x.Topic)
-    .CellTemplate(@<text>
-                            <a href="@Url.Action("SubTopic", "Forum")/<%= data.MainTopicId %>"><%= data.Topic %></a>
-                            </text>);
-    if(User.Identity.IsAuthenticated)
-    {
-    columns.Add()
-               .Caption("Controls")
-               .MinWidth(120)
-               //.CellTemplate("<div class='d-flex align-items-center'>" +
-               //                 "<select class='form-control-sm'>" +
-               //                     "<option>Edit topic</option>" +
-               //                     "<option>Delete topic</option>" +
-               //                 "</select>" +
-               //                 "<a class='btn btn-sm btn-default' id='edit_delete_control_event' onclick='edit_delete_control_event()'> Go</a>" +
-               //                 "</div>"
-               //             );
-               .CellTemplate(@<text>
-
-                @(Html.DevExtreme().SelectBox()
-                              .ID(new JS("id(row)"))
-                              .ElementAttr(new { @class = "form-control-sm" })
-                              .DataSource(new[] {
-                        "Edit",
-                        "Delete"
-
-           })
-                              .Buttons(b =>
-                              {
-                                  b.Add()
-                                      .Name("Go")
-                                      .Widget(w => w.Button().ElementAttr(new { @class = "btn btn-sm btn-default" })
-                                          .Text("Go")
-                                          .OnClick("function(){onClick(row)}")
-                                      );
-
-                              })
-                )
-
-            </text>);
-    }
-
-    columns.AddFor(x => x.Description).MinWidth(120).CellTemplate(@<text>
-
-
-                                <span><%= data.Description %></span>
-
-
-    </text>);
-
-
-
-
-                                         columns.AddFor(x => x.DisplayOrder)
-                                                  .MinWidth(60)
-                                                   .CellTemplate("<div class='channel-display-orders'>" +
-                                                                       "<input class='form-control-sm' type='text' />" +
-                                                                       "</div>"
-                                                   ).HeaderCellTemplate("<div class='header-posts'><span>Display order</span></div>");
-                                         columns.AddFor(x => x.Moderator)
-                                                    .MinWidth(120)
-                                                    .CellTemplate("<div class='d-flex align-items-center'>" +
-                                                                     "<select class='form-control-sm'>" +
-                                                                         "<option>User 1</option>" +
-                                                                         "<option>User 2</option>" +
-                                                                     "</select>" +
-                                                                     "</div>"
-                                                             );
-})
-                                .OnInitNewRow("treeList_onInitNewRow")
-                                )
-                            </tbody>
-                        </table>
-                    </section>
-                </div>
-            </div>
-        </div>
-    </div>
-}
-
+</div>
 
 
 <div id="newChannel" class="modal">
-        <header class="modal-header">Add New Topic</header>
-        <input type="hidden" id="hdMainTopicId" />
-        <main class="modal-main">
-            <form method="post" asp-controller="Forum" asp-action="AddMainTopic" enctype="multipart/form-data">
-                <div class="form-wrapper">
+    <header class="modal-header">Add New Topic</header>
+    <input type="hidden" id="hdMainTopicId" />
+    <main class="modal-main">
+        <form method="post" asp-controller="Forum" asp-action="AddMainTopic" enctype="multipart/form-data">
+            <div class="form-wrapper">
 
 
 
-                    <input type="text" class="form-control" id="MainTopicId" asp-for="MainTopicId" name="MainTopicId" hidden />
+                <input type="text" class="form-control" id="MainTopicId" asp-for="MainTopicId" name="MainTopicId" hidden />
 
 
 
-                    <div class="row align-items-center">
-                        <label class="col-lg-3 form-title"> Topic </label>
-                        <div class="col-lg-9">
-                            <input type="text" class="form-control" id="Topic" asp-for="Topic" name="Topic" />
-                            <span class="validation_error" asp-validation-for="Topic"></span>
-                        </div>
+                <div class="row align-items-center">
+                    <label class="col-lg-3 form-title"> Topic </label>
+                    <div class="col-lg-9">
+                        <input type="text" class="form-control" id="Topic" asp-for="Topic" name="Topic" />
+                        <span class="validation_error" asp-validation-for="Topic"></span>
                     </div>
+                </div>
 
-                    <div class="row align-items-center">
-                        <label class="col-lg-3 form-title"> Description </label>
-                        <div class="col-lg-9">
-                            @(Html.DevExtreme().HtmlEditorFor(m => m.Description)
+                <div class="row align-items-center">
+                    <label class="col-lg-3 form-title"> Description </label>
+                    <div class="col-lg-9">
+                        @(Html.DevExtreme().HtmlEditorFor(m => m.Description)
                             .ID("html-editor")
                                          .Height(200)
                                      .Toolbar(toolbar => toolbar.Items(
@@ -408,60 +188,60 @@ columns.AddFor(x => x.Topic)
                                       .Placeholder("Write your decription..."))
 
 
-                            <span class="validation_error" asp-validation-for="Description"></span>
-                        </div>
-                    </div>
-
-                    <div class="row align-items-center">
-                        <label class="col-lg-3 form-title">
-                            Topic icon
-                            <span>
-                                Icon changes will not be reflected on the forum until you
-                                save this Main Topic
-                            </span>
-                        </label>
-                        <div class="col-lg-9">
-                            <input type="file" class="form-control" asp-for="Graphics" id="Graphics" name="Graphics" />
-                            <span class="validation_error" asp-validation-for="Graphics"></span>
-                        </div>
-                    </div>
-
-                    <div class="row align-items-center">
-                        <label class="col-lg-3 form-title">
-                            Display order
-                            <span>Set to '0' to not display this item.</span>
-                        </label>
-                        <div class="col-lg-9">
-                            <input type="number" class="form-control" asp-for="DisplayOrder" name="DisplayOrder" id="DisplayOrder" />
-                            <span class="validation_error" asp-validation-for="DisplayOrder"></span>
-                        </div>
-                    </div>
-
-                    <div class="row align-items-center">
-                        <label class="col-lg-3 form-title"> Parent Topic </label>
-                        <div class="col-lg-9">
-                            <select id="ParentIdFK" asp-items="@ViewBag.ParentTopic" asp-for="ParentIdFK" name="ParentIdFK">
-                                <option value="0"> --Main Topic --</option>
-                            </select>
-                            <span class="validation_error" asp-validation-for="ParentIdFK"></span>
-                        </div>
-                    </div>
-
-                    <div class="row align-items-center">
-                        <label class="col-lg-3 form-title"></label>
-                        <div class="col-lg-9">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
+                        <span class="validation_error" asp-validation-for="Description"></span>
                     </div>
                 </div>
 
+                <div class="row align-items-center">
+                    <label class="col-lg-3 form-title">
+                        Topic icon
+                        <span>
+                            Icon changes will not be reflected on the forum until you
+                            save this Main Topic
+                        </span>
+                    </label>
+                    <div class="col-lg-9">
+                        <input type="file" class="form-control" asp-for="Graphics" id="Graphics" name="Graphics" />
+                        <span class="validation_error" asp-validation-for="Graphics"></span>
+                    </div>
+                </div>
+
+                <div class="row align-items-center">
+                    <label class="col-lg-3 form-title">
+                        Display order
+                        <span>Set to '0' to not display this item.</span>
+                    </label>
+                    <div class="col-lg-9">
+                        <input type="number" class="form-control" asp-for="DisplayOrder" name="DisplayOrder" id="DisplayOrder" />
+                        <span class="validation_error" asp-validation-for="DisplayOrder"></span>
+                    </div>
+                </div>
+
+                <div class="row align-items-center">
+                    <label class="col-lg-3 form-title"> Parent Topic </label>
+                    <div class="col-lg-9">
+                        <select id="ParentIdFK" asp-items="@ViewBag.ParentTopic" asp-for="ParentIdFK" name="ParentIdFK">
+                            <option value="0"> --Main Topic --</option>
+                        </select>
+                        <span class="validation_error" asp-validation-for="ParentIdFK"></span>
+                    </div>
+                </div>
+
+                <div class="row align-items-center">
+                    <label class="col-lg-3 form-title"></label>
+                    <div class="col-lg-9">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </div>
 
 
 
-            </form>
-        </main>
-        <footer class="modal-footer"></footer>
-    </div>
+
+        </form>
+    </main>
+    <footer class="modal-footer"></footer>
+</div>
 
 <script>
     function serializeData() {

@@ -13,6 +13,7 @@ namespace Forum.Models.ViewModels
         public string FirstName { get; set; }
         [Required(ErrorMessage = "Please enter your Last Name")]
         public string LastName { get; set; }
+        public string Token { get; set; }
 
         //[Remote("IsUserNameTaken","User",ErrorMessage ="UserName already taken")]
         //public string UserName { get; set; }

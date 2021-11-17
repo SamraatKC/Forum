@@ -3,26 +3,23 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @model Forum.Models.ViewModels.LoginViewModel
-
-
-
-
-
+@using Microsoft.Extensions.Options
+@inject IOptions<Forum.Common.AppSettings> GooglereCaptcha
 @*<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Forum</title>
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" />
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Forum</title>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" />
 
-    <link rel="stylesheet" href="~/dist/style.min.css" />
-</head>
-<body>
-    <header></header>
-    <nav></nav>
-    <main id="main">*@
+        <link rel="stylesheet" href="~/dist/style.min.css" />
+    </head>
+    <body>
+        <header></header>
+        <nav></nav>
+        <main id="main">*@
 <section class="login-wrapper">
     <div class="back-button">
         <a href="/" class="btn btn-default">Go back</a>
@@ -85,6 +82,8 @@
             <div class="form-container__wrapper">
                 <form asp-action="Register" asp-controller="User" method="post" class="wrapper wrapper-50">
                     <h2>Create Account</h2>
+
+                    <input type="text" class="input-field" id="Token" name="Token" hidden />
                     <div class="form-wrapper float-label">
                         <input type="text" class="input-field" id="FirstName" name="FirstName" />
                         <label for="signup_name">First Name</label>
@@ -110,13 +109,13 @@
                     <button class="btn btn-primary btn-large" id="SignUp">Sign Up</button>
                     <span class="optional-text">or use your account</span>
                     <div class="social-container">
-                        <a href="#" class="social">
+                        <a href="/User/ExternalLogin?provider=Facebook&returnUrl=/User/ExternalLoginCallBack" class="social">
                             <i class="fab fa-facebook-f"></i>
                         </a>
-                        <a href="#" class="social">
+                        <a href="/User/ExternalLogin?provider=Google&returnUrl=/User/ExternalLoginCallBack" class="social">
                             <i class="fab fa-google-plus-g"></i>
                         </a>
-                        <a href="#" class="social">
+                        <a href="/User/ExternalLogin?provider=LinkedIn&returnUrl=/User/ExternalLoginCallBack" class="social">
                             <i class="fab fa-linkedin-in"></i>
                         </a>
                     </div>
@@ -140,11 +139,20 @@
         </div>
     </div>
 </section>
-    <!--</main>
-    <footer></footer>
-    <script type="text/javascript" src="~/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="~/dist/app.min.js"></script>-->
-    @*<script type="text/javascript" src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-        <script type="text/javascript" src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>*@
+<script src="https://www.google.com/recaptcha/api.js?render=@GooglereCaptcha.Value.ReCaptchaSiteKey"></script>
+<script>
+                grecaptcha.ready(function () {
+                    grecaptcha.execute('@GooglereCaptcha.Value.ReCaptchaSiteKey', { action: 'homepage' }).then(function (token) {
+                        console.log(token);
+                        $('#Token').val(token);
+                    });
+                });
+</script>
+<!--</main>
+<footer></footer>
+<script type="text/javascript" src="~/dist/jquery.min.js"></script>
+<script type="text/javascript" src="~/dist/app.min.js"></script>-->
+@*<script type="text/javascript" src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script type="text/javascript" src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>*@
 <!--</body>
 </html>-->

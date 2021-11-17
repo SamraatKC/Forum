@@ -114,7 +114,14 @@ namespace Forum.Controllers
                 //    ModelState.AddModelError(string.Empty, "Duplicate role found");
 
                 #endregion
-
+                #region GoogleCaptcha
+                var GoogleReCaptcha = userService.ReCaptchaVerification(userViewModel.Token);
+                if (!GoogleReCaptcha.Result.success && GoogleReCaptcha.Result.score <= 0.5)
+                {
+                    ModelState.AddModelError(string.Empty, "You are not human.");
+                    return View("Login");
+                }
+                #endregion
                 #region construct ApplicationUser
                 var user = new ApplicationUser
                 {

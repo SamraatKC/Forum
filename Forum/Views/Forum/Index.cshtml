@@ -42,8 +42,9 @@
                                     .Columns(columns =>
                                     {
                                         columns.AddFor(x => x.Topic).CellTemplate(@<text><a href="@Url.Action("Index", "TopicInformation")/<%= data.MainTopicId %>"><%= data.Topic%></a></text>);
-                                    columns.AddFor(m => m.Description)
-                                        .CellTemplate(@<text><%= data.Description %></text>);
+                                        columns.AddFor(x => x.Description)
+                                        //.CellTemplate(new JS("getShortDescription(@('<%=data%>'))"));
+                                        .CustomizeText("getShortDescription");
                                         columns.AddFor(x => x.DisplayOrder).MinWidth(60)
                                                 .CellTemplate("<div class='channel-display-orders'>" +
                                                                       "<input class='form-control-sm' value='<%= data.DisplayOrder%>' type='text'  /></div>")
@@ -287,5 +288,14 @@
         $("#newChannel #Graphics").val(result.Result.TopicIcon);
         $("#newChannel #ParentIdFK").val(result.Result.ParentIdFK);
     };
+
+    var getShortDescription = function (record) {
+        if (record == null || record.value == null) return "";
+        let value = record.value;
+        value = value.replace(/<\/?[^>]+(>|$)/g, "");
+        if (value.length >= 15)
+            return value.substring(0, 15) + "...";
+        return value;
+    }
 
 </script>

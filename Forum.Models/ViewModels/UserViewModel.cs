@@ -20,7 +20,8 @@ namespace Forum.Models.ViewModels
         [Required]    
       
         public string RoleName { get; set; }
-        [Required(ErrorMessage = "Please enter your Email")]
+
+        [Required]
         [Remote("IsEmailTaken", "User", ErrorMessage = "Email already taken")]
         public string Email { get; set; }
         [Required(ErrorMessage = "Please enter your Password")]

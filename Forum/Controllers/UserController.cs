@@ -66,10 +66,10 @@ namespace Forum.Controllers
 
         }
 
-        [AcceptVerbs("Get", "Post")]
-        public async Task<IActionResult> IsEmailTaken(string email)
+       [HttpGet]
+        public JsonResult IsEmailTaken(string email)
         {
-            var isEmailTaken = await userManager.FindByEmailAsync(email);
+            var isEmailTaken =  userManager.FindByEmailAsync(email);
             if (isEmailTaken == null)
             {
 
@@ -165,8 +165,8 @@ namespace Forum.Controllers
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, "Please fill up the fields.");
-                return View();
+                //ModelState.AddModelError(string.Empty, "Please fill up the fields.");
+               throw ex;
             }
             //return View();
         }
@@ -481,7 +481,7 @@ namespace Forum.Controllers
                 info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
             if (signInResult.Succeeded)
             {
-                return View("SecretView");
+                return Redirect("~/Admin/AdminDashboard");
             }
             else
             {
@@ -494,15 +494,27 @@ namespace Forum.Controllers
                         user = new ApplicationUser
                         {
                             UserName = info.Principal.FindFirstValue(ClaimTypes.Email),
-                            Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                            Email = info.Principal.FindFirstValue(ClaimTypes.Email),
+                            FirstName= info.Principal.FindFirstValue(ClaimTypes.Email),
+                            LastName= info.Principal.FindFirstValue(ClaimTypes.Email),
+                            EmailConfirmed =true
                         };
-                        await userManager.CreateAsync(user);
+                       var createExternalUser=await userManager.CreateAsync(user);
+                       if(createExternalUser.Succeeded)
+                        {
+                            await userService.SignIn(user, false);
+                        }
                     }
+                    else
+                    {
+                        await userService.SignIn(user, false);
+                    }
+                   
                     await userManager.AddLoginAsync(user, info);
                     await signInManager.SignInAsync(user, isPersistent: false);
-                    return View("SecretView");
+                    return Redirect("~/Admin/AdminDashboard");
                 }
-                return View("ErrorViewModel");
+                return View("ErrorViewModel");  
             }
 
         }

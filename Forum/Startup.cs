@@ -7,6 +7,7 @@ using Forum.Common;
 using Forum.Data;
 using Forum.Models;
 using Forum.Service;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -88,8 +89,8 @@ namespace DevExtremeAspNetCoreApp
               {
                   options.ClientId = Configuration["Authentication:Google:ClientId"];
                   options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-                  options.SignInScheme = IdentityConstants.ExternalScheme;
-      })
+                  //options.SignInScheme = IdentityConstants.ExternalScheme;
+              })
       .AddFacebook(options =>
       {
           options.AppId = Configuration["Authentication:Facebook:AppId"];
@@ -136,7 +137,7 @@ namespace DevExtremeAspNetCoreApp
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-
+            //app.UseCookiePolicy();
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllerRoute(
                     name: "default",

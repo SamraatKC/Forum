@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Content Remove="Views\User\Register.cshtml" />
       <Content Remove="wwwroot\assets\cache\babel\post-babel.js" />
       <Content Remove="wwwroot\assets\cache\babel\pre-babel.js" />
       <Content Remove="wwwroot\assets\cache\import-maps\_components.scss" />

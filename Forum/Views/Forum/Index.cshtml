@@ -42,17 +42,11 @@
                                     .Columns(columns =>
                                     {
                                         columns.AddFor(x => x.Topic).CellTemplate(@<text><a href="@Url.Action("Index", "TopicInformation")/<%= data.MainTopicId %>"><%= data.Topic%></a></text>);
-                                    columns.AddFor(x => x.Description);
-                                        @*.CellTemplate(@<text>
-                                                                                        @{
-                                                                                            Regex regex = new Regex("\\<[^\\>]*\\>");
-                                                                                            string description = "<%= data.Description%>";
-                                                                                            @description                                                                                            
-                                                                                        }
-                                                                                        </text>);*@
+                                    columns.AddFor(m => m.Description)
+                                        .CellTemplate(@<text><%= data.Description %></text>);
                                         columns.AddFor(x => x.DisplayOrder).MinWidth(60)
                                                 .CellTemplate("<div class='channel-display-orders'>" +
-                                                                      "<input class='form-control-sm'  type='text'  /></div>")
+                                                                      "<input class='form-control-sm' value='<%= data.DisplayOrder%>' type='text'  /></div>")
                                                 .HeaderCellTemplate("<div class='header-posts'><span>Display order</span></div>");
                                         columns.AddFor(x => x.Moderator).MinWidth(120)
                                                    .CellTemplate("<div class='d-flex align-items-center'><select class='form-control-sm'>" +

@@ -10,14 +10,25 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@section Header 
+@section Header
 {
-    <div class="header-top">
-        <div class="wrapper wrapper-1280 d-flex justify-content-end">
-            <a asp-controller="User" asp-action="Login">Sign in</a>
+    @if (User.Identity.IsAuthenticated)
+    {<div class="header-top">
+            <div class="wrapper wrapper-1280 d-flex justify-content-end">
+                <a asp-controller="User" asp-action="Logout">Sign out</a>
 
+            </div>
         </div>
-    </div>
+     }
+    else
+    { <div class="header-top">
+            <div class="wrapper wrapper-1280 d-flex justify-content-end">
+                <a asp-controller="User" asp-action="Login">Sign in</a>
+
+            </div>
+        </div>
+    }
+
 }
 
 
@@ -39,7 +50,14 @@
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="breadcrumb-item"><a href="/Admin/AdminDashboard">Home</a></li>
+                }
+                else
+                {
+                    <li class="breadcrumb-item"><a href="/Forum">Home</a></li>
+                }
                 <li class="breadcrumb-item active" aria-current="page">Information</li>
             </ol>
         </nav>
@@ -125,7 +143,11 @@
                                                                 {
                                                                     Regex regex = new Regex("\\<[^\\>]*\\>");
                                                                     string description = regex.Replace(topic.Description, String.Empty);
-                                                                    @description
+                                                                    if (description.Length>375)
+                                                                    {
+                                                                        var desc=(description.Substring(0, 375) + ".....");
+                                                                        @desc;
+                                                                    }
                                                                 }
                                                             }
                                                         </div>

@@ -33,12 +33,12 @@
                 <form asp-action="Login" asp-controller="User" method="post" class="wrapper wrapper-50">
                     <h2>Sign in</h2>
                     <div class="form-wrapper float-label">
-                        <input type="email" class="input-field" id="Email" asp-for="Email" name="Email" />
+                        <input type="email" class="input-field" id="Email" asp-for="Email" name="Email" required />
                         <label for="signin_email">Email</label>
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <div class="form-wrapper float-label">
-                        <input type="password" class="input-field" id="Password" asp-for="Password" name="Password" />
+                        <input type="password" class="input-field" id="Password" asp-for="Password" name="Password" required />
                         <label for="signin_password">Password</label>
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
@@ -85,24 +85,24 @@
 
                     <input type="text" class="input-field" id="Token" name="Token" hidden />
                     <div class="form-wrapper float-label">
-                        <input type="text" class="input-field" id="FirstName" name="FirstName" />
+                        <input type="text" class="input-field" id="FirstName" name="FirstName" required/>
                         <label for="signup_name">First Name</label>
                         <span for="FirstName" class="text-danger"></span>
                     </div>
 
                     <div class="form-wrapper float-label ">
-                        <input type="text" class="input-field" id="LastName" name="LastName" />
+                        <input type="text" class="input-field" id="LastName" name="LastName" required />
                         <label for="signup_name">Last Name</label>
                         <span for="LastName" class="text-danger"></span>
                     </div>
                     <div class="form-wrapper float-label ">
-                        <input type="email" class="input-field" id="Email" name="Email" />
+                        <input type="email" class="input-field" id="Email" name="Email" required />
                         <label for="signup_email">Email</label>
-                        <span or="Email" class="text-danger"></span>
+                        <span for="Email" class="text-danger"></span>
                         @*<span class="validation_error">Invalid email format.</span>*@
                     </div>
                     <div class="form-wrapper float-label">
-                        <input type="password" class="input-field" id="Password" name="Password" />
+                        <input type="password" class="input-field" id="Password" name="Password" required />
                         <label for="signup_password">Password</label>
                         <span for="Password" class="text-danger"></span>
                     </div>

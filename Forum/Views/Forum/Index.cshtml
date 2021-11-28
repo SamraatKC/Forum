@@ -41,15 +41,15 @@
                                     .ShowRowLines(true).ShowBorders(true).ColumnAutoWidth(true).WordWrapEnabled(true)
                                     .Columns(columns =>
                                     {
-                                        columns.AddFor(x => x.Topic).CellTemplate(@<text><a href="@Url.Action("Index", "TopicInformation")/<%= data.MainTopicId %>"><%= data.Topic%></a></text>);
+                                        columns.AddFor(x => x.Topic).CellTemplate(@<text><a href="@Url.Action("SubTopic", "Forum")/<%= data.MainTopicId %>"><%= data.Topic%></a></text>);
                                         columns.AddFor(x => x.Description)
                                         //.CellTemplate(new JS("getShortDescription(@('<%=data%>'))"));
-                                        .CustomizeText("getShortDescription");
-                                        columns.AddFor(x => x.DisplayOrder).MinWidth(60)
+                                        .CustomizeText("getShortDescription").MinWidth(600);
+                                        columns.AddFor(x => x.DisplayOrder)
                                                 .CellTemplate("<div class='channel-display-orders'>" +
                                                                       "<input class='form-control-sm' value='<%= data.DisplayOrder%>' type='text'  /></div>")
                                                 .HeaderCellTemplate("<div class='header-posts'><span>Display order</span></div>");
-                                        columns.AddFor(x => x.Moderator).MinWidth(120)
+                                        columns.AddFor(x => x.Moderator)
                                                    .CellTemplate("<div class='d-flex align-items-center'><select class='form-control-sm'>" +
                                                                         "<option>User 1</option>" +
                                                                         "<option>User 2</option></select></div>"

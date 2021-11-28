@@ -34,7 +34,7 @@ namespace Forum.Models.ViewModels
         public string Status { get; set; }
         public string Moderator { get; set; }
         public ICollection<MainTopic> ChildTopic { get; set; }
-
+        public List<TopicInformation> TopicInformation { get; set; }
         public Boolean HasItems { get; set; }
 
         public List<SelectListItem> Moderators { get; } = new List<SelectListItem>
@@ -65,5 +65,6 @@ namespace Forum.Models.ViewModels
                 
             return mainTopicVM;
         }
+       
     }
 }

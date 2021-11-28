@@ -39,7 +39,7 @@ namespace Forum.Data
                 entity.HasKey(e => new { e.TopicInformationId });
                 entity.Property(x => x.TopicInformationId).ValueGeneratedOnAdd();
                 entity.HasOne(p => p.MainTopic)
-               .WithMany(p => p.MainTopicPost)
+               .WithMany(p => p.TopicInformation)
                .HasForeignKey(p => p.MainTopicsIdFK)
                //.IsRequired(true)
                .OnDelete(DeleteBehavior.Cascade);

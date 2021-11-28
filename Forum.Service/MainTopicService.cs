@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -98,9 +99,11 @@ namespace Forum.Service
 
         public async Task<List<MainTopicViewModel>> GetParentAndSubTopic(int topicId)
         {
+           
             var result = await db.MainTopics.Where(x=>x.MainTopicId == topicId || x.ParentIdFK == topicId)
                 .Select(x => new MainTopicViewModel
                 {
+                    TopicInformation=x.TopicInformation,
                     MainTopicId = x.MainTopicId,
                     ThemeIdFK = x.ThemeIdFK,
                     ParentIdFK = x.ParentIdFK,

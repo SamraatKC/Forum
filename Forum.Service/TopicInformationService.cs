@@ -81,6 +81,28 @@ namespace Forum.Service
             return result;
         }
 
+        public async Task<List<TopicInformationViewModel>> GetTopicAndTopicInformation(int topicId)
+        {
+
+            var result = await db.TopicInformation.Where(x => x.MainTopicsIdFK == topicId)
+                .Select(x => new TopicInformationViewModel
+                {
+                    //TopicInformation = x.TopicInformation,
+                    TopicInformationId = x.TopicInformationId,
+                    MainTopicsIdFK = x.MainTopicsIdFK,
+                   Title = x.Title,
+                    Description = x.Description,
+                    TopicIcon = x.TopicIcon,
+                    
+                    CreatedDate = x.CreatedDate,
+                    CreatedBy = x.CreatedBy,
+                    LastUpdatedDate = x.LastUpdatedDate,
+                    LastUpdatedBy = x.LastUpdatedBy,
+                    Status = x.Status,
+                 }).ToListAsync();
+
+            return result;
+        }
         public async Task<List<TopicInformationViewModel>> FindTopicInformationByTopicId(int mainTopicId)
         {
             var res = await db.TopicInformation.Where(x=>x.MainTopicsIdFK == mainTopicId).Select(x=>(TopicInformationViewModel)x).ToListAsync();

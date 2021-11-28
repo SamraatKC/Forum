@@ -42,7 +42,15 @@ namespace Forum.Controllers
             httpContextAccessor = _httpContextAccessor;
 
         }
+        [HttpGet]
+        [Route("/TopicInformation/Information/{mainTopicId}")]
 
+        public async Task<IActionResult> Information(int mainTopicId)
+        {
+            ViewBag.MainTopicId = mainTopicId;
+            var topicInformations = await topicInformationService.FindTopicInformationByTopicId(mainTopicId);
+            return View(topicInformations);
+        }
         [HttpGet]
         [Route("/TopicInformation/{mainTopicId}")]
         public async Task<IActionResult> Index(int mainTopicId)

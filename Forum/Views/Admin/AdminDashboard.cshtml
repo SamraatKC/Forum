@@ -38,7 +38,7 @@
                                 .ShowRowLines(true).ShowBorders(true).ColumnAutoWidth(true).WordWrapEnabled(true)
                                 .Columns(columns =>
                                 {
-                                    columns.AddFor(x => x.Topic).CellTemplate(@<text><a href="@Url.Action("Index", "TopicInformation")/<%= data.MainTopicId %>"><%= data.Topic %></a></text>);
+                                    columns.AddFor(x => x.Topic).CellTemplate(@<text><a href="@Url.Action("SubTopic", "Forum")/<%= data.MainTopicId %>"><%= data.Topic %></a></text>);
                                     columns.Add().Caption("Controls").MinWidth(120)
                                             .CellTemplate(@<text>@(Html.DevExtreme()
                                                                 .SelectBox().ID(new JS("id(row)")).ElementAttr(new { @class = "form-control-sm" }).DataSource(new[] {"Edit","Delete"})

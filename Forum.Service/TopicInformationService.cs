@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Forum.Service
@@ -24,11 +25,14 @@ namespace Forum.Service
         }
         public async Task<bool> AddTopicInformation(TopicInformationViewModel mainTopicPostViewModel)
         {
+           
+           
             TopicInformation topicInformation = new TopicInformation()
             {
                 MainTopicsIdFK = mainTopicPostViewModel.MainTopicsIdFK,
                 Title = mainTopicPostViewModel.Title,
-                Description = mainTopicPostViewModel.Description,
+                Description = mainTopicPostViewModel.Description.Replace("&#39;", "'")
+                .Replace("&quot;","\"").Replace("&lt;", "<").Replace("&gt;", ">").Replace("&amp;", "&"),
                 TopicIcon = mainTopicPostViewModel.TopicIcon,
                 CreatedDate = mainTopicPostViewModel.CreatedDate,
                 CreatedBy = mainTopicPostViewModel.CreatedBy,
@@ -48,7 +52,8 @@ namespace Forum.Service
             {
                 var result = await db.TopicInformation.FirstOrDefaultAsync(e => e.TopicInformationId == mainTopicPostViewModel.TopicInformationId);
                 result.Title = mainTopicPostViewModel.Title;
-                result.Description = mainTopicPostViewModel.Description;
+                result.Description = mainTopicPostViewModel.Description.Replace("&#39;", "'")
+                .Replace("&quot;", "\"").Replace("&lt;", "<").Replace("&gt;", ">").Replace("&amp;", "&");
                 result.TopicIcon = mainTopicPostViewModel.TopicIcon;
                 result.CreatedDate = mainTopicPostViewModel.CreatedDate;
                 result.CreatedBy = mainTopicPostViewModel.CreatedBy;
@@ -91,7 +96,7 @@ namespace Forum.Service
                     TopicInformationId = x.TopicInformationId,
                     MainTopicsIdFK = x.MainTopicsIdFK,
                    Title = x.Title,
-                    Description = x.Description,
+                    Description = x.Description.Replace("&#39;", "'"),
                     TopicIcon = x.TopicIcon,
                     
                     CreatedDate = x.CreatedDate,

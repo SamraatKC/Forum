@@ -143,10 +143,14 @@
                                                                 {
                                                                     Regex regex = new Regex("\\<[^\\>]*\\>");
                                                                     string description = regex.Replace(topic.Description, String.Empty);
-                                                                    if (description.Length>375)
+                                                                    if (description.Length > 375)
                                                                     {
-                                                                        var desc=(description.Substring(0, 375) + ".....");
+                                                                        var desc = (description.Substring(0, 375) + ".....");
                                                                         @desc;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @description;
                                                                     }
                                                                 }
                                                             }

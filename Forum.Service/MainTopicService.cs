@@ -35,7 +35,8 @@ namespace Forum.Service
                 ParentIdFK = mainTopicViewModel.ParentIdFK,
                 ReferenceLink = mainTopicViewModel.ReferenceLink,
                 Topic = mainTopicViewModel.Topic,
-                Description = mainTopicViewModel.Description,
+                Description = mainTopicViewModel.Description.Replace("&#39;", "'")
+                .Replace("&quot;", "\"").Replace("&lt;", "<").Replace("&gt;", ">").Replace("&amp;", "&"),
                 TopicIcon = mainTopicViewModel.TopicIcon,
                 DisplayOrder = mainTopicViewModel.DisplayOrder,
                 CreatedDate = mainTopicViewModel.CreatedDate,

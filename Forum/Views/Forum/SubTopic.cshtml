@@ -1,10 +1,14 @@
 ﻿@using System.Text.RegularExpressions
 @model Forum.Models.ViewModels.MainTopicWithInformationViewModel
+@using Microsoft.AspNetCore.Identity;
+@inject UserManager<ApplicationUser> userManager;
+   
 @{ ViewData["Title"] = "Forum";
     Layout = "~/Views/Shared/_Layout.cshtml"; }
 
 @section Header
 {
+
     @if (User.Identity.IsAuthenticated)
     {
         <div class="header-top">
@@ -12,77 +16,87 @@
                 <a asp-controller="User" asp-action="Logout">Sign out</a>
 
             </div>
-        </div> 
+        </div>
     }
-                        else
-                        {
-                            <div class="header-top">
-                                <div class="wrapper wrapper-1280 d-flex justify-content-end">
-                                    <a asp-controller="User" asp-action="Login">Sign in</a>
+    else
+    {
+        <div class="header-top">
+            <div class="wrapper wrapper-1280 d-flex justify-content-end">
+                <a asp-controller="User" asp-action="Login">Sign in</a>
 
-                                </div>
-                            </div>
-                        }
+            </div>
+        </div>
+    }
 
 }
 <input type="hidden" value="@ViewBag.MainTopicId" id="hdMainTopicId" />
 
 <div class="forum">
+    <div class="parent-title">
+        @{ var queryParam = Context.Request.RouteValues["mainTopicId"];
+            int mainTopicID = int.Parse(queryParam == null ? "0" : queryParam.ToString());
+            var parentRecord = Context.Request.RouteValues["parentId"];
+            int parentID = int.Parse(parentRecord == null ? "0" : parentRecord.ToString());
+        }
+    </div>
     <div class="wrapper wrapper wrapper-1600">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                @if (User.Identity.IsAuthenticated)
+                @{ @if (User.Identity.IsAuthenticated)
                 {
-                    <li class="breadcrumb-item"><a href="/Admin/AdminDashboard">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/Admin/AdminDashboard">Home</a></li>
                 }
                 else
                 {
-                    <li class="breadcrumb-item"><a href="/Forum">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/Forum">Home</a></li>
                 }
-                <li class="breadcrumb-item active" aria-current="page">Information</li>
+                    var childTopic = Model.SubTopics.Where(x => x.MainTopicId == mainTopicID).FirstOrDefault();
+
+                    if (childTopic != null)
+                    {
+                    <li class="breadcrumb-item active" aria-current="page">@childTopic.Topic</li>
+                    }
+
+
+
+                }
+
             </ol>
         </nav>
         @*<div class="box round-corner entry-content type-alert">
-            <div>
-                <p>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting
-                    industry. Lorem Ipsum has been the industry's standard dummy
-                    text ever since the 1500s, when an unknown printer took a galley
-                    of type and scrambled it to make a type specimen book.
-                </p>
+                <div>
+                    <p>
+                        Lorem Ipsum is simply dummy text of the printing and typesetting
+                        industry. Lorem Ipsum has been the industry's standard dummy
+                        text ever since the 1500s, when an unknown printer took a galley
+                        of type and scrambled it to make a type specimen book.
+                    </p>
 
-                <p>Useful Links for Guests:</p>
-                <ul>
-                    <li>
-                        Aliquam lobortis erat at est ornare, a rutrum quam convallis.
-                    </li>
-                    <li>Proin molestie lectus quis cursus maximus.</li>
-                    <li>
-                        Morbi lobortis metus a leo volutpat, vitae gravida turpis
-                        luctus.
-                    </li>
-                </ul>
-                <p>
-                    If you are having problems posting in the relevant areas for
-                    your software, please see this topic.
-                </p>
-            </div>
-        </div>*@
-        <div class="parent-title">
-            @{ var queryParam = Context.Request.RouteValues["mainTopicId"];
-                int parentIdFk = int.Parse(queryParam == null ? "0" : queryParam.ToString()); @*var parentTopic = Model.Where(x => x.MainTopicId == parentIdFk).FirstOrDefault();
-                if (parentTopic != null)
-                {
-                        <a href="/Admin/AdminDashboard">@parentTopic.Topic</a>
-                }*@ }
-        </div>
+                    <p>Useful Links for Guests:</p>
+                    <ul>
+                        <li>
+                            Aliquam lobortis erat at est ornare, a rutrum quam convallis.
+                        </li>
+                        <li>Proin molestie lectus quis cursus maximus.</li>
+                        <li>
+                            Morbi lobortis metus a leo volutpat, vitae gravida turpis
+                            luctus.
+                        </li>
+                    </ul>
+                    <p>
+                        If you are having problems posting in the relevant areas for
+                        your software, please see this topic.
+                    </p>
+                </div>
+            </div>*@
+
 
 
         @*<nav class="tab-like">
-            <ul>
-                <li class="activated"><a href="">Forum</a></li>
-            </ul>
-        </nav>*@
+                <ul>
+                    <li class="activated"><a href="">Forum</a></li>
+                </ul>
+            </nav>*@
 
         <div class="box round-corner type-forum">
             <div class="row">
@@ -116,16 +130,17 @@
                                 </tr>
 
                                 @*<tr class="category-header" id="forum14">
-                        <td colspan="4">
-                            <div class="header">
-                                <a class="category" data-nodeid="14" href="">Announcements</a>
-                            </div>
-                        </td>
-                    </tr>*@
+                                        <td colspan="4">
+                                            <div class="header">
+                                                <a class="category" data-nodeid="14" href="">Announcements</a>
+                                            </div>
+                                        </td>
+                                    </tr>*@
                                 @*Top level Forums*@
 
-                                @{ foreach (Forum.Models.ViewModels.MainTopicViewModel topic in Model.SubTopics.Where(x => x.ParentIdFK == parentIdFk))
+                                @{ foreach (Forum.Models.ViewModels.MainTopicViewModel topic in Model.SubTopics.Where(x => x.ParentIdFK == mainTopicID))
                                     {
+
 
                                         <tr class="forum-item main new"
                                             id="forum28"
@@ -211,7 +226,7 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                    }
+                                                                }
                                 }
 
                             </tbody>
@@ -221,13 +236,24 @@
 
                     <div>
 
-                      
+
                         <table class="forum-list-container stretch">
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item active" aria-current="page">Topic Information For Main Topics</li>
-                                </ol>
-                            </nav>
+                            @{
+                                var parentTopic = Model.SubTopics.Where(x => x.MainTopicId == parentID).FirstOrDefault();
+                                
+                                if (parentTopic != null)
+                                {
+
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item active" aria-current="page">Topic Information For:@parentTopic.Topic</li>
+                                        </ol>
+                                    </nav>
+                                }
+
+
+                            }
+
                             <tbody>
 
                                 <tr class="forum-list-header">
@@ -343,7 +369,7 @@
 
                     </div>
                 </section>
-               
+
                 <aside class="col-lg-3">
                     <div class="
 										b-module b-module--hide-xsmall
@@ -560,34 +586,34 @@
 
 
 
-        <div id="newInformation" class="modal">
-            <header class="modal-header">Add New Information</header>
+<div id="newInformation" class="modal">
+    <header class="modal-header">Add New Information</header>
 
-            <main class="modal-main">
-                <form id="AddTopicInformation" method="post" enctype="multipart/form-data">
-                    @*<div id="validation-summary">
-                            <p>Please provide values for the highlighted fields.</p>
-                            <ul />
-                        </div>*@
-                    <div class="form-wrapper">
-
-
-
-                        <input type="hidden" value="@ViewBag.MainTopicId" id="MainTopicsIdFK" name="MainTopicsIdFK" />
+    <main class="modal-main">
+        <form id="AddTopicInformation" method="post" enctype="multipart/form-data">
+            @*<div id="validation-summary">
+                    <p>Please provide values for the highlighted fields.</p>
+                    <ul />
+                </div>*@
+            <div class="form-wrapper">
 
 
-                        <div class="row align-items-center">
-                            <label class="col-lg-3 form-title"> Title </label>
-                            <div class="col-lg-9">
-                                <input type="text" class="form-control" id="Title" name="Title" required />
-                                <span class="validation_error" name="Title"></span>
-                            </div>
-                        </div>
 
-                        <div class="row align-items-center">
-                            <label class="col-lg-3 form-title"> Description </label>
-                            <div class="col-lg-9">
-                                @(Html.DevExtreme().HtmlEditor()
+                <input type="hidden" value="@ViewBag.MainTopicId" id="MainTopicsIdFK" name="MainTopicsIdFK" />
+
+
+                <div class="row align-items-center">
+                    <label class="col-lg-3 form-title"> Title </label>
+                    <div class="col-lg-9">
+                        <input type="text" class="form-control" id="Title" name="Title" required />
+                        <span class="validation_error" name="Title"></span>
+                    </div>
+                </div>
+
+                <div class="row align-items-center">
+                    <label class="col-lg-3 form-title"> Description </label>
+                    <div class="col-lg-9">
+                        @(Html.DevExtreme().HtmlEditor()
                         .ID("html-editor").Name("Description")
                                      .Height(200)
                                  .Toolbar(toolbar => toolbar.Items(
@@ -686,39 +712,39 @@
 
 
 
-                                <span class="validation_error" name="Description"></span>
-                            </div>
-                        </div>
-
-                        <div class="row align-items-center">
-                            <label class="col-lg-3 form-title">
-                                Topic icon
-                                <span>
-                                    Icon changes will not be reflected on the forum until you
-                                    save this Main Topic
-                                </span>
-                            </label>
-                            <div class="col-lg-9">
-                                <input type="file" class="form-control" id="Graphics" name="Graphics"  />
-                                <span class="validation_error" name="Graphics"></span>
-                            </div>
-                        </div>
-
-
-                        <div class="row align-items-center">
-                            <label class="col-lg-3 form-title"></label>
-                            <div class="col-lg-9">
-                                <button type="submit" onclick="Submit()" class="btn btn-primary" id="btn-submit-topicinformation">Submit</button>
-                            </div>
-                        </div>
+                        <span class="validation_error" name="Description"></span>
                     </div>
-                </form>
-            </main>
-            <footer class="modal-footer"></footer>
-        </div>
+                </div>
+
+                <div class="row align-items-center">
+                    <label class="col-lg-3 form-title">
+                        Topic icon
+                        <span>
+                            Icon changes will not be reflected on the forum until you
+                            save this Main Topic
+                        </span>
+                    </label>
+                    <div class="col-lg-9">
+                        <input type="file" class="form-control" id="Graphics" name="Graphics" />
+                        <span class="validation_error" name="Graphics"></span>
+                    </div>
+                </div>
 
 
-        <script>
+                <div class="row align-items-center">
+                    <label class="col-lg-3 form-title"></label>
+                    <div class="col-lg-9">
+                        <button type="submit" onclick="Submit()" class="btn btn-primary" id="btn-submit-topicinformation">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </main>
+    <footer class="modal-footer"></footer>
+</div>
+
+
+<script>
     function serializeData() {
         return $('#TestForm :input[name!=DXCss][name!=DXScript]').serialize();
     }
@@ -770,4 +796,4 @@
         });
     }
 
-        </script>
+</script>

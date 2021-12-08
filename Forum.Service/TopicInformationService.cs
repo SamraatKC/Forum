@@ -88,7 +88,7 @@ namespace Forum.Service
 
         public async Task<List<TopicInformationViewModel>> GetTopicAndTopicInformation(int topicId)
         {
-
+            
             var result = await db.TopicInformation.Where(x => x.MainTopicsIdFK == topicId)
                 .Select(x => new TopicInformationViewModel
                 {

@@ -20,12 +20,12 @@ namespace Forum.Service
     {
         ForumDbx db;
         IOptions<AppSettings> appSettings;
-       
+
         public MainTopicService(IOptions<AppSettings> _appSettings)
         {
             appSettings = _appSettings;
             db = new ForumDbx(_appSettings);
-          
+
         }
         public async Task<bool> AddMainTopic(MainTopicViewModel mainTopicViewModel)
         {
@@ -92,19 +92,18 @@ namespace Forum.Service
                     LastUpdatedBy = x.LastUpdatedBy,
                     Status = x.Status,
                     Moderator = x.Moderator,
-                    HasItems = db.MainTopics.Count(y=>y.ParentIdFK == x.MainTopicId) > 0,
+                    HasItems = db.MainTopics.Count(y => y.ParentIdFK == x.MainTopicId) > 0,
                 }).ToList();
 
             return result;
         }
 
-        public async Task<List<MainTopicViewModel>> GetParentAndSubTopic(int topicId)
+        public async Task<List<MainTopicViewModel>> GetParentAndSubTopic(int topicId,int parentId)
         {
-           
-            var result = await db.MainTopics.Where(x=>x.MainTopicId == topicId || x.ParentIdFK == topicId)
+            var result = await db.MainTopics.Where(x => x.MainTopicId == topicId || x.ParentIdFK == topicId||x.MainTopicId==parentId)
                 .Select(x => new MainTopicViewModel
                 {
-                    TopicInformation=x.TopicInformation,
+                    TopicInformation = x.TopicInformation,
                     MainTopicId = x.MainTopicId,
                     ThemeIdFK = x.ThemeIdFK,
                     ParentIdFK = x.ParentIdFK,
@@ -144,7 +143,7 @@ namespace Forum.Service
             var res = await db.MainTopics.FindAsync(id);
             return res;
         }
-
+       
         public async Task<bool> DeleteMainTopictById(int id)
         {
             var mainTopicId = db.MainTopics.OrderBy(e => e.MainTopicId).Where(a => a.MainTopicId == id).FirstOrDefault();

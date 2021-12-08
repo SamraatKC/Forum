@@ -36,9 +36,9 @@
             <nav class="tab-like">
                 <ul>
                     <li class="forum-add">
-                        <a href="#newChannel"
+                        <a href="#newMainTopic"
                            rel="modal:open"
-                           class="btn btn-outline open-modal">+ Add New Topic</a>
+                           class="btn btn-outline open-modal">Add Main Topic</a>
                     </li>
                     <li><a href="">Latest articles</a></li>
                 </ul>
@@ -50,6 +50,26 @@
                 <section class="col-lg-12">
                     <div class="d-flex flex-direction-row align-items-center justify-content-end ">
                         <div class="forum-search d-flex flex-direction-row align-items-center justify-content-end"></div>
+                        @{
+                            var filterDatas = new[] { "All", "test for edit", "Analysis only", "Feedbacks Only",
+                                "Errors Only", "Compensators Only", "Information under analysis only",
+                                "Images Only", "Videos Only" };
+                        }
+
+                        @(Html.DevExtreme().SelectBox()
+        .DataSource(filterDatas)
+        .Value(TreeListFilterMode.MatchOnly)
+        .OnValueChanged(@<text>
+            function(data) {
+                var treeList = $("#tree-list").dxTreeList("instance");
+                if (data.value == "All")
+                    treeList.clearFilter();
+                else
+                    treeList.filter(["Topic", "=", data.value]);
+
+            }
+        </text>)
+    )
                     </div>
                     <table class="forum-list-container stretch">
                         <tbody>
@@ -57,11 +77,11 @@
                                 .ID("tree-list").DataSource(ds => ds.WebApi().Controller("Admin").LoadAction("GetMainTopics").Key("MainTopicId"))
                                 .RemoteOperations(r => r.Filtering(true).Sorting(true).Grouping(false))
                                 .KeyExpr("MainTopicId").ParentIdExpr("ParentIdFK").HasItemsExpr("HasItems").ExpandedRowKeys(new[] { 1, 2 })
-                                .SearchPanel(seachPanel => seachPanel.Visible(true)).HeaderFilter(headerFilter => headerFilter.Visible(true))
+                                .SearchPanel(seachPanel => seachPanel.Visible(false)).HeaderFilter(headerFilter => headerFilter.Visible(true))
                                 .ShowRowLines(true).ShowBorders(true).ColumnAutoWidth(true).WordWrapEnabled(true)
                                 .Columns(columns =>
                                 {
-                                    columns.AddFor(x => x.Topic).CellTemplate(@<text><a href="@Url.Action("SubTopic", "Forum")/<%= data.MainTopicId %>"><%= data.Topic %></a></text>);
+                                    columns.AddFor(x => x.Topic).CellTemplate(@<text><a href="@Url.Action("SubTopic", "Forum")/<%= data.MainTopicId %>/<%= data.ParentIdFK %>"><%= data.Topic %></a></text>);
                                     columns.Add().Caption("Controls").MinWidth(120)
                                             .CellTemplate(@<text>@(Html.DevExtreme()
                                                                 .SelectBox().ID(new JS("id(row)")).ElementAttr(new { @class = "form-control-sm" }).DataSource(new[] {"Edit","Delete"})
@@ -80,7 +100,9 @@
                                                     "<option>User 1</option>" +
                                                     "<option>User 2</option>" +
                                                 "</select><div>");
-                                }).OnInitNewRow("treeList_onInitNewRow")
+                                })
+                             .FilterMode(TreeListFilterMode.MatchOnly)
+                            .OnInitNewRow("treeList_onInitNewRow")
                             )
                         </tbody>
                     </table>
@@ -90,8 +112,8 @@
     </div>
 </div>
 
-<div id="newChannel" class="modal">
-    <header class="modal-header">Add New Topic</header>
+<div id="newMainTopic" class="modal">
+    <header class="modal-header">Add Main Topic</header>
     <input type="hidden" id="hdMainTopicId" />
     <main class="modal-main">
         <form method="post" asp-controller="Forum" asp-action="AddMainTopic" enctype="multipart/form-data">
@@ -100,7 +122,7 @@
                 <div class="row align-items-center">
                     <label class="col-lg-3 form-title"> Topic </label>
                     <div class="col-lg-9">
-                        <input type="text" class="form-control" id="Topic" asp-for="Topic" name="Topic" />
+                        <input type="text" class="form-control" id="Topic" asp-for="Topic" name="Topic" required />
                         <span class="validation_error" asp-validation-for="Topic"></span>
                     </div>
                 </div>
@@ -154,7 +176,7 @@
                         <span>Set to '0' to not display this item.</span>
                     </label>
                     <div class="col-lg-9">
-                        <input type="number" class="form-control" asp-for="DisplayOrder" name="DisplayOrder" id="DisplayOrder" />
+                        <input type="number" class="form-control" asp-for="DisplayOrder" name="DisplayOrder" id="DisplayOrder" required />
                         <span class="validation_error" asp-validation-for="DisplayOrder"></span>
                     </div>
                 </div>
@@ -230,6 +252,7 @@
                 url: "/Admin/DeleteMainTopicById/" + maintopicId,
                 success: function (result) {
                     if (result != null) {
+                       
                         window.location.reload();
                         alert("Selected Record has been successfully deleted.")
                     }

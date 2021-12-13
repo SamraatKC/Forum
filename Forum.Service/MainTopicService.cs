@@ -98,9 +98,9 @@ namespace Forum.Service
             return result;
         }
 
-        public async Task<List<MainTopicViewModel>> GetParentAndSubTopic(int topicId,int parentId)
+        public async Task<List<MainTopicViewModel>> GetParentAndSubTopic(int topicId/*,int parentId*/)
         {
-            var result = await db.MainTopics.Where(x => x.MainTopicId == topicId || x.ParentIdFK == topicId||x.MainTopicId==parentId)
+            var result = await db.MainTopics.Where(x => x.MainTopicId == topicId || x.ParentIdFK == topicId/*||x.MainTopicId==parentId*/)
                 .Select(x => new MainTopicViewModel
                 {
                     TopicInformation = x.TopicInformation,

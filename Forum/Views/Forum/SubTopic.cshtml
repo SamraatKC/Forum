@@ -2,7 +2,7 @@
 @model Forum.Models.ViewModels.MainTopicWithInformationViewModel
 @using Microsoft.AspNetCore.Identity;
 @inject UserManager<ApplicationUser> userManager;
-   
+
 @{ ViewData["Title"] = "Forum";
     Layout = "~/Views/Shared/_Layout.cshtml"; }
 
@@ -35,27 +35,27 @@
     <div class="parent-title">
         @{ var queryParam = Context.Request.RouteValues["mainTopicId"];
             int mainTopicID = int.Parse(queryParam == null ? "0" : queryParam.ToString());
-            var parentRecord = Context.Request.RouteValues["parentId"];
-            int parentID = int.Parse(parentRecord == null ? "0" : parentRecord.ToString());
+            //var parentRecord = Context.Request.RouteValues["parentId"];
+            //int parentID = int.Parse(parentRecord == null ? "0" : parentRecord.ToString());
         }
     </div>
     <div class="wrapper wrapper wrapper-1600">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 @{ @if (User.Identity.IsAuthenticated)
-                {
-                        <li class="breadcrumb-item"><a href="/Admin/AdminDashboard">Home</a></li>
-                }
-                else
-                {
-                        <li class="breadcrumb-item"><a href="/Forum">Home</a></li>
-                }
-                    var childTopic = Model.SubTopics.Where(x => x.MainTopicId == mainTopicID).FirstOrDefault();
-
-                    if (childTopic != null)
                     {
-                    <li class="breadcrumb-item active" aria-current="page">@childTopic.Topic</li>
+                        <li class="breadcrumb-item"><a href="/Admin/AdminDashboard">Home</a></li>
                     }
+                    else
+                    {
+                        <li class="breadcrumb-item"><a href="/Forum">Home</a></li>
+                    }
+                var childTopic = Model.SubTopics.Where(x => x.MainTopicId == mainTopicID).FirstOrDefault();
+
+                if (childTopic != null)
+                {
+                    <li class="breadcrumb-item active" aria-current="page">@childTopic.Topic</li>
+                }
 
 
 
@@ -120,13 +120,13 @@
 
                     <div>
 
-                        <table class="forum-list-container stretch">
+                        <table id="SubTopicTable" class="forum-list-container stretch">
                             <tbody>
                                 <tr class="forum-list-header">
                                     <th class="header-forum"><span>Directory</span></th>
                                     <th class="header-topics"><span>Topics</span></th>
-                                    <th class="header-posts"><span>Posts</span></th>
-                                    <th class="header-lastpost"><span>Last Post</span></th>
+                                    <th class="header-posts"><span>Analyses</span></th>
+                                    <th class="header-lastpost"><span>Last Analysis</span></th>
                                 </tr>
 
                                 @*<tr class="category-header" id="forum14">
@@ -140,7 +140,6 @@
 
                                 @{ foreach (Forum.Models.ViewModels.MainTopicViewModel topic in Model.SubTopics.Where(x => x.ParentIdFK == mainTopicID))
                                     {
-
 
                                         <tr class="forum-item main new"
                                             id="forum28"
@@ -226,7 +225,11 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                                                }
+
+
+
+
+                                    }
                                 }
 
                             </tbody>
@@ -237,19 +240,28 @@
                     <div>
 
 
-                        <table  class="forum-list-container stretch">
+                        <table id="TopicInformationTable" class="forum-list-container stretch">
                             @{
-                                var parentTopic = Model.SubTopics.Where(x => x.MainTopicId == parentID).FirstOrDefault();
-                                
-                                if (parentTopic != null)
-                                {
+                                //var parentTopic = Model.SubTopics.Where(x => x.MainTopicId == parentID).FirstOrDefault();
 
-                                    <nav aria-label="breadcrumb">
-                                        <ol class="breadcrumb">
-                                            <li class="breadcrumb-item active" aria-current="page">Topic Information For:@parentTopic.Topic</li>
-                                        </ol>
-                                    </nav>
-                                }
+                                //if (parentTopic != null)
+                                //{
+
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item active" aria-current="page">Topic Information For:@childTopic.Topic</li>
+                                    </ol>
+                                </nav>
+                                //}
+                                @*else if(parentTopic==null)
+                                    {
+                                        <nav aria-label="breadcrumb">
+                                            <ol class="breadcrumb">
+                                                <li class="breadcrumb-item active" aria-current="page">Topic Information For:@parentTopic.Topic</li>
+                                            </ol>
+                                        </nav>
+
+                                    }*@
 
 
                             }
@@ -265,12 +277,12 @@
                                 </tr>
 
                                 @*<tr class="category-header" id="forum14">
-                <td colspan="4">
-                    <div class="header">
-                        <a class="category" data-nodeid="14" href="">Announcements</a>
-                    </div>
-                </td>
-            </tr>*@
+                                        <td colspan="4">
+                                            <div class="header">
+                                                <a class="category" data-nodeid="14" href="">Announcements</a>
+                                            </div>
+                                        </td>
+                                    </tr>*@
                                 @*Top level Forums*@
 
                                 @{
@@ -797,3 +809,27 @@
     }
 
 </script>
+
+@if (Model.SubTopics.Count < 2)
+{
+    <script type="text/javascript">
+        $(function () {
+            var row = $("#SubTopicTable")[0].insertRow(-1);
+            var cell = $(row.insertCell(-1));
+            cell.html("No records found.");
+            cell.attr("colspan", "4").attr("align", "center");
+        });
+    </script>
+}
+
+@if (Model.TopicInformations.Count < 1)
+{
+    <script type="text/javascript">
+        $(function () {
+            var row = $("#TopicInformationTable")[0].insertRow(-1);
+            var cell = $(row.insertCell(-1));
+            cell.html("No records found.");
+            cell.attr("colspan", "4").attr("align", "center");
+        });
+    </script>
+}

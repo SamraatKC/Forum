@@ -50,7 +50,7 @@
         .OnValueChanged(@<text>
             function(data) {
                 var treeList = $("#tree-list").dxTreeList("instance");
-                if (data.value == "All")
+                if (data.value   == "All")
                     treeList.clearFilter();
                 else
                     treeList.filter(["Topic", "=", data.value]);
@@ -75,7 +75,7 @@
                                     .ShowRowLines(true).ShowBorders(true).ColumnAutoWidth(true).WordWrapEnabled(true)
                                     .Columns(columns =>
                                     {
-                                    columns.AddFor(x => x.Topic).CellTemplate(@<text><a href="@Url.Action("SubTopic", "Forum")/<%= data.MainTopicId %>/<%= data.ParentIdFK %>"><%= data.Topic%></a></text>);
+                                    columns.AddFor(x=>x.Topic).CellTemplate(@<text><a href="@Url.Action("SubTopic", "Forum")/<%= data.MainTopicId %>"><%= data.Topic%></a></text>);
                                         columns.AddFor(x => x.Description)
                                         //.CellTemplate(new JS("getShortDescription(@('<%=data%>'))"));
                                         .CustomizeText("getShortDescription").MinWidth(600);

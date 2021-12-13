@@ -183,12 +183,12 @@ namespace Forum.Controllers
         }
 
         [HttpGet]
-        [Route("/Forum/SubTopic/{mainTopicId}/{parentId}")]
-        public async Task<IActionResult> SubTopic(int mainTopicId,int parentId)
+        [Route("/Forum/SubTopic/{mainTopicId}")]
+        public async Task<IActionResult> SubTopic(int mainTopicId/*,int parentId*/)
         {
             ViewBag.MainTopicId = mainTopicId;
-            ViewBag.ParentId = parentId;
-            var topicAndItsSubTopic = await mainTopicService.GetParentAndSubTopic(mainTopicId,parentId);
+            //ViewBag.ParentId = parentId;
+            var topicAndItsSubTopic = await mainTopicService.GetParentAndSubTopic(mainTopicId/*,parentId*/);
             var topicandItsInformation = await topicInformationService.GetTopicAndTopicInformation(mainTopicId);
             return View(new MainTopicWithInformationViewModel{ SubTopics = topicAndItsSubTopic, TopicInformations= topicandItsInformation });
         }
